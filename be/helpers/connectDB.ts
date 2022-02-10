@@ -19,6 +19,6 @@ mongoose.connect(dbURI, {
   .then(() => {
     console.log('connected db')
   })
-  .catch((e : any) => {
+  .catch((e: any) => {
     console.log(e)
   })

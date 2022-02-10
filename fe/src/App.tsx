@@ -1,15 +1,12 @@
-import callAPI from "callAPI";
-import { useEffect } from "react";
+import { Resources } from "components";
+import { useEffect, useRef } from "react";
 
 function App() {
-  useEffect(() => {
-    callAPI.get('/')
-    .then(res => {
-
-    })
-  },[])
+  const refApp : {current : any} = useRef(null)
+  
   return (
-    <div className="App">
+    <div ref={ref => refApp.current = ref} id="App">
+      <Resources />
     </div>
   );
 }

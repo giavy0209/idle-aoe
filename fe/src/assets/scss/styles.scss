@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#App {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    .resources {
+        height: 10%;
+        display: flex;
+        .type {
+            width: 25%;
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+            justify-content: space-between;
+            .value{
+                font-size: 24px;
+            }
+            .name {
+                font-size: 20px;
+            }
+            .rate {
+                font-size: 24px;
+            }
+        }
+    }
+}
+
