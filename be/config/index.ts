@@ -17,7 +17,8 @@ declare global {
         MONGO_PORT: string,
         MONGO_USER: string,
         MONGO_PASSWORD: string,
-        MONGO_DB: string
+        MONGO_DB: string,
+        JWT: string,
     };
 }
 
@@ -28,6 +29,7 @@ global.Config = {
     MONGO_USER: process.env.MONGO_USER as string,
     MONGO_PASSWORD: process.env.MONGO_PASSWORD as string,
     MONGO_DB: process.env.MONGO_DB as string,
+    JWT: process.env.JWT as string,
 }
 
 

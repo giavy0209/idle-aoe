@@ -1,1 +1,3 @@
-export {default as Resources} from './Resources'
+import Resources from "./Resources";
+
+export default Resources

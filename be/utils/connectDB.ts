@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const {
   MONGO_USER,
@@ -13,6 +13,8 @@ const auth = MONGO_USER && MONGO_PASSWORD ? MONGO_USER + ':' + encodeURIComponen
 const dbURI = `mongodb://${auth}${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`
 
 mongoose.connect(dbURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
   .then(() => {
     console.log('connected db')

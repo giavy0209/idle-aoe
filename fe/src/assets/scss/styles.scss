@@ -5,13 +5,44 @@
 }
 
 #App {
-    width: 100vw;
-    height: 100vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
     display: flex;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 0 10px 0 rgba($color: #000000, $alpha: 0.5);
+    .login {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50% , -50%);
+        width: 100%;
+        padding: 20px;
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            font-size: 24px;
+        }
+        button {
+            width: 50%;
+            display: block;
+            margin: 0 auto;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #d96218;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    }
     .resources {
-        height: 10%;
         display: flex;
         .type {
             width: 25%;
@@ -19,14 +50,23 @@
             text-align: center;
             flex-direction: column;
             justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: .3s;
+            &:hover {
+                background-color: rgba($color: #000000, $alpha: 0.2);
+            }
             .value{
                 font-size: 24px;
             }
+            img {
+                width: 60%;
+            }
             .name {
-                font-size: 20px;
+                font-size: 16px;
             }
             .rate {
-                font-size: 24px;
+                font-size: 20px;
             }
         }
     }

@@ -1,16 +1,9 @@
 
 const initState = {}
-const reducers = function (state = initState, action: { type: String }) {
-    switch (action.type) {
-        case '1': {
-            return {
-                ...state,
-            }
-        }
-        default:
-            return {
-                ...state,
-            }
+const reducers = function (state = initState, action: { type: String , payload : any }) {
+    return {
+        ...state,
+        ...action.payload
     }
 }
 
