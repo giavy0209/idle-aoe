@@ -7,6 +7,7 @@ export default interface IBuildingData {
         food : number,
         level : number,
         time : number,
-        generate : number
+        generate : number,
+        [key : string]: any,
     }[],
 }

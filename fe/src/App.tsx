@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { Login, Resources } from "components";
+import { Login, Resources, Upgrade } from "components";
 import useWindowSize from "hooks/useWindowSize";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -40,7 +40,13 @@ function App() {
     <div ref={ref => refApp.current = ref} id="App">
       <ToastContainer />
       {!user && <Login />}
-      {user && <Resources />}
+      {
+        user && 
+        <>
+        <Resources />
+        <Upgrade />
+        </>
+      }
     </div>
   );
 }

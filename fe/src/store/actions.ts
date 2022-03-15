@@ -47,3 +47,18 @@ export const asyncInit = () => async dispatch => {
     dispatch(asyncGetResources())
     dispatch(asyncGetBuildings())
 }
+
+export const CHANGE_UPGRADE = 'CHANGE_UPGRADE'
+
+export const actionChangeUpgrade = function(upgrade) {
+    return {
+        type : CHANGE_UPGRADE,
+        payload : {upgrade}
+    }
+}
+
+export const asyncGetUpgrade = (building) => async dispatch => {
+    const {data} = await callAPI.get(`/upgrade?building=${building}`)
+    dispatch(actionChangeUpgrade(data))
+    
+}

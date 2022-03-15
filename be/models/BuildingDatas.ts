@@ -10,7 +10,7 @@ const BuildingDataSchema = new Schema<IBuildingData>({
         food : Number,
         level : Number,
         time : Number,
-        generate : Number
+        generate : Number,
     }],
 })
 

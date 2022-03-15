@@ -2,8 +2,9 @@ import goldore from 'assets/images/goldore.webp'
 import ironore from 'assets/images/ironore.webp'
 import wood from 'assets/images/wood.webp'
 import food from 'assets/images/food.webp'
-import { FC, useMemo } from 'react'
-import { useSelector } from 'react-redux'
+import { FC, useCallback, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { actionChangeUpgrade, asyncGetUpgrade } from 'store/actions'
 
 const _resources : {
     name : string,
@@ -33,6 +34,7 @@ const _resources : {
 ]
 
 const Resources : FC = function  () {
+    const dispatch = useDispatch()
     const stateResources = useSelector((state : any) => state.resources)
     const stateBuildings = useSelector((state : any) => state.buildings)
 
@@ -41,12 +43,9 @@ const Resources : FC = function  () {
         if(!stateBuildings) return []
         return _resources.map(o => {
             const value = stateResources.find(_state => _state.type.name === o.name).value
-            
             const rate = stateBuildings.find(_state => _state.building.name === o.building).value
-            console.log(rate);
-            
-            
             return {
+                building : o.building,
                 name : o.name,
                 img : o.img,
                 value,
@@ -54,12 +53,14 @@ const Resources : FC = function  () {
             }
         })
     },[stateResources,stateBuildings])
-    
+    const handleUpgrade = useCallback((building) => {
+        dispatch(asyncGetUpgrade(building))
+    },[])
     return (
         <div className="resources">
             {
-                resources.map(({name, img,value,rate}) => 
-                    <div key={name} className="type">
+                resources.map(({name, img,value,rate,building}) => 
+                    <div onClick={()=>handleUpgrade(building)} key={name} className="type">
                         <div className="value">{value}</div>
                         <img src={img} alt="" />
                         <div className="name">{name}</div>
