@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx link-module-alias && nodemon server.ts",
+    "start": "npx link-module-alias && nodemon index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -36,6 +36,8 @@
     "middleware": "middleware",
     "models": "models",
     "routers": "routers",
-    "utils": "utils"
+    "utils": "utils",
+    "ws": "ws",
+    "wsServices": "wsServices"
   }
 }

@@ -1,5 +1,13 @@
 import callAPI from "callAPI"
 
+export const CHANGE_LOADING = 'CHANGE_LOADING'
+
+export const actionChangeLoading = function (isLoading) {
+    return {
+        type : CHANGE_LOADING,
+        payload : {isLoading}
+    }
+}
 export const CHANGE_USER = 'CHANGE_USER'
 
 export const actionChangeUser = function (user) {

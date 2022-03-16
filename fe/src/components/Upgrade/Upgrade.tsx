@@ -1,12 +1,13 @@
 import { FC, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeUpgrade } from "store/actions";
+import { actionChangeLoading, actionChangeUpgrade } from "store/actions";
 import goldore from 'assets/images/goldore.webp'
 import ironore from 'assets/images/ironore.webp'
 import woodimg from 'assets/images/wood.webp'
 import foodimg from 'assets/images/food.webp'
 import secondsToTime from "helpers/secondsToTime";
 import callAPI from "callAPI";
+import { toast } from "react-toastify";
 
 interface IUpgrade {
     name: string,
@@ -34,8 +35,11 @@ const Upgrade: FC = function () {
     } : IUpgrade = useSelector((state : any) => state?.upgrade || {})
     const dispatch = useDispatch()
     const handleUpgrade = useCallback(async () => {
-        await callAPI.post(`/upgrade?building=${_id}`,{})
-        
+        dispatch(actionChangeLoading(true))
+        const res = await callAPI.post(`/upgrade?building=${_id}`,{})
+        dispatch(actionChangeLoading(false))
+        if(res.status === 102) toast('Not enough resources' , {type : 'error'})
+        if(res.status === 1) toast('Building is upgraded')
     },[_id])
     return (
         <>
@@ -68,7 +72,9 @@ const Upgrade: FC = function () {
                             <div className="time">Time: {secondsToTime(time)}</div>
                         </div>
                     </div>
-                    <div onClick={handleUpgrade} className="button">Upgrade</div>
+                    <div onClick={handleUpgrade} className="button">
+                        Upgrade
+                    </div>
                 </div>
             </div>
         </>

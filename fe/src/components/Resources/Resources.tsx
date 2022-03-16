@@ -4,7 +4,7 @@ import wood from 'assets/images/wood.webp'
 import food from 'assets/images/food.webp'
 import { FC, useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { actionChangeUpgrade, asyncGetUpgrade } from 'store/actions'
+import { asyncGetUpgrade } from 'store/actions'
 
 const _resources : {
     name : string,
@@ -36,6 +36,8 @@ const _resources : {
 const Resources : FC = function  () {
     const dispatch = useDispatch()
     const stateResources = useSelector((state : any) => state.resources)
+    console.log(stateResources);
+    
     const stateBuildings = useSelector((state : any) => state.buildings)
 
     const resources = useMemo(() => {
@@ -55,7 +57,7 @@ const Resources : FC = function  () {
     },[stateResources,stateBuildings])
     const handleUpgrade = useCallback((building) => {
         dispatch(asyncGetUpgrade(building))
-    },[])
+    },[dispatch])
     return (
         <div className="resources">
             {

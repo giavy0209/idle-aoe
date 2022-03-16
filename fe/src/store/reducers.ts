@@ -1,5 +1,7 @@
 
-const initState = {}
+const initState = {
+    isLoading:false
+}
 const reducers = function (state = initState, action: { type: String , payload : any }) {
     return {
         ...state,
