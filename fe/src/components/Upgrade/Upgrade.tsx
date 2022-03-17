@@ -40,7 +40,7 @@ const Upgrade: FC = function () {
         dispatch(actionChangeLoading(false))
         if(res.status === 102) toast('Not enough resources' , {type : 'error'})
         if(res.status === 1) toast('Building is upgraded')
-    },[_id])
+    },[_id,dispatch])
     return (
         <>
             <div className={`upgrade ${name ? 'show' : ''}`}>
