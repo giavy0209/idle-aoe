@@ -6,9 +6,9 @@ class buildingController {
         const {_id} = req
         console.log(await Buildings.find({user : _id})
         .populate('building'));
-        // const data = await Buildings.find({user : _id})
-        // .populate('building')
-        
+        const data = await Buildings.findOne({user : _id})
+        .populate('building user')
+        data.user.username
         res.send({status : 1})
     }
 }

@@ -1,8 +1,9 @@
 import { Types } from "mongoose";
 import { IUsers,IBuildingData } from ".";
 interface Ibuilding extends Types.ObjectId , IBuildingData{}
+interface Iuser extends Types.ObjectId , IUsers{}
 export default interface IBuilding{
-    user : IUsers,
+    user : Iuser,
     building : Ibuilding,
     level : number,
     isUpgrade : boolean,
