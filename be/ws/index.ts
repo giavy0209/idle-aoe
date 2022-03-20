@@ -22,7 +22,6 @@ io.use((socket , next) => {
     next()
 })
 io.on('connection' , (socket) => {
-    console.log(socket.data , socket.id );
     
 })
 

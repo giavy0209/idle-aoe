@@ -1,5 +1,5 @@
 import {Request,Response} from "express";
-import {BuildingDatas, Buildings, ResourceDatas, Resources, Users} from 'models'
+import {BuildingDatas, Buildings, ResourceDatas, Resources, Users,Units,UnitDatas} from 'models'
 import {compareSync, hashSync} from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 class authController {
@@ -36,7 +36,8 @@ class authController {
             await Buildings.create({
                 building : building._id,
                 user : user._id,
-                value : building.upgrade[0].generate
+                value : building.upgrade[0].generate,
+                resource : building.resource,
             })
         }
 
@@ -46,6 +47,15 @@ class authController {
             await Resources.create({
                 user : user._id,
                 type : resource._id,
+            })
+        }
+
+        const units = await UnitDatas.find({})
+        for (let index = 0; index < units.length; index++) {
+            const unit = units[index];
+            await Units.create({
+                user : user._id,
+                unit : unit._id,
             })
         }
         res.send({status : 1})

@@ -39,7 +39,11 @@ const Upgrade: FC = function () {
         const res = await callAPI.post(`/upgrade?building=${_id}`,{})
         dispatch(actionChangeLoading(false))
         if(res.status === 102) toast('Not enough resources' , {type : 'error'})
-        if(res.status === 1) toast('Building is upgraded')
+        if(res.status === 103) toast('There is a building upgrading' , {type : 'error'})
+        if(res.status === 1) {
+            toast('Building is upgraded')
+        }
+        dispatch(actionChangeUpgrade({}))
     },[_id,dispatch])
     return (
         <>
@@ -69,7 +73,7 @@ const Upgrade: FC = function () {
                         <div className="sub-info">
                             <div className="level">Next Level: {level}</div>
                             <div className="generate">Next generate: {generate}</div>
-                            <div className="time">Time: {secondsToTime(time)}</div>
+                            <div className="time">Time: {secondsToTime(time || 0)}</div>
                         </div>
                     </div>
                     <div onClick={handleUpgrade} className="button">

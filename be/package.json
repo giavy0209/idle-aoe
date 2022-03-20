@@ -38,6 +38,7 @@
     "routers": "routers",
     "utils": "utils",
     "ws": "ws",
-    "wsServices": "wsServices"
+    "wsServices": "wsServices",
+    "worker": "worker"
   }
 }

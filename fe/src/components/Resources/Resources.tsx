@@ -36,10 +36,8 @@ const _resources : {
 const Resources : FC = function  () {
     const dispatch = useDispatch()
     const stateResources = useSelector((state : any) => state.resources)
-    console.log(stateResources);
-    
     const stateBuildings = useSelector((state : any) => state.buildings)
-
+    
     const resources = useMemo(() => {
         if(!stateResources) return []
         if(!stateBuildings) return []
@@ -59,11 +57,11 @@ const Resources : FC = function  () {
         dispatch(asyncGetUpgrade(building))
     },[dispatch])
     return (
-        <div className="resources">
+        <div id='resources' className="resources">
             {
                 resources.map(({name, img,value,rate,building}) => 
                     <div onClick={()=>handleUpgrade(building)} key={name} className="type">
-                        <div className="value">{value}</div>
+                        <div className="value">{Math.round(value)}</div>
                         <img src={img} alt="" />
                         <div className="name">{name}</div>
                         <div className="rate">{rate}/h</div>

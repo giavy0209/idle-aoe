@@ -3,7 +3,7 @@ import storage from "helpers/storage";
 import { FC, useCallback, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { asyncInit } from "store/actions";
+import { actionChangeLoading, asyncInit } from "store/actions";
 
 const Login : FC = function () {
     const formRef = useRef<any>()
@@ -39,6 +39,7 @@ const Login : FC = function () {
         for (let field of form) {
             submitData[field[0]] = field[1]
         }
+        dispatch(actionChangeLoading(true))
         const res = await callAPI.post('/signup' , submitData)
         if(res.status === 100) {
             toast('Username is exist')
@@ -46,6 +47,7 @@ const Login : FC = function () {
         if(res.status === 1) {
             toast('Register success, please login')
         }
+        dispatch(actionChangeLoading(false))
     },[])
     return (
         <>

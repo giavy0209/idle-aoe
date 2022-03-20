@@ -30,6 +30,9 @@ class upgradeController {
         const findUpgrade = buildingData.upgrade.find(o => o.level === buildingLevel)
         if(!findUpgrade) return res.send({status : 101})
 
+        const isUpgrading = await Buildings.findOne({user : _id , isUpgrade : true})
+        if(isUpgrading) return res.send({status : 103})
+
         const userResource = await Resources.find({user : _id})
         .populate('type')
         let isEnoughResource = true
@@ -40,9 +43,10 @@ class upgradeController {
             if(findUpgrade[resource] > value ) isEnoughResource = false
         })
         if(!isEnoughResource) return res.send({status : 102})
+
+
         userBuilding.finishAt = Date.now() + findUpgrade.time * 1000
-        userBuilding.level ++
-        userBuilding.value = findUpgrade.generate
+        userBuilding.isUpgrade = true
         await userBuilding.save()
 
         for (let index = 0; index < userResource.length; index++) {

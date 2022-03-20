@@ -6,6 +6,7 @@ const BuildingSchema = new Schema<IBuilding>({
     building : {type : Schema.Types.ObjectId , ref : 'building_datas'},
     level : {type : Number , default : 0},
     value : {type : Number , default : 0},
+    resource : {type : Schema.Types.ObjectId , ref : 'resources'},
     isUpgrade : {type : Boolean, default : false},
     finishAt : {type : Date},
 })
