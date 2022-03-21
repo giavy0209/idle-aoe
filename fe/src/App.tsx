@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { Building, Loading, Login, Resources, TrainningQueue, Tranning, Units, Upgrade, Upgrading } from "components";
+import { Building, Loading, Login, Resources, TrainningQueue, Tranning, Units, Upgrade, Upgrading, Enemy, Actions, Attack } from "components";
 import useWindowSize from "hooks/useWindowSize";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,7 +7,6 @@ import storage from "helpers/storage";
 import { useDispatch, useSelector } from "react-redux";
 import { actionChangeBuildings, actionChangeResources, actionChangeTranningQueue, actionChangeUnits, asyncInit } from "store/actions";
 import socket from './socket'
-import Actions from "components/Actions";
 function App() {
   const dispatch = useDispatch()
   const refApp = useRef<any>(null)
@@ -77,9 +76,11 @@ function App() {
       {
         user &&
         <>
+          <Attack />
           <Resources />
           <Upgrade />
           <Tranning />
+          <Enemy />
           <div id="fixed-height">
             <Actions />
             <Upgrading />

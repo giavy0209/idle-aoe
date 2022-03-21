@@ -345,4 +345,154 @@
             cursor: pointer;
         }
     }
+    .enemy-model {
+        position: absolute;
+        transition: 0.3s;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 9;
+        .mask {
+            position: absolute;
+            background-color: rgba($color: #000000, $alpha: 0.3);
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .list-enemy {
+            width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            overflow-y: scroll;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            .reload {
+                text-align: center;
+                cursor: pointer;
+                padding: 5px;
+                background-color: #d96218;
+                font-size: 24px;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                color: #fff;
+            }
+            .enemy {
+                padding: 10px;
+                border: 1px solid #000;
+                border-radius: 5px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: 500;
+                .actions {
+                    padding: 0;
+                    margin-top: 10px;
+                    column-gap: 10px;
+                    .action {
+                        font-size: 16px;
+                        font-weight: 400;
+                        padding: 5px;
+                        cursor: pointer;
+                    }
+                }
+                +.enemy {
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+    .attack {
+        position: absolute;
+        transition: 0.3s;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 99;
+        .mask {
+            position: absolute;
+            background-color: rgba($color: #000000, $alpha: 0.3);
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .list-units {
+            width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            overflow-y: scroll;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            .title {
+                font-size: 24px;
+                font-weight: 600;
+            }
+            .row {
+                display: flex;
+                margin-top: 10px;
+                .name {
+                    width: 40%;
+                }
+                .min-max {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0 20px;
+                    width: 20%;
+                    span {
+                        cursor: pointer;
+                        text-decoration: underline;
+                    }
+                }
+                .speed {
+                    width: 100px;
+                }
+                input {
+                    border: 1px solid #000;
+                    border-radius: 5px;
+                    padding: 5px;
+                }
+            }
+            .attack-speed {
+                font-size: 20px;
+                font-weight: 600;
+                display: flex;
+                margin-top: 10px;
+                span {
+                    width: 50%;
+                    display: block;
+                }
+                select {
+                    width: 50%;
+                }
+            }
+            .moving-time {
+                font-size: 24px;
+                font-weight: 600;
+                color: #d96218;
+            }
+            button {
+                background-color: #d96218;
+                cursor: pointer;
+                border: none;
+                padding: 10px;
+                border-radius: 5px;
+                display: block;
+                margin: 0 auto;
+                margin-top: 10px;
+                color: #fff;
+            }
+        }
+    }
 }

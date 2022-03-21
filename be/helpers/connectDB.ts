@@ -10,7 +10,8 @@ const {
 
 const auth = MONGO_USER && MONGO_PASSWORD ? MONGO_USER + ':' + encodeURIComponent(MONGO_PASSWORD) + '@' : ''
 
-const dbURI = `mongodb://${auth}${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`
+// const dbURI = `mongodb://${auth}${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`
+const dbURI = `mongodb://localhost:27017/${MONGO_DB}`
 
 mongoose.connect(dbURI, {
 })

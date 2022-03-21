@@ -4,6 +4,7 @@ import { waitfor } from '../utils'
 const workers = fs.readdirSync(__dirname)
 
 async function worker() {
+    let lastRun = Date.now()
     while (true) {
         const _workers = workers.filter(o => o !== 'index.ts')
         const workerPromise = []
@@ -13,7 +14,10 @@ async function worker() {
             workerPromise.push(worker()) 
         }
         await Promise.all(workerPromise)
-
+        lastRun = Date.now()
+        if(Date.now() - lastRun < 100) {
+            await waitfor(100 - (Date.now() - lastRun))
+        }
 
         // await waitfor(1000)
     }

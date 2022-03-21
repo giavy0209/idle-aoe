@@ -1,4 +1,5 @@
 import callAPI from "callAPI"
+import { toast } from "react-toastify"
 
 export const CHANGE_LOADING = 'CHANGE_LOADING'
 
@@ -8,6 +9,15 @@ export const actionChangeLoading = function (isLoading) {
         payload : {isLoading}
     }
 }
+export const CHANGE_SHOW_ATTACK = 'CHANGE_SHOW_ATTACK'
+
+export const actionChangeShowAttack = function (showAttack) {
+    return {
+        type : CHANGE_SHOW_ATTACK,
+        payload : {showAttack}
+    }
+}
+
 export const CHANGE_USER = 'CHANGE_USER'
 
 export const actionChangeUser = function (user) {
@@ -76,7 +86,8 @@ export const actionChangeUpgrade = function(upgrade) {
 }
 
 export const asyncGetUpgrade = (building) => async dispatch => {
-    const {data} = await callAPI.get(`/upgrade?building=${building}`)
+    const {data, status} = await callAPI.get(`/upgrade?building=${building}`)
+    if(status === 101) toast('Your building is max level')
     dispatch(actionChangeUpgrade(data))
     
 }
