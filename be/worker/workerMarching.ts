@@ -1,7 +1,9 @@
 import { IMarching } from "interfaces";
 import { Marchings, Resources, Units, Users } from "models";
 import { Document, Types } from "mongoose";
+import { changeResources } from "wsServices";
 import { CHANGE_RESOURCE } from "./workerChangeResource";
+import { CHANGE_UNIT } from "./workerChangeUnit";
 
 const buildingAttackOrder = [
     '623828c68a78fd802e9a6ebf',
@@ -26,13 +28,10 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
 
     targetResource.forEach((resource, index) => {
         cargoPerRes = Math.floor(cargo / (4 - index))
-
         const targetResourceValue = resource.value
-
         let resourceCanSteal = targetResourceValue > cargoPerRes ? cargoPerRes : targetResourceValue
-
+        cargo -= resourceCanSteal
         const resourceName = resource.type.name.toLowerCase()
-
         marching.cargo[resourceName] = resourceCanSteal
 
         CHANGE_RESOURCE.push({
@@ -40,66 +39,16 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
             newValue: -resourceCanSteal,
         })
     })
+    marching.status = 1
+    await marching.save()
 }
 
 async function attack(marching: Document<unknown, any, IMarching> & IMarching & {
     _id: Types.ObjectId;
 }) {
-    const targetUnit = await Units.aggregate([
-        {
-            $match: { user: marching.target, total: { $gt: 0 } }
-        },
-        {
-            $lookup: {
-                from: 'unit_datas',
-                localField: 'unit',
-                foreignField: '_id',
-                as: 'unit'
-            }
-        },
-        {
-            $unwind: {
-                path: "$unit"
-            }
-        },
-        {
-            $group: {
-                _id: "$unit.building",
-                units: {
-                    $push: {
-                        unit: "$unit",
-                        total: "$total"
-                    },
-                }
-            }
-        },
-        {
-            $lookup: {
-                from: 'building_datas',
-                localField: '_id',
-                foreignField: '_id',
-                as: 'building'
-            }
-        },
-        {
-            $unwind: {
-                path: "$building",
-            }
-        },
-        {
-            $sort: {
-                "building.attackOrder": 1
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                units: 1
-            }
-        }
-    ])
-
-    const marchingUnit = marching.units
+    
+    console.log(marching.units);
+    
 
 
 
@@ -122,6 +71,36 @@ export default async function workerMarching() {
         } else {
             await attack(marching)
         }
+    }
 
+    const marchingNotHome = await Marchings.find({ homeTime: { $lte: Date.now() }, status: 1 })
+
+    for (let index = 0; index < marchingNotHome.length; index++) {
+        const marching = marchingNotHome[index];
+        const cargo = marching.cargo
+        const resources = await Resources.find({user : marching.user})
+        .populate('type')
+
+        resources.forEach(resource => {
+            const name = resource.type.name.toLowerCase()
+            const resourceValue = cargo[name]
+            CHANGE_RESOURCE.push({
+                resource: resource._id,
+                newValue: resourceValue,
+            })
+        })
+        marching.status = 2
+
+        const units = marching.units
+        for (let index = 0; index < units.length; index++) {
+            const unit = units[index];
+            const userUnit = await Units.findOne({user : marching.user , unit : unit.unit})
+            if(!userUnit) continue
+            CHANGE_UNIT.push({  
+                unit : userUnit._id,
+                newValue : unit.total
+            })
+        }
+        await marching.save()
     }
 }

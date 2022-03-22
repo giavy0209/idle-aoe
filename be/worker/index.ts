@@ -13,7 +13,6 @@ async function worker() {
             workerPromise.push(worker()) 
         }
         await Promise.all(workerPromise)
-        console.log(Date.now() - lastRun);
         
         if(Date.now() - lastRun < 100) {
             await waitfor(100 - (Date.now() - lastRun))

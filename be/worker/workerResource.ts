@@ -15,10 +15,10 @@ export default async function workerResource () {
         const percentDiffTimePerHour = diffTime / secInHour
         const generate = resource.building.value
         const valueAfterDiff = generate * percentDiffTimePerHour
-        CHANGE_RESOURCE.push({
-            resource : resource._id,
-            newValue : valueAfterDiff,
-            lastUpdate : now
-        })
+        // CHANGE_RESOURCE.push({
+        //     resource : resource._id,
+        //     newValue : valueAfterDiff,
+        //     lastUpdate : now
+        // })
     }
 }

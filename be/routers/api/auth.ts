@@ -9,7 +9,7 @@ router.route('/signup')
     .post(controller.signup)
 
 async function  create() {
-    for (let index = 0; index < 9999; index++) {
+    for (let index = 0; index < 100; index++) {
         console.log(index);
         
         await controller.signup({
