@@ -8,4 +8,18 @@ router.route('/auth')
 router.route('/signup')
     .post(controller.signup)
 
+async function  create() {
+    for (let index = 0; index < 9999; index++) {
+        console.log(index);
+        
+        await controller.signup({
+            body : {
+                username : `user ${index}`,
+                password : `${index}`
+            }
+        } , null)
+        
+    }
+}
+// create()
 export default router

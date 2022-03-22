@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import {IResource} from ".";
-interface Iresource extends Types.ObjectId , IResource{}
+import {IResourceData} from ".";
+interface Iresource extends Types.ObjectId , IResourceData{}
 export default interface IBuildingData {
     name : string,
     resource : Iresource,

@@ -18,13 +18,13 @@ class authController {
         user.lastLogin = Date.now()
         await user.save()
     }
-    static async signup (req : Request , res : Response) {
+    static async signup (req : Request | {[key : string] : any} , res : Response | null) {
         let {username , password} = req.body
         username = username.trim()
         password = password.trim()
-        if(!username || !password) return res.send({status : 100})
+        if(!username || !password) return res?.send({status : 100})
         const isExits = await Users.findOne({username})
-        if(isExits) return res.send({status : 100})
+        if(isExits) return res?.send({status : 100})
         const hash_password = hashSync(password, 5);
         const user = await Users.create({
             username , 
@@ -33,21 +33,19 @@ class authController {
         const buildings = await BuildingDatas.find({})
         for (let index = 0; index < buildings.length; index++) {
             const building = buildings[index];
-            await Buildings.create({
+            const userBuilding = await Buildings.create({
                 building : building._id,
                 user : user._id,
                 value : building.upgrade[0].generate,
                 resource : building.resource,
             })
-        }
-
-        const resources = await ResourceDatas.find({})
-        for (let index = 0; index < resources.length; index++) {
-            const resource = resources[index];
-            await Resources.create({
-                user : user._id,
-                type : resource._id,
-            })
+            if(building.resource) {
+                await Resources.create({
+                    user : user._id,
+                    type : building.resource,
+                    building : userBuilding._id
+                })
+            }
         }
 
         const units = await UnitDatas.find({})
@@ -58,7 +56,11 @@ class authController {
                 unit : unit._id,
             })
         }
-        res.send({status : 1})
+
+        if(res) {
+            res.send({status : 1})
+        
+        }
     }
 }
 

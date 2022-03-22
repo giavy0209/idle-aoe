@@ -3,6 +3,7 @@ import {Buildings, Marchings, Units, Users} from 'models'
 import { IRequest } from "interfaces";
 import { isValidObjectId } from "mongoose";
 import { changeUnit } from "../wsServices";
+import { CHANGE_UNIT } from "../worker/workerChangeUnit";
 class marchingController {
     static async attack (req : IRequest , res : Response) {
         const {_id} = req
@@ -55,12 +56,11 @@ class marchingController {
         })
         for (let index = 0; index < units.length; index++) {
             const _unit = units[index];
-            const userUnit = await Units.findById(_unit._id)
-            if(!userUnit) continue
-            userUnit.total -= _unit.total
-            await userUnit.save()
+            CHANGE_UNIT.push({
+                unit : _unit._id,
+                newValue : -_unit.total
+            })
         }
-        changeUnit(_id)
         res.send({status : 1})
     }
 }

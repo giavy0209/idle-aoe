@@ -2,6 +2,7 @@ import {Response} from "express";
 import {BuildingDatas, Buildings, Resources} from 'models'
 import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources } from "wsServices";
+import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 class upgradeController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
@@ -52,10 +53,12 @@ class upgradeController {
         for (let index = 0; index < userResource.length; index++) {
             const resource = userResource[index];
             const name = resource.type.name.toLowerCase();
-            resource.value -= findUpgrade[name]
-            await resource.save()
+            
+            CHANGE_RESOURCE.push({
+                resource : resource._id,
+                newValue : -findUpgrade[name],
+            })
         }
-        changeResources(_id)
         changeBuilding(_id)
         res.send({status : 1})
     }

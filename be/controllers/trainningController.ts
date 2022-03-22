@@ -2,6 +2,7 @@ import {Response} from "express";
 import {BuildingDatas, Buildings, Resources, Trainnings, UnitDatas, Units} from 'models'
 import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources, changeTrainningQueue } from "wsServices";
+import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 class trainningController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
@@ -51,10 +52,15 @@ class trainningController {
         const building = await Buildings.findOne({user : _id, building : unitData.building})
         const dereaseTime = building ? building.value / 100 : 0
         const time = unitData.time - unitData.time * dereaseTime
-        const finishAt = Date.now() + time * 1000 
+        const finishAt = Date.now() + time * 1000
+
+        const userUnit = await Units.findOne({user : _id, unit})
         await Trainnings.create({
             user: _id,
             unit,
+            userUnit : userUnit?._id ,
+            building : unitData.building,
+            userBuilding : building?._id,
             total,
             finishAt,
             time :  Date.now() + time * 1000 * total
@@ -63,11 +69,12 @@ class trainningController {
         for (let index = 0; index < userResource.length; index++) {
             const resource = userResource[index];
             const name = resource.type.name.toLowerCase();
-            resource.value -= costs[name]
-            await resource.save()
+            CHANGE_RESOURCE.push({
+                resource : resource._id,
+                newValue : -costs[name]
+            })
         }
 
-        changeResources(_id)
         changeTrainningQueue(_id)
         res.send({status : 1})
     }
