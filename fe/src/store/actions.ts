@@ -133,10 +133,41 @@ export const asyncGetEnemy = () => async dispatch => {
     dispatch(actionChangeEnemy(data))
 }
 
+export const CHANGE_ACTIVITY = 'CHANGE_ACTIVITY'
+
+export const actionChangeActivity = function(activity) {
+    return {
+        type : CHANGE_ACTIVITY,
+        payload : {activity}
+    }
+}
+
+export const asyncGetActivity = () => async dispatch => {
+    const {data} = await callAPI.get(`/marching`)
+    dispatch(actionChangeActivity(data))
+}
+
+export const CHANGE_BATTLE_REPORT = 'CHANGE_BATTLE_REPORT'
+
+export const actionChangeBattleReport = function(battleReports) {
+    return {
+        type : CHANGE_BATTLE_REPORT,
+        payload : {battleReports}
+    }
+}
+
+export const asyncGetBattlleReport = () => async dispatch => {
+    const {data} = await callAPI.get(`/battle`)
+    console.log(data);
+    
+    dispatch(actionChangeBattleReport(data))
+}
+
 export const asyncInit = () => async dispatch => {
     dispatch(asyncGetUser())
     dispatch(asyncGetResources())
     dispatch(asyncGetBuildings())
     dispatch(asyncGetUnits())
     dispatch(asyncGetTranningQueue())
+    dispatch(asyncGetActivity())
 }

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef } from "react";
-import { Building, Loading, Login, Resources, TrainningQueue, Tranning, Units, Upgrade, Upgrading, Enemy, Actions, Attack } from "components";
+import { Building, Loading, Login, Resources, TrainningQueue, Tranning, Units, Upgrade, Upgrading, Enemy, Actions, Attack, Activities } from "components";
 import useWindowSize from "hooks/useWindowSize";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import storage from "helpers/storage";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeBuildings, actionChangeResources, actionChangeTranningQueue, actionChangeUnits, asyncInit } from "store/actions";
+import { actionChangeActivity, actionChangeBuildings, actionChangeResources, actionChangeTranningQueue, actionChangeUnits, asyncInit } from "store/actions";
 import socket from './socket'
 function App() {
   const dispatch = useDispatch()
@@ -60,6 +60,11 @@ function App() {
     }
     socket.on('units', changeUnits)
 
+    const changeActivity = ({ data }) => {
+      dispatch(actionChangeActivity(data))
+    }
+    socket.on('marching', changeActivity)
+
     return () => {
       socket.removeListener('resources', changeResource)
       socket.removeListener('building', changeBuilding)
@@ -82,6 +87,7 @@ function App() {
           <Tranning />
           <Enemy />
           <div id="fixed-height">
+            <Activities />
             <Actions />
             <Upgrading />
             <Building />

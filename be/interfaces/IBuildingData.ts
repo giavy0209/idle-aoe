@@ -4,6 +4,7 @@ interface Iresource extends Types.ObjectId , IResourceData{}
 export default interface IBuildingData {
     name : string,
     resource : Iresource,
+    order : number,
     upgrade : {
         gold : number,
         iron : number,

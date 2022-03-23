@@ -18,7 +18,6 @@ async function worker() {
             await waitfor(100 - (Date.now() - lastRun))
         }
         lastRun = Date.now()
-
     }
 }
 

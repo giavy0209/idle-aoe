@@ -1,11 +1,9 @@
 import { Router } from "express";
-import { marchingController as controller } from 'controllers'
+import { battleController as controller } from 'controllers'
 import { isAuth } from "../../middleware";
 
 const router = Router()
 
-router.route('/marching')
+router.route('/battle')
     .get(isAuth ,controller.get)
-    .post(isAuth ,controller.attack)
-
 export default router

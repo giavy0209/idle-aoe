@@ -1125,6 +1125,7 @@ const buildings = [
     },
     {
         name : "Barracks",
+        order : 4,
         upgrade : [
             {
                 "level": 0,
@@ -1314,6 +1315,7 @@ const buildings = [
     },
     {
         name : 'Archery Range',
+        order : 2,
         upgrade : [
             {
                 "level": 0,
@@ -1503,6 +1505,7 @@ const buildings = [
     },
     {
         name : "Stables",
+        order : 3,
         upgrade : [
             {
                 "level": 0,
@@ -1692,6 +1695,7 @@ const buildings = [
     },
     {
         name : "Workshop",
+        order : 1,
         upgrade : [
             {
                 "level": 0,

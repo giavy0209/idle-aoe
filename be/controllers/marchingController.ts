@@ -2,9 +2,18 @@ import {Response} from "express";
 import {Buildings, Marchings, Units, Users} from 'models'
 import { IRequest } from "interfaces";
 import { isValidObjectId } from "mongoose";
-import { changeUnit } from "../wsServices";
+import { changeMarching, changeUnit } from "../wsServices";
 import { CHANGE_UNIT } from "../worker/workerChangeUnit";
 class marchingController {
+    static async get (req : IRequest , res : Response) {
+        const {_id} = req
+        const marching = await Marchings.find({user : _id , status : {$in : [0 , 1]}})
+        .populate('user target units.unit')
+        res.send({
+            status : 1 ,
+            data : marching
+        })
+    }
     static async attack (req : IRequest , res : Response) {
         const {_id} = req
         let {type} = req.query
@@ -26,9 +35,7 @@ class marchingController {
             if(_unit.total > 0) {
                 checkUnit.push({..._unit})
             }
-            
         }
-
         units = checkUnit
 
         if(!units.length) return res.send({status : 101})
@@ -61,6 +68,7 @@ class marchingController {
                 newValue : -_unit.total
             })
         }
+        changeMarching(_id)
         res.send({status : 1})
     }
 }

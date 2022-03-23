@@ -1,4 +1,4 @@
-import { Buildings, Resources, Trainnings, Units } from "models";
+import { Buildings, Marchings, Resources, Trainnings, Units } from "models";
 import io from "../ws";
 
 export async function changeResources(_id: string) {
@@ -24,4 +24,10 @@ export async function changeUnit(_id : string) {
         .populate('unit user')
 
     io.to(_id).emit('units', { data })
+}
+
+export async function changeMarching(_id : string) {
+    const data = await Marchings.find({user : _id , status : {$in : [0, 1]}})
+    .populate('user target units.unit')
+    io.to(_id).emit('marching' , {data})
 }

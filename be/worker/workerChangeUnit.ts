@@ -5,6 +5,7 @@ import { changeUnit } from "wsServices";
 interface IChangeUnit {
     unit : Types.ObjectId | string,
     newValue : number,
+    overwrite ? : boolean
 }
 export const CHANGE_UNIT: IChangeUnit[] = []
 
@@ -14,10 +15,15 @@ export default async function workerChangeUnit() {
     const userId : string[] = []
 
     for (let index = 0; index < cloneArray.length; index++) {
-        const {unit , newValue} = cloneArray[index];
+        const {unit , newValue , overwrite} = cloneArray[index];
+        
         const findUnit = await Units.findById(unit)
         if(!findUnit) continue
-        findUnit.total += newValue
+        if(overwrite) {
+            findUnit.total = newValue
+        }else {
+            findUnit.total += newValue
+        }
         promiseSave.push(findUnit.save()) 
 
         if(!userId.includes(findUnit.user.toString())) userId.push(findUnit.user.toString())
