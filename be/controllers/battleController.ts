@@ -5,12 +5,12 @@ class battleController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
         const data = await Battles.find({user : _id})
+        .populate('marching attacker defender')
         .populate({
-            path : 'marching attacker defender rounds',
-            populate : {
-                path : "rounds.actions"
-            }
+            path : 'rounds',
+            populate : "actions"
         })
+        .sort({_id : -1})
         res.send({status : 1 , data})
     }
 }

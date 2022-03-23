@@ -4,7 +4,11 @@ import { IBattle } from 'interfaces'
 const BattleSchema = new Schema<IBattle>({
     attacker: { type: Schema.Types.ObjectId, ref: 'users' },
     defender: { type: Schema.Types.ObjectId, ref: 'users' },
+    winner: { type: Schema.Types.ObjectId, ref: 'users' },
     marching : {type : Schema.Types.ObjectId , ref : 'marchings'},
+    attackerUnits : [{
+        unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
+    }],
     rounds : [{type : Schema.Types.ObjectId , ref : 'battle_rounds'}]
 })
 

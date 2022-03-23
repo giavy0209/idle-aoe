@@ -9,6 +9,15 @@ export const actionChangeLoading = function (isLoading) {
         payload : {isLoading}
     }
 }
+
+export const CHANGE_BATTLE_DETAIL = 'CHANGE_BATTLE_DETAIL'
+
+export const actionChangeBattleDetail = function (battleDetail) {
+    return {
+        type : CHANGE_BATTLE_DETAIL,
+        payload : {battleDetail}
+    }
+}
 export const CHANGE_SHOW_ATTACK = 'CHANGE_SHOW_ATTACK'
 
 export const actionChangeShowAttack = function (showAttack) {
@@ -158,7 +167,6 @@ export const actionChangeBattleReport = function(battleReports) {
 
 export const asyncGetBattlleReport = () => async dispatch => {
     const {data} = await callAPI.get(`/battle`)
-    console.log(data);
     
     dispatch(actionChangeBattleReport(data))
 }
