@@ -154,11 +154,10 @@ const Hit = async function (
     round: Document<unknown, any, IBattleRound> & IBattleRound & {
         _id: Types.ObjectId;
     },
-    attacker : any,
-    defender : any,
+    attacker: any,
+    defender: any,
 ) {
     const randomHit = randomUnitToHit(canHit)
-
     if (!randomHit) return
     let { strength } = unit
     strength = {
@@ -181,20 +180,33 @@ const Hit = async function (
 
 
     if (totalStrength < totalLife) {
-        const unitDead = Math.ceil(totalStrength / randomHit.unit.life)
+        let unitDead = 0
+
+        const instantlyKill = Math.random() * 100 <= 5 ? true : false
+        console.log(instantlyKill);
+        
+        if(instantlyKill) {
+            unitDead = Math.ceil(totalStrength / randomHit.unit.life)
+        }else {
+            unitDead = Math.floor(totalStrength / randomHit.unit.life)
+        }
+
+
+
+        // const unitDead = Math.floor(totalStrength / randomHit.unit.life)
         randomHit.dead = unitDead
 
         const battleActions = await BattleActions.create({
             type: 1,
             battleRound: round._id,
             unitAttack: {
-                user : attacker,
+                user: attacker,
                 unit: unit._id,
                 total: Number(total),
                 damage: Number(totalStrength),
             },
             unitDefend: {
-                user : defender,
+                user: defender,
                 unit: randomHit.unit._id,
                 totalHit: Number(unitDead)
             }
@@ -204,7 +216,6 @@ const Hit = async function (
 
     } else {
         randomHit.dead = randomHit.total
-        console.log({ totalLife, total: randomHit.total, dead: randomHit.dead });
         const strengthLeft = totalStrength - totalLife
         const attackUnitLeft = Math.floor(strengthLeft / attackStrength)
 
@@ -212,19 +223,19 @@ const Hit = async function (
             battleRound: round._id,
             type: 1,
             unitAttack: {
-                user : attacker,
+                user: attacker,
                 unit: unit._id,
                 total: Number(total - attackUnitLeft),
                 damage: Number(totalStrength - strengthLeft),
             },
             unitDefend: {
-                user : defender,
+                user: defender,
                 unit: randomHit.unit._id,
                 totalHit: Number(randomHit.total)
             }
         })
         round.actions.push(battleActions._id)
-        await Hit(canHit, unit, attackUnitLeft, round,attacker,defender)
+        await Hit(canHit, unit, attackUnitLeft, round, attacker, defender)
     }
 }
 
@@ -234,8 +245,8 @@ async function unitHitByUnit(
     round: Document<unknown, any, IBattleRound> & IBattleRound & {
         _id: Types.ObjectId;
     },
-    attacker : any,
-    defender : any,
+    attacker: any,
+    defender: any,
 ) {
 
     for (let i = 0; i < attackerUnits.length; i++) {
@@ -243,14 +254,22 @@ async function unitHitByUnit(
 
         const canHit: any[] = []
 
+        let lowestRange = 5
         defenderUnitsWithOrder.forEach(({ units }) => {
             units.forEach((defenderUnit: any) => {
-                if (defenderUnit.unit.range <= unit.range) {
+                if (defenderUnit.unit.range < lowestRange) {
+                    lowestRange = defenderUnit.unit.range
+                }
+            })
+        })
+        defenderUnitsWithOrder.forEach(({ units }) => {
+            units.forEach((defenderUnit: any) => {
+                if (defenderUnit.unit.range === lowestRange) {
                     canHit.push(defenderUnit)
                 }
             })
         })
-        await Hit(canHit, unit, total, round, attacker , defender)
+        await Hit(canHit, unit, total, round, attacker, defender)
     }
 }
 
@@ -285,11 +304,12 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
         const defenderUnits = defenderUnitsWithOrder.find(o => o.order === index + 1)?.units
 
         if (attackerUnits) {
-            await unitHitByUnit(attackerUnits, defenderUnitsWithOrder, round, marching.user , marching.target)
+
+            await unitHitByUnit(attackerUnits, defenderUnitsWithOrder, round, marching.user, marching.target)
         }
 
         if (defenderUnits) {
-            await unitHitByUnit(defenderUnits, attackerUnitsWithOrder, round, marching.target , marching.user)
+            await unitHitByUnit(defenderUnits, attackerUnitsWithOrder, round, marching.target, marching.user)
         }
 
         defenderUnitsWithOrder.forEach(el => {

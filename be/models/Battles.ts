@@ -8,6 +8,11 @@ const BattleSchema = new Schema<IBattle>({
     marching : {type : Schema.Types.ObjectId , ref : 'marchings'},
     attackerUnits : [{
         unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
+        total : Number
+    }],
+    defenderUnits : [{
+        unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
+        total : Number
     }],
     rounds : [{type : Schema.Types.ObjectId , ref : 'battle_rounds'}]
 })
