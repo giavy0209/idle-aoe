@@ -14,8 +14,8 @@ async function worker() {
         }
         await Promise.all(workerPromise)
         
-        if(Date.now() - lastRun < 100) {
-            await waitfor(100 - (Date.now() - lastRun))
+        if(Date.now() - lastRun < 1000) {
+            await waitfor(1000 - (Date.now() - lastRun))
         }
         lastRun = Date.now()
     }
