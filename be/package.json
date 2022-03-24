@@ -32,12 +32,10 @@
     "helpers": "helpers",
     "config": "config",
     "controllers": "controllers",
-    "services": "services",
     "middleware": "middleware",
     "models": "models",
     "routers": "routers",
     "utils": "utils",
-    "ws": "ws",
     "wsServices": "wsServices",
     "worker": "worker"
   }
