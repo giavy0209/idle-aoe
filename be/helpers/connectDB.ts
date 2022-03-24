@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import worker from 'worker'
+import InitBuilding from './InitBuilding'
 const {
   MONGO_USER,
   MONGO_PASSWORD,
@@ -16,6 +17,7 @@ mongoose.connect(dbURI, {
 })
   .then(() => {
     console.log('connected db')
+    InitBuilding()
     worker()
   })
   .catch((e : any) => {

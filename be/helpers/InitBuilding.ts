@@ -2168,4 +2168,4 @@ async function InitBuilding() {
     
 }
 
-InitBuilding()
+export default InitBuilding
