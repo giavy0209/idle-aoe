@@ -22,4 +22,4 @@ async function worker() {
 }
 
 
-worker()
+export default worker
