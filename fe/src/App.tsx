@@ -12,20 +12,6 @@ function App() {
   const refApp = useRef<any>(null)
   const size = useWindowSize()
   const user = useSelector((state: any) => state.user)
-  useEffect(() => {
-    const windowWidth = size.width
-    const windowHeight = size.height
-    let width: number, height: number;
-    if (windowWidth > windowHeight * 9 / 16) {
-      width = windowHeight * 9 / 16;
-      height = windowHeight
-    } else {
-      width = windowWidth
-      height = windowWidth * 16 / 9
-    }
-    refApp.current.style.width = width + 'px'
-    refApp.current.style.height = height + 'px'
-  }, [size])
 
   const handleInit = useCallback(() => {
     const jwt = storage.getToken()

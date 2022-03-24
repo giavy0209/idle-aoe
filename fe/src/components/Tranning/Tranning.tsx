@@ -14,10 +14,20 @@ interface ITranning {
     iron: number,
     wood: number,
     food: number,
-    time : number,
-    _id : string,
+    time: number,
+    _id: string,
+    speed: number,
+    range: number,
+    cargo: number,
+    life: number,
+    strength: {
+        archer: number,
+        barrack: number,
+        stable: number,
+        workshop: number
+    }
 }
-const Tranning : FC = () => {
+const Tranning: FC = () => {
     const dispatch = useDispatch()
     const {
         name,
@@ -26,42 +36,59 @@ const Tranning : FC = () => {
         wood = 0,
         food = 0,
         time,
-        _id
-    } : ITranning = useSelector((state : any) => state?.tranning || {})
+        _id,
+        speed,
+        range,
+        cargo,
+        life,
+        strength,
+    }: ITranning = useSelector((state: any) => state?.tranning || {})
 
     const [Total, setTotal] = useState(1)
     const onChangeInput = e => {
         let value = Number(e.target.value)
 
-        if(!value) value = 1
+        if (!value) value = 1
 
         setTotal(value)
     }
 
     const handleTranning = useCallback(async () => {
         dispatch(actionChangeLoading(true))
-        const res = await callAPI.post(`/trainning`,{unit : _id , total: Total})
-        if(res.status === 1) {
+        const res = await callAPI.post(`/trainning`, { unit: _id, total: Total })
+        if (res.status === 1) {
             toast('Add 1 unit to trainning queue')
         }
-        if(res.status === 101) {
-            toast('There is an unit on trainning queue' , {type : 'error'})
+        if (res.status === 101) {
+            toast('There is an unit on trainning queue', { type: 'error' })
         }
-        if(res.status === 102) {
+        if (res.status === 102) {
             toast('Not enough resource')
         }
         dispatch(actionChangeLoading(false))
         dispatch(actionChangeTranning({}))
 
-    },[Total,_id])
+    }, [Total, _id])
     return (
         <>
-        <div className={`upgrade ${name ? 'show' : ''}`}>
-                <div onClick={()=>dispatch(actionChangeTranning({name : null}))} className="mask"></div>
+            <div className={`upgrade ${name ? 'show' : ''}`}>
+                <div onClick={() => dispatch(actionChangeTranning({ name: null }))} className="mask"></div>
                 <div className="body">
                     <div className="title">Tranning {name}</div>
                     <div className="content">
+                        <div className="unit-info">
+                            <div className="title">Unit Info</div>
+                            <div className="info"><span>Life:</span> <span> {life}</span></div>
+                            <div className="info"><span>Range:</span> <span> {range}</span></div>
+                            <div className="info"><span>Speed:</span> <span> {speed}</span></div>
+                            <div className="info"><span>Cargo:</span> <span> {cargo}</span></div>
+                            <div className="info"><span>Attack against infantry:</span> <span> {strength?.barrack}</span></div>
+                            <div className="info"><span>Attack against cavalry:</span> <span> {strength?.stable}</span></div>
+                            <div className="info"><span>Attack against archers:</span> <span> {strength?.archer}</span></div>
+                            <div className="info"><span>Attack against siege:</span> <span> {strength?.workshop}</span></div>
+                        </div>
                         <div className="costs">
+                            <div className="title">Cost Per One</div>
                             <div className="cost">
                                 <span>{gold}</span>
                                 <img src={goldore} alt="" />
@@ -80,7 +107,7 @@ const Tranning : FC = () => {
                             </div>
                         </div>
                         <div className="input">
-                            <input value={Total} onChange={onChangeInput} type="text" placeholder="Total Unit"/>
+                            <input value={Total} onChange={onChangeInput} type="text" placeholder="Total Unit" />
                         </div>
                         <div className="costs">
                             <div className="total-cost">Total Cost</div>
@@ -104,6 +131,9 @@ const Tranning : FC = () => {
                         <div className="sub-info">
                             <div className="time">Time: {secondsToTime(time)}</div>
                             <div className="time">Total: {secondsToTime(time * Total)}</div>
+                        </div>
+                        <div className="unit-info">
+
                         </div>
                     </div>
                     <div onClick={handleTranning} className="button">

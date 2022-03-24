@@ -23,7 +23,7 @@ const Activities: FC = () => {
                 const timeArriveToHome = new Date(o.homeTime).getTime() - new Date(o.arriveTime).getTime()
                 const timeArriveToNow = Now - new Date(o.arriveTime).getTime()
                 progress = timeArriveToNow / timeArriveToHome * 100
-                timeLeft = ( new Date(o.homeTime).getTime() - Now) / 1000
+                timeLeft = (new Date(o.homeTime).getTime() - Now) / 1000
             }
             return {
                 ...o,
@@ -32,7 +32,7 @@ const Activities: FC = () => {
             }
         })
     }, [_activity, Now])
-    
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setNow(Date.now())
@@ -40,29 +40,33 @@ const Activities: FC = () => {
         return () => {
             clearTimeout(timer)
         }
-    },[Now])
-    
+    }, [Now])
+
     return (
         <>
-            <div className="activities">
-                <div className="title">Activites</div>
-                <div className="list-activity">
-                    <div className="title-head">
-                        <div className="from">From</div>
-                        <div className="time">Time</div>
-                        <div className="to">To</div>
+            {
+                activity?.length &&
+                <div className="activities">
+                    <div className="title">Activites</div>
+                    <div className="list-activity">
+                        <div className="title-head">
+                            <div className="from">From</div>
+                            <div className="time">Time</div>
+                            <div className="to">To</div>
+                        </div>
+                        {
+                            activity?.map(o => <div onClick={() => dispatch(actionChangeModalActivity(o))} key={o._id} className="activity">
+                                <div className="from">{o.user.username}</div>
+                                <div style={{ '--progress': `${o.progress}%` } as CSSProperties} className={`time ${o.status === 0 ? 'moving' : 'comehome'}`}>
+                                    <span>{secondsToTime(o.timeLeft)} ({o.type === 1 ? 'Attack' : 'Spy'} )</span>
+                                </div>
+                                <div className="target">{o.target.username}</div>
+                            </div>)
+                        }
                     </div>
-                    {
-                        activity?.map(o => <div onClick={() => dispatch(actionChangeModalActivity(o))} key={o._id} className="activity">
-                            <div className="from">{o.user.username}</div>
-                            <div style={{ '--progress': `${o.progress}%` } as CSSProperties} className={`time ${o.status === 0 ? 'moving' : 'comehome'}`}>
-                                <span>{secondsToTime(o.timeLeft)} ({o.type === 1 ? 'Attack' : 'Spy'} )</span>
-                            </div>
-                            <div className="target">{o.target.username}</div>
-                        </div>)
-                    }
                 </div>
-            </div>
+            }
+
         </>
     )
 }

@@ -104,26 +104,37 @@ const Attack: FC = () => {
                                 if (showAttack.type === 1) {
                                     return <div key={o._id} className="unit">
                                         <div className="row">
-                                            <div className="name">{o.unit.name} ({o.total})</div>
-                                            <div className="speed">Speed: {o.unit.speed}</div>
-                                            <div className="min-max">
-                                                <span onClick={e => handleSetMin(e, o)}>Min</span>
-                                                <span onClick={e => handleSetMax(e, o)}>Max</span>
+                                            <div className="info">
+                                                <div className="name">{o.unit.name} </div>
+                                                <div className="total">Total: {o.total}</div>
+                                                <div className="speed">Speed: {o.unit.speed}</div>
+                                                <div className="cargo">Cargo: {o.unit.cargo}</div>
                                             </div>
-                                            <input defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
+                                            <div className="input">
+                                                <div className="min-max">
+                                                    <span onClick={e => handleSetMin(e, o)}>Min</span>
+                                                    <span onClick={e => handleSetMax(e, o)}>Max</span>
+                                                </div>
+                                                <input defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
+                                            </div>
                                         </div>
                                     </div>
                                 } else {
                                     if (o.unit.name === 'Quickwalker') {
                                         return <div key={o._id} className="unit">
                                             <div className="row">
-                                                <div className="name">{o.unit.name} ({o.total})</div>
-                                                <div className="speed">Speed: {o.unit.speed}</div>
-                                                <div className="min-max">
-                                                    <span onClick={e => handleSetMin(e, o)}>Min</span>
-                                                    <span onClick={e => handleSetMax(e, o)}>Max</span>
+                                                <div className="info">
+                                                    <div className="name">{o.unit.name} ({o.total})</div>
+                                                    <div className="speed">Speed: {o.unit.speed}</div>
+                                                    <div className="cargo">Cargo: {o.unit.cargo}</div>
                                                 </div>
-                                                <input defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
+                                                <div className="input">
+                                                    <div className="min-max">
+                                                        <span onClick={e => handleSetMin(e, o)}>Min</span>
+                                                        <span onClick={e => handleSetMax(e, o)}>Max</span>
+                                                    </div>
+                                                    <input defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
+                                                </div>
                                             </div>
                                         </div>
                                     }

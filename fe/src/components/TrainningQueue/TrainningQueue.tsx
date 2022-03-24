@@ -23,11 +23,11 @@ const TrainningQueue : FC = () => {
     },[trainningQueue])
     return(
         <>
-        <div className={`trainning-queue ${trainningQueue ? 'show' : ''}`}>
+        {trainningQueue && <div className={`trainning-queue ${trainningQueue ? 'show' : ''}`}>
             <div className="title">Trainning <span className="total">{Total}</span> {trainningQueue?.unit?.name}</div>
             <div className="timeleft">Time left : {secondsToTime(TimeLeft)}</div>
             <div className="timeleft">Total time left : {secondsToTime((new Date(trainningQueue?.time).getTime() - Date.now()) / 1000 )}</div>
-        </div>
+        </div>}
         </>
     )
 }

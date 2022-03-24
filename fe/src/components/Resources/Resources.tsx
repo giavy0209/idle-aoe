@@ -38,12 +38,13 @@ const Resources : FC = function  () {
     const stateResources = useSelector((state : any) => state.resources)
     const stateBuildings = useSelector((state : any) => state.buildings)
     
-    const resources = useMemo(() => {
+    const resources : any[] = useMemo(() => {
         if(!stateResources) return []
         if(!stateBuildings) return []
         return _resources.map(o => {
-            const value = stateResources.find(_state => _state.type.name === o.name).value
-            const rate = stateBuildings.find(_state => _state.building.name === o.building).value
+            const value = stateResources.find(_state => _state.type.name === o.name)?.value
+            const rate = stateBuildings.find(_state => _state.building.name === o.building)?.value
+            if(!value || !rate) return {}
             return {
                 building : o.building,
                 name : o.name,
@@ -53,6 +54,7 @@ const Resources : FC = function  () {
             }
         })
     },[stateResources,stateBuildings])
+    
     const handleUpgrade = useCallback((building) => {
         dispatch(asyncGetUpgrade(building))
     },[dispatch])

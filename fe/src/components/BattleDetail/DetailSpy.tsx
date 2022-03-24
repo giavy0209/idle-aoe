@@ -34,12 +34,7 @@ const DetailSpy: FC = () => {
                 <div className="start">
                     <div className="title">Spy Started</div>
                     <div className="players">
-                        <div className="player">
-                            <p>{battleDetail.attacker.username} send {battleDetail.spy.quickWalkerLost + battleDetail.marching.units[0].total} Quickwalker to</p>
-                        </div>
-                        <div className="player">
-                            <p>{battleDetail.defender.username}</p>
-                        </div>
+                        <p><span className="attacker">{battleDetail.attacker.username}</span> send <span className="total">{battleDetail.spy.quickWalkerLost + battleDetail.marching.units[0].total}</span> Quickwalker to <span className="defender">{battleDetail.defender.username}</span></p>
                     </div>
                 </div>
                 <div className="end">
@@ -67,7 +62,7 @@ const DetailSpy: FC = () => {
                                         battleDetail.spy.units.map(o => <div className="unit">
                                             <span>{o.total}</span>
                                             <span>{o.unit.name}</span>
-                                        </div> )
+                                        </div>)
                                     }
                                 </div>
                                 <div className="spy-building">
@@ -76,7 +71,7 @@ const DetailSpy: FC = () => {
                                         battleDetail.spy.buildings.map(o => <div className="building">
                                             <span>{o.level}</span>
                                             <span>{o.building.name}</span>
-                                        </div> )
+                                        </div>)
                                     }
                                 </div>
                             </div>
