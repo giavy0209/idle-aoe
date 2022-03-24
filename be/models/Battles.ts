@@ -14,7 +14,24 @@ const BattleSchema = new Schema<IBattle>({
         unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
         total : Number
     }],
-    rounds : [{type : Schema.Types.ObjectId , ref : 'battle_rounds'}]
+    rounds : [{type : Schema.Types.ObjectId , ref : 'battle_rounds'}],
+    spy : {
+        resources : {
+            gold : {type : Number},
+            iron : {type : Number},
+            wood : {type : Number},
+            food : {type : Number}
+        },
+        units : [{
+            unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
+            total : Number
+        }],
+        buildings : [{
+            building : {type : Schema.Types.ObjectId , ref : 'building_datas'},
+            level : Number
+        }],
+        quickWalkerLost : {type : Number}
+    }
 })
 
 const Battles = model<IBattle>('battles', BattleSchema)

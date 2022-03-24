@@ -1,12 +1,13 @@
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { actionChangeEnemy, actionChangeShowAttack, asyncGetEnemy } from "store/actions";
 
 const Enemy : FC = () => {
     const dispatch = useDispatch()
     const enemy = useSelector((state : any) => state.enemy)
-    const openModelAttack = (enemy) => {
-        dispatch(actionChangeShowAttack({_id : enemy._id , username:enemy.username}))
+    const openModelAttack = (enemy, type) => {
+        dispatch(actionChangeShowAttack({_id : enemy._id , username:enemy.username , type }))
     }
     return (
         <>
@@ -18,8 +19,8 @@ const Enemy : FC = () => {
                     enemy?.map(o => <div key={o._id} className="enemy">
                         <span>Player {o.username}</span>
                         <div className="actions">
-                            <div onClick={() => openModelAttack(o)} className="action">Attack</div>
-                            <div className="action">Spy</div>
+                            <div onClick={() => openModelAttack(o, 1)} className="action">Attack</div>
+                            <div onClick={() => openModelAttack(o, 2)} className="action">Spy</div>
                         </div>
                     </div> )
                 }

@@ -18,6 +18,16 @@ export const actionChangeBattleDetail = function (battleDetail) {
         payload : {battleDetail}
     }
 }
+
+export const CHANGE_MODAL_ACTIVITY = 'CHANGE_MODAL_ACTIVITY'
+
+export const actionChangeModalActivity = function (modalActivity) {
+    return {
+        type : CHANGE_MODAL_ACTIVITY,
+        payload : {modalActivity}
+    }
+}
+
 export const CHANGE_SHOW_ATTACK = 'CHANGE_SHOW_ATTACK'
 
 export const actionChangeShowAttack = function (showAttack) {

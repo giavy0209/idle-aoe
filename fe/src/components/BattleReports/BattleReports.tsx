@@ -40,7 +40,7 @@ const BattleReports: FC = () => {
                                             )
                                     }
                                 </div>
-                                <div onClick={() => dispatch(actionChangeBattleDetail({}))} className="detail">Battle Detail</div>
+                                <div onClick={() => dispatch(actionChangeBattleDetail(o))} className="detail">Battle Detail</div>
                             </div>)
                         }
                     </div>
