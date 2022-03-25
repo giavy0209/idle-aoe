@@ -1,6 +1,6 @@
 import callAPI from "callAPI";
 import storage from "helpers/storage";
-import { FC, useCallback, useRef } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { actionChangeLoading, asyncInit } from "store/actions";
@@ -8,6 +8,13 @@ import { actionChangeLoading, asyncInit } from "store/actions";
 const Login : FC = function () {
     const formRef = useRef<any>()
     const dispatch = useDispatch()
+    const [Worlds, setWorlds] = useState<any[]>([])
+    useEffect(() => {
+        callAPI.get('/worlds')
+        .then(res => {
+            setWorlds([...res.data])
+        })
+    },[])
     const handleLogin = useCallback(async (e) => {
         e.preventDefault()
         const form = new FormData(formRef.current)
@@ -55,6 +62,11 @@ const Login : FC = function () {
                 <form ref={ref => formRef.current = ref} onSubmit={handleLogin} action="">
                     <input type="text" name="username" placeholder="username"/>    
                     <input type="password" name="password" id="" placeholder="password"/>
+                    <select name="world" placeholder="Select Worlds">
+                        {
+                            Worlds.map(o => <option value={o._id}>{o.name} - x{o.speed} Speed</option> )
+                        }
+                    </select>
                     <button type="submit">Login</button>
                     <button type="button" onClick={handleSignup}>Signup</button>
                 </form>
