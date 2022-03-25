@@ -8,12 +8,18 @@ export default async function workerResource () {
     .limit(100)
     .sort({lastUpdate : 1})
     .populate('building')
+    .populate({
+        path : 'user',
+        populate : {
+            path : 'world'
+        }
+    })
     for (let index = 0; index < resources.length; index++) {
         const resource = resources[index];
         const now = Date.now()
         const diffTime = (now - new Date(resource.lastUpdate).getTime()) / 1000
         const percentDiffTimePerHour = diffTime / secInHour
-        const generate = resource.building.value
+        const generate = resource.building.value * resource.user.world.speed
         const valueAfterDiff = generate * percentDiffTimePerHour
         CHANGE_RESOURCE.push({
             resource : resource._id,

@@ -1,5 +1,5 @@
 import {Response} from "express";
-import {BuildingDatas, Buildings, Resources, Trainnings, UnitDatas, Units} from 'models'
+import {BuildingDatas, Buildings, Resources, Trainnings, UnitDatas, Units, Users} from 'models'
 import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources, changeTrainningQueue } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
@@ -23,6 +23,11 @@ class trainningController {
         if(!total) return res.send({status : 100})
         const isTranning = await Trainnings.findOne({user : _id})
         if(isTranning) return res.send({status : 101})
+
+        const user = await Users.findById(_id)
+        .populate('world')
+
+        if(!user) return res.send({status : 100})
 
         const unitData = await UnitDatas.findById(unit)
         if(!unitData) return res.send({status : 100})
@@ -51,7 +56,7 @@ class trainningController {
 
         const building = await Buildings.findOne({user : _id, building : unitData.building})
         const dereaseTime = building ? building.value / 100 : 0
-        const time = unitData.time - unitData.time * dereaseTime
+        const time = (unitData.time / user.world.speed) - unitData.time * dereaseTime
         const finishAt = Date.now() + time * 1000
 
         const userUnit = await Units.findOne({user : _id, unit})

@@ -1,5 +1,5 @@
 import {Response} from "express";
-import {BuildingDatas, Buildings, Resources} from 'models'
+import {BuildingDatas, Buildings, Resources, Worlds} from 'models'
 import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
@@ -23,7 +23,12 @@ class upgradeController {
         const {_id} = req
         const {building} = req.query
         const userBuilding = await Buildings.findById(building)
+        .populate('user')
         if(!userBuilding) return res.send({status : 100})
+
+        const world = await Worlds.findById(userBuilding.user.world)
+        if(!world) return res.send({status : 100})
+
         const buildingLevel = userBuilding.level + 1
 
         const buildingData = await BuildingDatas.findById(userBuilding.building)
@@ -32,6 +37,7 @@ class upgradeController {
         if(!findUpgrade) return res.send({status : 101})
 
         const isUpgrading = await Buildings.findOne({user : _id , isUpgrade : true})
+        .populate('user')
         if(isUpgrading) return res.send({status : 103})
 
         const userResource = await Resources.find({user : _id})
@@ -45,8 +51,7 @@ class upgradeController {
         })
         if(!isEnoughResource) return res.send({status : 102})
 
-
-        userBuilding.finishAt = Date.now() + findUpgrade.time * 1000
+        userBuilding.finishAt = Date.now() + findUpgrade.time * 1000 / world.speed
         userBuilding.isUpgrade = true
         await userBuilding.save()
 

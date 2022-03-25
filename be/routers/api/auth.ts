@@ -14,8 +14,9 @@ async function  create() {
         
         await controller.signup({
             body : {
-                username : `user ${index}`,
-                password : `${index}`
+                username : `user-${index}`,
+                password : `${index}`,
+                world : '623e0f549c7a54a2c0fc90b0'
             }
         } , null)
         

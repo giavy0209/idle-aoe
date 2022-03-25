@@ -19,8 +19,11 @@ class marchingController {
         let {type} = req.query
         let _type = Number(type)
         if (!_type) return res.send({status : 100})
-
         let {units , movingSpeed,target} = req.body
+
+        const user = await Users.findById(_id)
+        .populate('world')
+        if(!user) return res.send({status : 100})
 
         if(movingSpeed < 0.1 || movingSpeed > 1 || !isValidObjectId(target)) return res.send({status : 100})
         const checkUnit : any[] = []
@@ -48,7 +51,7 @@ class marchingController {
             if(_unit.unit.speed > unitSpeed) unitSpeed = _unit.unit.speed
         })
 
-        const speed = unitSpeed * 60 / movingSpeed
+        const speed = unitSpeed * 60 / movingSpeed / user.world.speed
         const arriveTime = Date.now() + speed * 1000
         const homeTime = Date.now() + speed * 1000 * 2
         await Marchings.create({

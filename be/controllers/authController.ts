@@ -1,10 +1,14 @@
 import {Request,Response} from "express";
-import {BuildingDatas, Buildings, ResourceDatas, Resources, Users,Units,UnitDatas} from 'models'
+import {BuildingDatas, Buildings, ResourceDatas, Resources, Users,Units,UnitDatas, Worlds} from 'models'
 import {compareSync, hashSync} from 'bcrypt'
 import { sign } from 'jsonwebtoken'
+import { isValidObjectId } from "mongoose";
 class authController {
     static async auth (req : Request , res : Response) {
-        const {username, password} = req.body
+        let {username, password, world} = req.body
+        username = username.trim()
+        password = password.trim()
+        if(!isValidObjectId(world)) return res.send({status : 100})
         if(!username || !password) return res.send({status : 100})
         const user = await Users.findOne({username})
         if(!user) return res.send({status : 101})
@@ -19,17 +23,25 @@ class authController {
         await user.save()
     }
     static async signup (req : Request | {[key : string] : any} , res : Response | null) {
-        let {username , password} = req.body
+        let {username , password, world} = req.body
         username = username.trim()
         password = password.trim()
+        if(!isValidObjectId(world)) return res?.send({status : 100})
         if(!username || !password) return res?.send({status : 100})
+
         const isExits = await Users.findOne({username})
         if(isExits) return res?.send({status : 100})
+
+        const findWorld = await Worlds.findById(world)
+        if(!findWorld) return res?.send({status : 100})
+
         const hash_password = hashSync(password, 5);
         const user = await Users.create({
             username , 
-            password : hash_password
+            password : hash_password,
+            world
         })
+
         const buildings = await BuildingDatas.find({})
         for (let index = 0; index < buildings.length; index++) {
             const building = buildings[index];

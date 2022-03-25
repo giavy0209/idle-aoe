@@ -1,10 +1,9 @@
 import { Router } from "express";
-import { userController as controller } from 'controllers'
-import { isAuth } from "../../middleware";
+import { worldsController as controller } from 'controllers'
 
 const router = Router()
 
 router.route('/worlds')
-    .get(isAuth,controller.get)
+    .get(controller.get)
 
 export default router

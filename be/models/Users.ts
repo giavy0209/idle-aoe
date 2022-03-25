@@ -6,6 +6,7 @@ const UserSchema = new Schema<IUsers>({
     password : {type : String, required : true},
     name : {type : String, default : ''},
     lastLogin : {type : Date},
+    world : {type : Schema.Types.ObjectId , ref : 'worlds'}
 }, {
     timestamps : true,
 })
