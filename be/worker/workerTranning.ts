@@ -18,7 +18,8 @@ export default async function workerTranning () {
         const unitData = trainning.unit
         
         const dereaseTime = building.value / 100
-        const time = (unitData.time / user.world.speed) - unitData.time * dereaseTime
+        const unitTrainingTime = unitData.time / user.world.speed
+        const time = unitTrainingTime - unitTrainingTime * dereaseTime
         
         const finishAt = Date.now() + time * 1000 
         trainning.finishAt = finishAt

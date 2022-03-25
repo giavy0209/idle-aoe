@@ -56,7 +56,8 @@ class trainningController {
 
         const building = await Buildings.findOne({user : _id, building : unitData.building})
         const dereaseTime = building ? building.value / 100 : 0
-        const time = (unitData.time / user.world.speed) - unitData.time * dereaseTime
+        const unitTrainingTime = unitData.time / user.world.speed
+        const time = unitTrainingTime - unitTrainingTime * dereaseTime
         const finishAt = Date.now() + time * 1000
 
         const userUnit = await Units.findOne({user : _id, unit})
