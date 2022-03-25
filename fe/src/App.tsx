@@ -106,6 +106,10 @@ function App() {
                 <p>I recommend traning some Shortbow first, they are cheap, fast trainning, high cargo. You can use them to steal enemy's resource</p>
                 <p>But be carefull, spy enemy first, if enemy don't have any unit.</p>
                 <p>Shortbow is weak, they can easily be killed</p>
+                <p>After you have more resources, you should train some Quickwalker to prevent being spied by another player</p>
+                <p>If you going around, you will see Light Cavalry have high speed and high cargo, perfect to steal another player</p>
+                <p>What next? build your army and invade another player.</p>
+                <p>Goodluck</p>
               </div>
             </div>
           </Modal>
