@@ -45,7 +45,7 @@ const Activities: FC = () => {
     return (
         <>
             {
-                activity?.length &&
+                activity?.length > 0 &&
                 <div className="activities">
                     <div className="title">Activites</div>
                     <div className="list-activity">

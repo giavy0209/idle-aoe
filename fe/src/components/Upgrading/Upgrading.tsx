@@ -27,7 +27,7 @@ const Upgrading : FC = () => {
     
     return (
         <>
-        {TimeLeft && <div className={`upgrading ${TimeLeft ? 'show' : ''}`}>
+        {TimeLeft > 0 && <div className={`upgrading ${TimeLeft ? 'show' : ''}`}>
             <div className="title">Upgrading {UpgradingBuilding.building?.name}</div>
             <div className="timeleft">Time left : {secondsToTime(TimeLeft)}</div>
         </div>}
