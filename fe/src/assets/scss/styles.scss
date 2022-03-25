@@ -147,6 +147,8 @@ html {
             background-color: #fff;
             border-radius: 5px;
             width: 90%;
+            max-width: 90%;
+            overflow-y: scroll;
             .title {
                 font-weight: 600;
                 border-bottom: 1px solid #000;
