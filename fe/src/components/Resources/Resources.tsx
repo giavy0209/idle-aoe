@@ -37,6 +37,7 @@ const Resources : FC = function  () {
     const dispatch = useDispatch()
     const stateResources = useSelector((state : any) => state.resources)
     const stateBuildings = useSelector((state : any) => state.buildings)
+    const worldSpeed = useSelector((state : any) => state.user?.world.speed)
     
     const resources : any[] = useMemo(() => {
         if(!stateResources) return []
@@ -66,7 +67,7 @@ const Resources : FC = function  () {
                         <div className="value">{Math.round(value)}</div>
                         <img src={img} alt="" />
                         <div className="name">{name}</div>
-                        <div className="rate">{rate}/h</div>
+                        <div className="rate">{rate * worldSpeed}/h</div>
                     </div>
                 )
             }

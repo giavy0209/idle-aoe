@@ -9,6 +9,8 @@ export default function App() {
     ref={_ref => webviewRef.current = _ref}
     style={styles.container}
     source={{ uri: 'https://idle-aoe.idlebytegame.com/' }}
+    cacheEnabled={false}
+    incognito={true}
   />
   );
 }

@@ -61,6 +61,11 @@ function App() {
     }
   }, [dispatch])
 
+  const handleLogout = () => {
+    storage.clearToken()
+    window.location.reload()
+  }
+
   return (
     <div ref={ref => refApp.current = ref} id="App">
       <Loading />
@@ -69,6 +74,7 @@ function App() {
       {
         user &&
         <>
+          <div onClick={handleLogout} className="logout">LOGOUT</div>
           <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
 
           <Activity />

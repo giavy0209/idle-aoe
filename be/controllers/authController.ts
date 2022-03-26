@@ -10,7 +10,7 @@ class authController {
         password = password.trim()
         if(!isValidObjectId(world)) return res.send({status : 100})
         if(!username || !password) return res.send({status : 100})
-        const user = await Users.findOne({username})
+        const user = await Users.findOne({username, world})
         if(!user) return res.send({status : 101})
         const compare = compareSync(password, user.password)
         if(!compare) return res.send({status : 102})
@@ -29,11 +29,11 @@ class authController {
         if(!isValidObjectId(world)) return res?.send({status : 100})
         if(!username || !password) return res?.send({status : 100})
 
-        const isExits = await Users.findOne({username})
-        if(isExits) return res?.send({status : 100})
-
         const findWorld = await Worlds.findById(world)
         if(!findWorld) return res?.send({status : 100})
+
+        const isExits = await Users.findOne({username , world})
+        if(isExits) return res?.send({status : 100})
 
         const hash_password = hashSync(password, 5);
         const user = await Users.create({

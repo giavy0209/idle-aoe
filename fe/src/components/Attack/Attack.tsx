@@ -13,6 +13,7 @@ for (let index = 1; index <= 10; index++) {
 const Attack: FC = () => {
     const units = useSelector((state: any) => state.units)
     const showAttack = useSelector((state: any) => state.showAttack)
+    const worldSpeed = useSelector((state : any) => state.user?.world.speed)
     const dispatch = useDispatch()
     const [Units, setUnits] = useState<any[]>([])
     const [AttackSpeed, setAttackSpeed] = useState<number>(1)
@@ -150,7 +151,7 @@ const Attack: FC = () => {
                                 }
                             </select>
                         </div>
-                        <div className="moving-time">Moving Time : {secondsToTime(slowestUnit * 60 / AttackSpeed)}</div>
+                        <div className="moving-time">Moving Time : {secondsToTime(slowestUnit * 60 / AttackSpeed / worldSpeed)}</div>
                         <button>{showAttack.type === 1 ? 'Attack' : 'Spy'}</button>
                     </form>
                 </div>

@@ -43,6 +43,7 @@ const Tranning: FC = () => {
         life,
         strength,
     }: ITranning = useSelector((state: any) => state?.tranning || {})
+    const worldSpeed = useSelector((state : any) => state.user?.world.speed)
 
     const [Total, setTotal] = useState(1)
     const onChangeInput = e => {
@@ -129,8 +130,8 @@ const Tranning: FC = () => {
                             </div>
                         </div>
                         <div className="sub-info">
-                            <div className="time">Time: {secondsToTime(time)}</div>
-                            <div className="time">Total: {secondsToTime(time * Total)}</div>
+                            <div className="time">Time: {secondsToTime(time / worldSpeed )}</div>
+                            <div className="time">Total: {secondsToTime(time * Total / worldSpeed)}</div>
                         </div>
                         <div className="unit-info">
 
