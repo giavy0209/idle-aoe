@@ -75,7 +75,7 @@ class upgradeController {
         const findBuilding = await Buildings.findById(building)
         if(!findBuilding) return res.send({status : 100})
         findBuilding.isUpgrade = false
-
+        await findBuilding.save()
         res.send({status : 1})
         changeBuilding(findBuilding.user.toString())
     }

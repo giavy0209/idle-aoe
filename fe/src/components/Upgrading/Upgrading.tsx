@@ -3,6 +3,7 @@ import {Confirm} from "components"
 import secondsToTime from "helpers/secondsToTime"
 import { FC, useEffect, useLayoutEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { toast } from "react-toastify"
 
 const Upgrading : FC = () => {
     const [ShowConfirm , setShowConfirm] = useState(false)
@@ -34,6 +35,9 @@ const Upgrading : FC = () => {
     const onOK = async () => {
         setShowConfirm(false)
         const res = await callAPI.post('/upgrade/cancel' , {building : upgrading._id})
+        if(res.status === 1) {
+            toast('Upgrade caneled')
+        }
     }
     return (
         <>
