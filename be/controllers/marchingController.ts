@@ -85,7 +85,7 @@ class marchingController {
         findMarching.homeTime = Date.now() + movingTime
         findMarching.status = 1
         await findMarching.save()
-        changeMarching(findMarching.user)
+        changeMarching(findMarching.user.toString())
     }
 }
 
