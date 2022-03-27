@@ -70,6 +70,7 @@ class upgradeController {
     }
 
     static async cancel (req : IRequest, res : Response) {
+        const {_id} = req
         const {building} = req.body
         if(!isValidObjectId(building)) return res.send({status : 100})
         const findBuilding = await Buildings.findById(building)
@@ -77,7 +78,7 @@ class upgradeController {
         findBuilding.isUpgrade = false
         await findBuilding.save()
         res.send({status : 1})
-        changeBuilding(findBuilding.user.toString())
+        changeBuilding(_id)
     }
 
 }
