@@ -1,4 +1,5 @@
 import callAPI from "callAPI"
+import storage from "helpers/storage"
 import { toast } from "react-toastify"
 
 export const CHANGE_LOADING = 'CHANGE_LOADING'
@@ -182,10 +183,16 @@ export const asyncGetBattlleReport = () => async dispatch => {
 }
 
 export const asyncInit = () => async dispatch => {
-    dispatch(asyncGetUser())
-    dispatch(asyncGetResources())
-    dispatch(asyncGetBuildings())
-    dispatch(asyncGetUnits())
-    dispatch(asyncGetTranningQueue())
-    dispatch(asyncGetActivity())
+    const {status} = await callAPI.get('/valid-jwt')
+    if(status === 1) {
+        dispatch(asyncGetUser())
+        dispatch(asyncGetResources())
+        dispatch(asyncGetBuildings())
+        dispatch(asyncGetUnits())
+        dispatch(asyncGetTranningQueue())
+        dispatch(asyncGetActivity())
+    }
+    if(status === 0) {
+        storage.clearToken()
+    }
 }

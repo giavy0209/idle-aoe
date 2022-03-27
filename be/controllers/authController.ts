@@ -3,6 +3,7 @@ import {BuildingDatas, Buildings, ResourceDatas, Resources, Users,Units,UnitData
 import {compareSync, hashSync} from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import { isValidObjectId } from "mongoose";
+import { IRequest } from "interfaces";
 class authController {
     static async auth (req : Request , res : Response) {
         let {username, password, world} = req.body
@@ -73,6 +74,13 @@ class authController {
             res.send({status : 1})
         
         }
+    }
+
+    static async isValidJWT(req : IRequest, res : Response) {
+        const {_id} = req
+        const user = await Users.findById(_id)
+        if(!user) return res.send({status : 0})
+        res.send({status : 1})
     }
 }
 

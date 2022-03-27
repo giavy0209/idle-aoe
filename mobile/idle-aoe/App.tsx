@@ -4,13 +4,12 @@ import { WebView } from 'react-native-webview';
 import Constants from 'expo-constants';
 export default function App() {
   const webviewRef = useRef<any>()
+
   return (
     <WebView
     ref={_ref => webviewRef.current = _ref}
     style={styles.container}
-    source={{ uri: 'https://idle-aoe.idlebytegame.com/' }}
-    cacheEnabled={false}
-    incognito={true}
+    source={{ uri: `https://idle-aoe.idlebytegame.com?date=${Date.now()}` }}
   />
   );
 }

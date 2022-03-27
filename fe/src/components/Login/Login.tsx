@@ -7,6 +7,7 @@ import storage from "helpers/storage";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import socket from "socket";
 import { actionChangeLoading, asyncInit } from "store/actions";
 
 const Login: FC = function () {
@@ -40,7 +41,7 @@ const Login: FC = function () {
         if (res.status === 1) {
             toast('Login successfully')
             storage.setToken(res.token)
-            dispatch(asyncInit())
+            window.location.reload()
         }
 
     }, [dispatch])
