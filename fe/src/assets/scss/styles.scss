@@ -570,6 +570,9 @@ html {
                     }
                 }
             }
+            .no-unit {
+                @include pxToRem(24);
+            }
             .attack-speed {
                 @include pxToRem(24);
                 font-weight: 600;

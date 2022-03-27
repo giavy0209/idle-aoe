@@ -11,9 +11,9 @@ for (let index = 1; index <= 10; index++) {
     options.push(index / 10)
 }
 const Attack: FC = () => {
-    const units = useSelector((state: any) => state.units)
+    const _units = useSelector((state: any) => state.units)
     const showAttack = useSelector((state: any) => state.showAttack)
-    const worldSpeed = useSelector((state : any) => state.user?.world.speed)
+    const worldSpeed = useSelector((state: any) => state.user?.world.speed)
     const dispatch = useDispatch()
     const [Units, setUnits] = useState<any[]>([])
     const [AttackSpeed, setAttackSpeed] = useState<number>(1)
@@ -42,6 +42,11 @@ const Attack: FC = () => {
             setUnits([...Units])
         }
     }
+
+    const units = useMemo(() => {
+        if (!_units) return []
+        return _units.filter(o => o.total > 0)
+    }, [_units])
 
     const slowestUnit = useMemo(() => {
         let slowest = 0
@@ -101,7 +106,7 @@ const Attack: FC = () => {
                     <div className="title">{showAttack.type === 1 ? 'Attack' : 'Spy'} {showAttack.username}</div>
                     <form onSubmit={handleSubmitForm} action="">
                         {
-                            units?.map(o => {
+                            units.length ? units.map(o => {
                                 if (showAttack.type === 1) {
                                     return <div key={o._id} className="unit">
                                         <div className="row">
@@ -142,17 +147,26 @@ const Attack: FC = () => {
                                 }
                                 return null
                             })
+                                :
+                                <p className="no-unit">You have no unit</p>
                         }
-                        <div className="attack-speed">
-                            <span>Moving Speed:</span>
-                            <select defaultValue={1} onChange={e => setAttackSpeed(Number(e.target.value))} name="" id="">
-                                {
-                                    options.map(o => <option key={o} value={o}>{o * 100}%</option>)
-                                }
-                            </select>
-                        </div>
-                        <div className="moving-time">Moving Time : {secondsToTime(slowestUnit * 60 / AttackSpeed / worldSpeed)}</div>
-                        <button>{showAttack.type === 1 ? 'Attack' : 'Spy'}</button>
+                        {
+                            units.length > 0 ?
+                            <>
+                                <div className="attack-speed">
+                                    <span>Moving Speed:</span>
+                                    <select defaultValue={1} onChange={e => setAttackSpeed(Number(e.target.value))} name="" id="">
+                                        {
+                                            options.map(o => <option key={o} value={o}>{o * 100}%</option>)
+                                        }
+                                    </select>
+                                </div>
+                                <div className="moving-time">Moving Time : {secondsToTime(slowestUnit * 60 / AttackSpeed / worldSpeed)}</div>
+                                <button>{showAttack.type === 1 ? 'Attack' : 'Spy'}</button>
+                            </>
+                            :
+                            null
+                        }
                     </form>
                 </div>
             </div>}

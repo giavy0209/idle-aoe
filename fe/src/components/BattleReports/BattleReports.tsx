@@ -63,8 +63,30 @@ const BattleReports: FC = () => {
                         <p>If your Siege kill all enemy's Infantry, enemy's Infantry do nothing in their turn</p>
                         <p>If your Siege kill all enemy's Siege, enemy's Siege still can attack your army, they will dead in next round</p>
                         <p>Each unit have their own range. They will randomly find any enemy's unit in their range and attack</p>
+                        <p>If both have same army, which one choose right target they will win.</p>
+                        <p>Example if both have 100 Shortbow and 50 Swordsman, Shortbow can hit enemy's Shortbow and Swordsman</p>
+                        <p>If your Shortbow choose to hit enemy's Swordsman, enemy's Swordsman will be killed in first round and can't attack your army </p>
+                        <p>If enemy's Shortbow choose to hit your Shortbow, they just kill 25 your Shortbow, after end Archers turn, you have 50 Swordsman and 75 Shortbow, your enemy have 0 Swordsman and 100 Shortbow</p>
+                        <p>Then in Infantry turn, your Swordsman can kill 43 enemy's Shortbow</p>
+                        <p>Result : you win because your Shortbow choose right target</p>
                         <p>If there is no unit in their range, they will find closest enemy's unit's range</p>
                         <p>If your unit's strength larger than enemy's unit's life, they will find next target and attack until there is no Unit they can attack in their turn</p>
+                        <p>While unit attack enemy, they have 5% to instally kill.</p>
+                        <p>Example 1 Pikeman attack 1 Pikeman, Pikeman have 40 life and 220 attack against infantry, when round end, your Pikeman have 20 life, enemy's Pikeman have 20life</p>
+                        <p>-They have 95% to heal full life</p>
+                        <p>-5% to instally get killed</p>
+                        <p>While unit attack enemy, their strength randomly from -5% to 5%</p>
+                        <p>If both have nearly same army, winner is luckier</p>
+                    </div>
+                    <div className="title">Spy</div>
+                    <div className="content">
+                        <p>If your Quickwalker more than enemy's Quickwalker, you can collect enemy's information</p>
+                        <p>If your Quickwalker less than enemy's Quickwalker, you fail to collect enemy's information</p>
+                        <p>You and enemy will lost some Quickwalker if enemy also have Quickwalker</p>
+                        <p>You will collect the following information</p>
+                        <p>-Building Level</p>
+                        <p>-Amount of resources</p>
+                        <p>-Army</p>
                     </div>
                 </div>
             </Modal>

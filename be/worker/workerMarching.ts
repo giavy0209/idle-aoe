@@ -2,18 +2,9 @@ import { IBattleRound, IMarching } from "interfaces";
 import { BattleActions, BattleRounds, Battles, Buildings, Marchings, Resources, UnitDatas, Units, Users } from "models";
 import { Document, Schema, Types } from "mongoose";
 import { changeMarching, changeResources } from "wsServices";
-import { waitfor } from "../utils";
+import { waitfor, getRndInteger } from "../utils";
 import { CHANGE_RESOURCE } from "./workerChangeResource";
 import { CHANGE_UNIT } from "./workerChangeUnit";
-
-
-const buildingAttackOrder = [
-    '623828c68a78fd802e9a6ebf',
-    '623828c68a78fd802e9a6e8d',
-    '623828c68a78fd802e9a6ea6',
-    '623828c68a78fd802e9a6e74'
-]
-
 async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
     _id: Types.ObjectId;
 }) {
@@ -169,22 +160,29 @@ const Hit = async function (
     }
     let attackStrength = 0
     const unitType = randomHit.unit.building.name.toLowerCase()
+
+
     for (const key in strength) {
 
         if (unitType.includes(key)) {
             attackStrength = strength[key]
         }
     }
+    const randomStrength = getRndInteger(-0.05, 0.05)
+    
+    attackStrength += attackStrength * randomStrength
+
     const totalStrength = attackStrength * total
     const totalLife = randomHit.unit.life * randomHit.total
+
 
     if (totalStrength < totalLife) {
         let unitDead = 0
         const instantlyKill = Math.random() * 100 <= 5 ? true : false
         if (instantlyKill) {
-            unitDead = Math.ceil(totalStrength / randomHit.unit.life)
+            unitDead = Math.ceil((totalStrength) / randomHit.unit.life)
         } else {
-            unitDead = Math.floor(totalStrength / randomHit.unit.life)
+            unitDead = Math.floor((totalStrength) / randomHit.unit.life)
         }
         randomHit.dead = unitDead
 
@@ -227,7 +225,9 @@ const Hit = async function (
             }
         })
         round.actions.push(battleActions._id)
-        await Hit(canHit, unit, attackUnitLeft, round, attacker, defender)
+        if (attackUnitLeft > 0) {
+            await Hit(canHit, unit, attackUnitLeft, round, attacker, defender)
+        }
     }
 }
 
@@ -358,7 +358,7 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
             await round.save()
             break
         }
-        // if(totalRound > 20) break
+
         index++
         if (index === 4) {
             totalRound++
@@ -431,7 +431,7 @@ async function handleMarchingAttack(marching: Document<unknown, any, IMarching> 
     }
 }
 
-async function handleMarchingSpy(marching : Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }) {
+async function handleMarchingSpy(marching: Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }) {
     const quickWalker = await UnitDatas.findOne({ name: 'Quickwalker' })
     const quickWalkerTarget = await Units.findOne({ user: marching.target, unit: quickWalker?._id, total: { $gt: 0 } })
     if (!quickWalkerTarget || quickWalkerTarget.total < marching.units[0].total) {
