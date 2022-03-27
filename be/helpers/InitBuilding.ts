@@ -1863,6 +1863,7 @@ const units = [
         "cargo": 25,
         "life": 40,
         "range": 2,
+        description : "The Pikeman is most efficient against Archers and Cavalry and has the highest carrying capacity of all Infantry units. The Pikemen's range is 2, that's why they are so useful in the battles.",
         building : 'Barracks',
         "resource": {
             "gold": 30,
@@ -1884,6 +1885,7 @@ const units = [
         "cargo": 15,
         "life": 80,
         "range": 1,
+        description : 'The Swordsman is equally strong against all unit types, but it costs a lot of Iron. It has average carrying capacity and a lot of health.',
         building : 'Barracks',
         "resource": {
             "gold": 30,
@@ -1905,6 +1907,7 @@ const units = [
         "cargo": 10,
         "life": 70,
         "range": 1,
+        description : 'The Axeman is very powerful against Infantry and Archers, but has a small carrying capacity. The resources it requires the most are Food and Iron.',
         building : 'Barracks',
         "resource": {
             "gold": 10,
@@ -1926,6 +1929,7 @@ const units = [
         "cargo": 20,
         "life": 60,
         "range": 1,
+        description : 'The Maceman is strong versus Cavalry and Siege machines and has good Carrying capacity. It requires more Food and Gold than other resources to train.',
         building : 'Barracks',
         "resource": {
             "gold": 45,
@@ -1947,6 +1951,7 @@ const units = [
         "cargo": 25,
         "life": 40,
         "range": 3,
+        description : 'This is the basic Archer unit. It is cheap, can be trained quickly, and is most powerful against enemy Infantry.',
         building : 'Archery Range',
         "resource": {
             "gold": 25,
@@ -1968,6 +1973,7 @@ const units = [
         "cargo": 15,
         "life": 40,
         "range": 4,
+        description : 'The Longbow archer is vital for every strong army. It takes only 1 population, it is strong against Cavalry and Siege machines, and it takes more Wood and Gold than other resources to build.',
         building : 'Archery Range',
         "resource": {
             "gold": 50,
@@ -1989,6 +1995,7 @@ const units = [
         "cargo": 20,
         "life": 40,
         "range": 4,
+        description : "Another must have in every army unit - it does most damage to Infantry and Archers, it's range is a big advantage, but requires a lot of Gold and Wood.",
         building : 'Archery Range',
         "resource": {
             "gold": 50,
@@ -2010,6 +2017,7 @@ const units = [
         "cargo": 2,
         "life": 80,
         "range": 1,
+        description : 'The Quickwalkers are really fast, but only light armored. They are not very powerful in a battle, as their main use is to Spy on enemies and get information about their castles.',
         building : 'Stables',
         "resource": {
             "gold": 10,
@@ -2031,6 +2039,7 @@ const units = [
         "cargo": 90,
         "life": 320,
         "range": 1,
+        description : 'The Light Cavalry is a very fast unit with a high carrying capacity, making it perfect for attacks with the purpose of stealing a lot of resources. They are strong against all unit types, but are the most powerful against Archers and Infantry. They require a lot of Food to be trained.',
         building : 'Stables',
         "resource": {
             "gold": 120,
@@ -2052,6 +2061,7 @@ const units = [
         "cargo": 45,
         "life": 500,
         "range": 1,
+        description : 'The Heavy Cavalry is an exceptionally tough and powerful unit. It is very strong against Infantry, Archers and Siege machines. Unfortunately it is expensive to train and takes up a lot of population.',
         building : 'Stables',
         "resource": {
             "gold": 300,
@@ -2073,6 +2083,7 @@ const units = [
         "cargo": 15,
         "life": 300,
         "range": 5,
+        description : 'The Ballistician has a long range of 5 and is most powerful against Cavalry, Infantry and Archers. It is very useful to have a bunch of those in your army, but unfortunately it takes-up a lot of population (6) and costs a lot of Wood and Food to train.',
         building : 'Workshop',
         "resource": {
             "gold": 94,
@@ -2094,6 +2105,7 @@ const units = [
         "cargo": 15,
         "life": 400,
         "range": 5,
+        description : `The Catapult also has a long range of 5. It does the most damage to Infantry and Archers. It is quite expensive, especially Gold and Iron, but it's worth it.`,
         building : 'Workshop',
         "resource": {
             "gold": 647,
@@ -2115,6 +2127,7 @@ const units = [
         "cargo": 8,
         "life": 500,
         "range": 5,
+        description : 'The Trebuchet is a very powerful siege engine. It is equally strong against all unit types. Its drawback is that it takes up 10 population and costs an enormous amount of Wood.',
         building : 'Workshop',
         "resource": {
             "gold": 375,
@@ -2138,6 +2151,9 @@ async function InitBuilding() {
         if(!ishave) {
             promise.push(ResourceDatas.create(resouce)) 
         }
+        if(ishave) {
+            promise.push(ResourceDatas.findByIdAndUpdate(ishave._id , resouce))
+        }
     }
     for (let index = 0; index < buildings.length; index++) {
         const building = buildings[index];
@@ -2149,6 +2165,14 @@ async function InitBuilding() {
                 resource : resource?._id
             }))
         }
+        if(ishave) {
+            promise.push(
+                BuildingDatas.findByIdAndUpdate(ishave._id , {
+                    ...building,
+                    resource : resource?._id
+                })
+            )
+        }
     }
 
     for (let index = 0; index < units.length; index++) {
@@ -2157,6 +2181,12 @@ async function InitBuilding() {
         const ishave = await UnitDatas.findOne({name : unit.name})
         if(!ishave) {
             promise.push(UnitDatas.create({
+                ...unit,
+                building : building?._id
+            }))
+        }
+        if(ishave) {
+            promise.push(UnitDatas.findByIdAndUpdate(ishave._id , {
                 ...unit,
                 building : building?._id
             }))

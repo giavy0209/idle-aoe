@@ -2,13 +2,11 @@ import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import callAPI from "callAPI";
 import Modal from "components/Modal";
-import renderDate from "helpers/renderDate";
 import storage from "helpers/storage";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import socket from "socket";
-import { actionChangeLoading, asyncInit } from "store/actions";
+import { actionChangeLoading} from "store/actions";
 
 const Login: FC = function () {
     const formRef = useRef<any>()
@@ -44,7 +42,7 @@ const Login: FC = function () {
             window.location.reload()
         }
 
-    }, [dispatch])
+    }, [])
     const handleSignup = useCallback(async (e) => {
         e.preventDefault()
         const form = new FormData(formRef.current)
@@ -61,7 +59,7 @@ const Login: FC = function () {
             toast('Register success, please login')
         }
         dispatch(actionChangeLoading(false))
-    }, [])
+    }, [dispatch])
     return (
         <>
             <div className="login">
@@ -70,7 +68,7 @@ const Login: FC = function () {
                     <input type="password" name="password" id="" placeholder="password" />
                     <select name="world" placeholder="Select Worlds">
                         {
-                            Worlds.map(o => <option value={o._id}>{o.name} - x{o.speed} Speed</option>)
+                            Worlds.map(o => <option key={o._id} value={o._id}>{o.name} - x{o.speed} Speed</option>)
                         }
                     </select>
                     <div onClick={() => setShowModal(true)} className="show-info">What is Worlds? <FontAwesomeIcon icon={faCircleQuestion} /></div>

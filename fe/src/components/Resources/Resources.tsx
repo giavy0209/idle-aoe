@@ -43,9 +43,9 @@ const Resources : FC = function  () {
         if(!stateResources) return []
         if(!stateBuildings) return []
         return _resources.map(o => {
-            const value = stateResources.find(_state => _state.type.name === o.name)?.value
+            let value = stateResources.find(_state => _state.type.name === o.name)?.value
             const rate = stateBuildings.find(_state => _state.building.name === o.building)?.value
-            if(!value || !rate) return {}
+            if((!value && value !== 0) || !rate) return {}
             return {
                 building : o.building,
                 name : o.name,

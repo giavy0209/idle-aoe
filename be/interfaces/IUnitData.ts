@@ -9,6 +9,7 @@ export default interface IUnitData {
     life : number,
     range : number,
     building : IbuildingData
+    description : string
     resource : {
         gold : number,
         iron : number,

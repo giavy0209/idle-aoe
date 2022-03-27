@@ -29,7 +29,6 @@ const resources: {
 const Activity: FC = () => {
     const dispatch = useDispatch()
     const activity = useSelector((state: any) => state.modalActivity)
-    console.log(activity);
 
     return (
         <>

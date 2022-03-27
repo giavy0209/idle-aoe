@@ -66,7 +66,7 @@ const DetailAttack: FC = () => {
                                             <p>
                                                 <span className="total-hit">{action.unitAttack.total} </span>
                                                 <span className="attacker-unit">{action.unitAttack.unit.name} </span>
-                                                <span className="strength"> ({action.unitAttack.damage} strength) </span>
+                                                <span className="strength"> ({Math.round(action.unitAttack.damage)} strength) </span>
                                                 from
                                                 <span className="attacker-name"> {action.unitAttack.user.username} </span>
                                                 kill

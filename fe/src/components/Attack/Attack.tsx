@@ -98,12 +98,36 @@ const Attack: FC = () => {
         dispatch(actionChangeEnemy(null))
         setUnits([...[]])
     }
+
+    const handleSelectAll = () => {
+        const selectedUnits : any = []
+        units.forEach(unit => {
+            selectedUnits.push({
+                ...unit,
+            })
+            const input : any= document.querySelector(`.row input[data-name="${unit.unit.name}"]`)
+            input.value = unit.total
+        })
+        setUnits([...selectedUnits])
+    }
+    
+    const handleSelectNone = () => {
+        setUnits([...[]])
+        const inputs = document.querySelectorAll('.row input')
+        inputs.forEach((input : any) => {
+            input.value = 0
+        })        
+    }
     return (
         <>
             {showAttack && <div className="attack">
                 <div onClick={() => dispatch(actionChangeShowAttack(null))} className="mask"></div>
                 <div className="list-units">
                     <div className="title">{showAttack.type === 1 ? 'Attack' : 'Spy'} {showAttack.username}</div>
+                    <div className="select">
+                        <div onClick={handleSelectAll} className="all">Select all</div>
+                        <div onClick={handleSelectNone} className="none">Unselect all</div>
+                    </div>
                     <form onSubmit={handleSubmitForm} action="">
                         {
                             units.length ? units.map(o => {
@@ -121,7 +145,7 @@ const Attack: FC = () => {
                                                     <span onClick={e => handleSetMin(e, o)}>Min</span>
                                                     <span onClick={e => handleSetMax(e, o)}>Max</span>
                                                 </div>
-                                                <input defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
+                                                <input data-name={o.unit.name} defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
                                             </div>
                                         </div>
                                     </div>

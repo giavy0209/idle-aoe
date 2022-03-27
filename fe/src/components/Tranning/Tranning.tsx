@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionChangeLoading, actionChangeTranning } from "store/actions";
 import goldore from 'assets/images/goldore.webp'
@@ -43,16 +43,12 @@ const Tranning: FC = () => {
         life,
         strength,
     }: ITranning = useSelector((state: any) => state?.tranning || {})
+
+    const resources = useSelector((state : any) => state.resources )
+
     const worldSpeed = useSelector((state : any) => state.user?.world.speed)
 
     const [Total, setTotal] = useState(1)
-    const onChangeInput = e => {
-        let value = Number(e.target.value)
-
-        if (!value) value = 1
-
-        setTotal(value)
-    }
 
     const handleTranning = useCallback(async () => {
         dispatch(actionChangeLoading(true))
@@ -68,8 +64,35 @@ const Tranning: FC = () => {
         }
         dispatch(actionChangeLoading(false))
         dispatch(actionChangeTranning({}))
+        setTotal(0)
 
     }, [Total, _id])
+
+    const max = useMemo(() => {
+        let maxes : any[]= []
+        if(!resources) return setTotal(0)
+        const costs = {gold, iron,wood, food}
+        resources.forEach(resource => {
+            const name = resource.type.name.toLowerCase()
+            const cost = costs[name]
+            maxes.push(Math.floor(resource.value / cost))
+        })
+        let max = maxes[0]
+        maxes.forEach(_max => {
+            if(_max < max) max = _max
+        })
+        return max
+    },[resources])
+
+    const handleSetMaxTraining = () => {
+        setTotal(max)
+    }
+    const onChangeInput = e => {
+        let value = Number(e.target.value)
+        if (!value && value !== 0) value = 1
+        if (value > max) value = max
+        setTotal(value)
+    }
     return (
         <>
             <div className={`upgrade ${name ? 'show' : ''}`}>
@@ -87,6 +110,7 @@ const Tranning: FC = () => {
                             <div className="info"><span>Attack against cavalry:</span> <span> {strength?.stable}</span></div>
                             <div className="info"><span>Attack against archers:</span> <span> {strength?.archer}</span></div>
                             <div className="info"><span>Attack against siege:</span> <span> {strength?.workshop}</span></div>
+                            <div className="info"></div>
                         </div>
                         <div className="costs">
                             <div className="title">Cost Per One</div>
@@ -107,9 +131,7 @@ const Tranning: FC = () => {
                                 <img src={foodimg} alt="" />
                             </div>
                         </div>
-                        <div className="input">
-                            <input value={Total} onChange={onChangeInput} type="text" placeholder="Total Unit" />
-                        </div>
+                        
                         <div className="costs">
                             <div className="total-cost">Total Cost</div>
                             <div className="cost">
@@ -133,8 +155,10 @@ const Tranning: FC = () => {
                             <div className="time">Time: {secondsToTime(time / worldSpeed )}</div>
                             <div className="time">Total: {secondsToTime(time * Total / worldSpeed)}</div>
                         </div>
-                        <div className="unit-info">
-
+                        
+                        <div className="input">
+                            <input value={Total} onChange={onChangeInput} type="text" placeholder="Total Unit" />
+                            <div onClick={handleSetMaxTraining} className="max">Max : {max}</div>
                         </div>
                     </div>
                     <div onClick={handleTranning} className="button">
