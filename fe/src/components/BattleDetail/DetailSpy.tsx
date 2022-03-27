@@ -59,7 +59,7 @@ const DetailSpy: FC = () => {
                                 <div className="spy-units">
                                     <div className="title">Units</div>
                                     {
-                                        battleDetail.spy.units.map(o => <div className="unit">
+                                        battleDetail.spy.units.map(o => <div key={o._id} className="unit">
                                             <span>{o.total}</span>
                                             <span>{o.unit.name}</span>
                                         </div>)
@@ -68,7 +68,7 @@ const DetailSpy: FC = () => {
                                 <div className="spy-building">
                                     <div className="title">Buildings</div>
                                     {
-                                        battleDetail.spy.buildings.map(o => <div className="building">
+                                        battleDetail.spy.buildings.map(o => <div key={o._id} className="building">
                                             <span>{o.level}</span>
                                             <span>{o.building.name}</span>
                                         </div>)

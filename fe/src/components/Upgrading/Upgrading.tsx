@@ -19,13 +19,20 @@ const Upgrading : FC = () => {
                 ...upgrading,
             })
             setTimeLeft(Math.round((new Date(upgrading.finishAt).getTime() - Date.now()) / 1000))
+        }else {
+            setTimeLeft(0)
+            setUpgradingBuilding(null)
         }
     },[upgrading])
     useLayoutEffect(() => {
+        let timeout;
         if(TimeLeft > 0){
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 setTimeLeft(Math.round(TimeLeft - 1))
             }, 1000);
+        }
+        return () => {
+            clearTimeout(timeout)
         }
     },[TimeLeft])
 

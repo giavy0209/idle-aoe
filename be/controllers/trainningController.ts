@@ -3,6 +3,7 @@ import {BuildingDatas, Buildings, Resources, Trainnings, UnitDatas, Units, Users
 import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources, changeTrainningQueue } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
+import { isValidObjectId } from "mongoose";
 class trainningController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
@@ -89,6 +90,15 @@ class trainningController {
         const data = await Trainnings.findOne({user : _id})
         .populate('unit')
         res.send({status : 1, data})
+    }
+
+    static async cancel (req : IRequest, res : Response) {
+        const {_id} = req
+        const {training} = req.body
+        if(!isValidObjectId(training)) return res.send({status : 100})
+        await Trainnings.findByIdAndDelete(training)
+        res.send({status : 1})
+        changeTrainningQueue(_id)
     }
 }
 

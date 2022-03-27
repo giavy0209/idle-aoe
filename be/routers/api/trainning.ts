@@ -7,6 +7,10 @@ const router = Router()
 router.route('/trainning')
     .get(isAuth ,controller.get)
     .post(isAuth ,controller.post)
+
+router.route('/training/cancel')
+    .post(isAuth , controller.cancel)
+    
 router.route('/trainning-queue')
     .get(isAuth , controller.getTrainningQueue)
 export default router

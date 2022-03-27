@@ -439,6 +439,15 @@ html {
         .timeleft {
             @include pxToRem(20);
         }
+        .cancel {
+            @include pxToRem(24);
+            background-color: #d96218;
+            color: #fff;
+            border-radius: 5px;
+            width: fit-content;
+            padding: 10px;
+            cursor: pointer;
+        }
     }
     .actions {
         display: flex;

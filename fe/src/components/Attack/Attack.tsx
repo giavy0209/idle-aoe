@@ -44,9 +44,13 @@ const Attack: FC = () => {
     }
 
     const units = useMemo(() => {
-        if (!_units) return []
-        return _units.filter(o => o.total > 0)
-    }, [_units])
+        if (!_units || !showAttack) return []
+        return _units.filter(o => {
+            if(showAttack.type === 1) return o.total > 0
+            if(showAttack.type === 2) return o.unit.name === 'Quickwalker' && o.total > 0
+            return false
+        })
+    }, [_units,showAttack])
 
     const slowestUnit = useMemo(() => {
         let slowest = 0
