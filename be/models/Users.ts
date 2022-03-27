@@ -2,7 +2,7 @@ import {model, Schema, Types} from 'mongoose'
 import { IUsers } from 'interfaces'
 
 const UserSchema = new Schema<IUsers>({
-    username : {type : String, required : true, unique : true},
+    username : {type : String, required : true},
     password : {type : String, required : true},
     name : {type : String, default : ''},
     lastLogin : {type : Date},
