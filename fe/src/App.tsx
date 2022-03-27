@@ -14,7 +14,7 @@ function App() {
   const [ShowModal, setShowModal] = useState(false)
   const refApp = useRef<any>(null)
   const user = useSelector((state: any) => state.user)
-
+  const {height} = useWindowSize()
   const handleInit = useCallback(() => {
     const jwt = storage.getToken()
     if (jwt) {
@@ -67,7 +67,7 @@ function App() {
   }
 
   return (
-    <div ref={ref => refApp.current = ref} id="App">
+    <div style={{height : height + 'px'}} ref={ref => refApp.current = ref} id="App">
       <Loading />
       <ToastContainer />
       {!user && <Login />}
