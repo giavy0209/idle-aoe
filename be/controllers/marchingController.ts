@@ -80,7 +80,7 @@ class marchingController {
 
         const findMarching = await Marchings.findOne({_id : marching , status : 0})
         if(!findMarching) return res.send({status : 100})
-        if(Date.now() - new Date(findMarching.arriveTime).getTime() < 30000 ) return res.send({status : 101})
+        if(new Date(findMarching.arriveTime).getTime() - Date.now() < 30000 ) return res.send({status : 101})
         const movingTime = new Date(findMarching.arriveTime).getTime() - new Date(findMarching.startTime).getTime()
         findMarching.homeTime = Date.now() + movingTime
         findMarching.status = 1
