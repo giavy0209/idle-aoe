@@ -4,7 +4,6 @@ import { WebView } from 'react-native-webview';
 import Constants from 'expo-constants';
 export default function App() {
   const webviewRef = useRef<any>()
-
   return (
     <WebView
     ref={_ref => webviewRef.current = _ref}
