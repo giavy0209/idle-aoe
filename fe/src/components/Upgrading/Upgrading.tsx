@@ -1,8 +1,11 @@
+import callAPI from "callAPI"
+import {Confirm} from "components"
 import secondsToTime from "helpers/secondsToTime"
 import { FC, useEffect, useLayoutEffect, useState } from "react"
 import { useSelector } from "react-redux"
 
 const Upgrading : FC = () => {
+    const [ShowConfirm , setShowConfirm] = useState(false)
     const [UpgradingBuilding, setUpgradingBuilding] = useState<any>({})
     const [TimeLeft, setTimeLeft] = useState(0)
     const upgrading = useSelector((state : any) => {
@@ -24,13 +27,28 @@ const Upgrading : FC = () => {
             }, 1000);
         }
     },[TimeLeft])
-    
+
+    const openConfirm = () => {
+        setShowConfirm(true)
+    }
+    const onOK = async () => {
+        setShowConfirm(false)
+        const res = await callAPI.post('/upgrade/cancel' , {building : upgrading._id})
+    }
     return (
         <>
         {TimeLeft > 0 && <div className={`upgrading ${TimeLeft ? 'show' : ''}`}>
             <div className="title">Upgrading {UpgradingBuilding.building?.name}</div>
             <div className="timeleft">Time left : {secondsToTime(TimeLeft)}</div>
+            <div onClick={openConfirm} className="cancel">Cancel Upgrade</div>
         </div>}
+        <Confirm 
+        show={ShowConfirm}
+        onOk={onOK}
+        onCancel={()=>setShowConfirm(false)}
+        title="Are you sure?"
+        message="Your building will stop upgrade and you can't receive any resource back but you can upgrade another building"
+        />
         </>
     )
 }

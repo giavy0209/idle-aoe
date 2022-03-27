@@ -3,6 +3,7 @@ import {BuildingDatas, Buildings, Resources, Worlds} from 'models'
 import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
+import { isValidObjectId } from "mongoose";
 class upgradeController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
@@ -67,6 +68,18 @@ class upgradeController {
         changeBuilding(_id)
         res.send({status : 1})
     }
+
+    static async cancel (req : IRequest, res : Response) {
+        const {building} = req.body
+        if(!isValidObjectId(building)) return res.send({status : 100})
+        const findBuilding = await Buildings.findById(building)
+        if(!findBuilding) return res.send({status : 100})
+        findBuilding.isUpgrade = false
+
+        res.send({status : 1})
+        changeBuilding(findBuilding.user.toString())
+    }
+
 }
 
 export default upgradeController

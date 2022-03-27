@@ -1,5 +1,5 @@
 @mixin pxToRem($size) {
-    font-size: ($size / 12) + rem;
+    font-size: calc($size / 12) + rem;
 }
 .Toastify__toast-body {
     @include pxToRem(24);
@@ -300,7 +300,15 @@ html {
             @include pxToRem(24);
             margin-top: 10px;
         }
-        
+        .cancel{
+            @include pxToRem(24);
+            background-color: #d96218;
+            color: #fff;
+            border-radius: 5px;
+            width: fit-content;
+            padding: 10px;
+            cursor: pointer;
+        }
     }
     .buildings {
         padding: 20px;
@@ -1085,6 +1093,69 @@ html {
         .content {
             margin-top: 10px;
             @include pxToRem(20);
+        }
+    }
+    .confirm {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9;
+        .mask {
+            position: absolute;
+            background-color: rgba($color: #000000, $alpha: 0.3);
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .body {
+            width: 60%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            .title {
+                text-align: center;
+                border-bottom: 1px solid #000;
+                padding-bottom: 10px;
+                @include pxToRem(24);
+                font-weight: 600;
+            }
+            .message {
+                padding: 10px 0;
+                @include pxToRem(20);
+                text-align: center;
+            }
+            .action {
+                margin-top: 10px;
+                border-top: 1px solid #000;
+                padding-top: 10px;
+                display: flex;
+                justify-content: flex-end;
+                * {
+                    width: fit-content;
+                    padding: 10px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    @include pxToRem(24);
+                }
+                .ok {
+                    background-color: #c23f3f;
+                    color: #fff;
+                }
+                .cancel {
+                    background-color: transparent;
+                    border: 1px solid #000;
+                    margin-left: 10px;
+                }
+            }
         }
     }
 }
