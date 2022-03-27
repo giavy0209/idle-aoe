@@ -687,6 +687,17 @@ html {
                 }
             }
         }
+        .back {
+            display: block;
+            margin: 0 auto;
+            width: fit-content;
+            padding: 10px;
+            @include pxToRem(24);
+            background-color: #d96218;
+            cursor: pointer;
+            color: #fff;
+            border-radius: 5px;
+        }
     }
     .activities {
         padding: 20px;

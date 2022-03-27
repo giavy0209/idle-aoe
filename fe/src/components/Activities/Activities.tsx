@@ -1,7 +1,7 @@
 import secondsToTime from "helpers/secondsToTime";
 import { CSSProperties, FC, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeActivity, actionChangeModalActivity } from "store/actions";
+import { actionChangeModalActivity } from "store/actions";
 
 const Activities: FC = () => {
     const dispatch = useDispatch()

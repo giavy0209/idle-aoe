@@ -1,8 +1,8 @@
 import {Response} from "express";
-import {Buildings, Marchings, Units, Users} from 'models'
+import { Marchings, Units, Users} from 'models'
 import { IRequest } from "interfaces";
 import { isValidObjectId } from "mongoose";
-import { changeMarching, changeUnit } from "../wsServices";
+import { changeMarching } from "../wsServices";
 import { CHANGE_UNIT } from "../worker/workerChangeUnit";
 class marchingController {
     static async get (req : IRequest , res : Response) {
@@ -73,6 +73,19 @@ class marchingController {
         }
         changeMarching(_id)
         res.send({status : 1})
+    }
+    static async return (req : IRequest , res : Response) {
+        const {marching} = req.body
+        if(!marching || !isValidObjectId(marching)) return res.send({status : 100})
+
+        const findMarching = await Marchings.findOne({_id : marching , status : 0})
+        if(!findMarching) return res.send({status : 100})
+        if(Date.now() - new Date(findMarching.arriveTime).getTime() < 30000 ) return res.send({status : 101})
+        const movingTime = new Date(findMarching.arriveTime).getTime() - new Date(findMarching.startTime).getTime()
+        findMarching.homeTime = Date.now() + movingTime
+        findMarching.status = 1
+        await findMarching.save()
+        changeMarching(findMarching.user)
     }
 }
 

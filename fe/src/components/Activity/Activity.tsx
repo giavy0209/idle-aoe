@@ -5,6 +5,8 @@ import goldore from 'assets/images/goldore.webp'
 import ironore from 'assets/images/ironore.webp'
 import wood from 'assets/images/wood.webp'
 import food from 'assets/images/food.webp'
+import callAPI from "callAPI";
+import { toast } from "react-toastify";
 const resources: {
     name: string,
     img: any,
@@ -29,7 +31,15 @@ const resources: {
 const Activity: FC = () => {
     const dispatch = useDispatch()
     const activity = useSelector((state: any) => state.modalActivity)
-
+    const getMarchingBack = async () => {
+        const res = await callAPI.post('/marching/return' , {marching : activity._id})
+        if(res.status === 101) {
+            toast('You cannot call your army back')
+        }
+        if(res.status === 1) {
+            toast('Call army back successfully')
+        }
+    }
     return (
         <>
             {activity && <div className="modal">
@@ -59,6 +69,9 @@ const Activity: FC = () => {
                                 </div>)
                             }
                         </div>
+                        {
+                            activity.status === 0 && <div onClick={getMarchingBack} className="back">Return</div>
+                        }
                     </div>
                 </div>
             </div>}

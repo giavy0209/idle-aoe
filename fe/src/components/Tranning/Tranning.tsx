@@ -20,6 +20,7 @@ interface ITranning {
     range: number,
     cargo: number,
     life: number,
+    description : string,
     strength: {
         archer: number,
         barrack: number,
@@ -42,6 +43,7 @@ const Tranning: FC = () => {
         cargo,
         life,
         strength,
+        description
     }: ITranning = useSelector((state: any) => state?.tranning || {})
 
     const resources = useSelector((state : any) => state.resources )
@@ -66,7 +68,7 @@ const Tranning: FC = () => {
         dispatch(actionChangeTranning({}))
         setTotal(0)
 
-    }, [Total, _id])
+    }, [Total, _id,dispatch])
 
     const max = useMemo(() => {
         let maxes : any[]= []
@@ -82,7 +84,7 @@ const Tranning: FC = () => {
             if(_max < max) max = _max
         })
         return max
-    },[resources])
+    },[resources, gold,iron,wood, food])
 
     const handleSetMaxTraining = () => {
         setTotal(max)
@@ -110,7 +112,7 @@ const Tranning: FC = () => {
                             <div className="info"><span>Attack against cavalry:</span> <span> {strength?.stable}</span></div>
                             <div className="info"><span>Attack against archers:</span> <span> {strength?.archer}</span></div>
                             <div className="info"><span>Attack against siege:</span> <span> {strength?.workshop}</span></div>
-                            <div className="info"></div>
+                            <div className="info">{description}</div>
                         </div>
                         <div className="costs">
                             <div className="title">Cost Per One</div>
