@@ -1,6 +1,6 @@
 export default function secondsToTime (seconds : number) {
     
-    if(!seconds) return `00:00:00`
+    if(!seconds || seconds < 0) return `00:00:00`
     seconds = Math.floor(seconds)
     let s = seconds.toString()
     if(s.length < 2) s = `0${s}`
