@@ -32,7 +32,6 @@ const Activities: FC = () => {
             }
         })
     }, [_activity, Now])
-    console.log(activity);
     
     useEffect(() => {
         const timer = setTimeout(() => {
