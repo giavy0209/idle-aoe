@@ -83,6 +83,7 @@ class marchingController {
         if(new Date(findMarching.arriveTime).getTime() - Date.now() < 30000 ) return res.send({status : 101})
         const movingTime = new Date(findMarching.arriveTime).getTime() - new Date(findMarching.startTime).getTime()
         findMarching.homeTime = Date.now() + movingTime
+        findMarching.arriveTime = Date.now()
         findMarching.status = 1
         await findMarching.save()
         changeMarching(findMarching.user.toString())
