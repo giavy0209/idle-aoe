@@ -86,6 +86,7 @@ class marchingController {
         findMarching.arriveTime = Date.now()
         findMarching.status = 1
         await findMarching.save()
+        res.send({status : 1})
         changeMarching(findMarching.user.toString())
     }
 }

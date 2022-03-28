@@ -12,6 +12,8 @@ import { actionChangeLoading} from "store/actions";
 const Login: FC = function () {
     const formRef = useRef<any>()
     const dispatch = useDispatch()
+    const [Username, setUsername] = useState('')
+    const [Password, setPassword] = useState('')
     const [Worlds, setWorlds] = useState<any[]>([])
     const [ShowModal, setShowModal] = useState(false)
     useEffect(() => {
@@ -51,26 +53,53 @@ const Login: FC = function () {
     }, [])
     const handleSignup = useCallback(async () => {
         const form = new FormData(formRef.current)
-        const submitData = {}
+        const submitData : {[key: string] : any} = {}
         for (let field of form) {
             submitData[field[0]] = field[1]
         }
         dispatch(actionChangeLoading(true))
-        const res = await callAPI.post('/signup', submitData)
-        if (res.status === 100) {
-            toast('Username is exist')
-        }
-        if (res.status === 1) {
-            toast('Register success, please login')
+        if(submitData.username.length < 6 || submitData.password.length < 6 ) {
+            toast('min 6 character for username and password')
+        }else {
+            const res = await callAPI.post('/signup', submitData)
+            if (res.status === 100) {
+                toast('Username is exist')
+            }
+            if (res.status === 1) {
+                toast('Register success, please login')
+            }
         }
         dispatch(actionChangeLoading(false))
     }, [dispatch])
+
+    const handleUsername = e => {
+        let value = e.target.value
+        const regex = new RegExp('^[A-Za-z0-9]*$' , 'g')
+        if(regex.test(value)) {
+            setUsername(value)
+        }else {
+            toast('accept only a-z 0-9')
+        }
+    }
+
+    const handlePassword = e => {
+        let value = e.target.value
+        const regex = new RegExp('^[A-Za-z0-9]*$' , 'g')
+        if(regex.test(value)) {
+            setPassword(value)
+        }else {
+            toast('accept only a-z 0-9')
+        }
+    }
+
+    
     return (
         <>
             <div className="login">
                 <form ref={formRef} onSubmit={handleLogin} action="">
-                    <input type="text" name="username" placeholder="username" />
-                    <input type="password" name="password" id="" placeholder="password" />
+                    <p>You can use a-z 0-9 for username and password, min 6 character</p>
+                    <input onChange={handleUsername} value={Username} type="text" name="username" placeholder="username" />
+                    <input onChange={handlePassword} value={Password} type="password" name="password" id="" placeholder="password" />
                     <select name="world" placeholder="Select Worlds">
                         {
                             Worlds.map(o => <option key={o._id} value={o._id}>{o.name} - x{o.speed} Speed</option>)
