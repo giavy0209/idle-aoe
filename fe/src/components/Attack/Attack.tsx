@@ -1,4 +1,5 @@
 import callAPI from "callAPI";
+import Modal from "components/Modal";
 import secondsToTime from "helpers/secondsToTime";
 import { FC, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,11 +47,11 @@ const Attack: FC = () => {
     const units = useMemo(() => {
         if (!_units || !showAttack) return []
         return _units.filter(o => {
-            if(showAttack.type === 1) return o.total > 0
-            if(showAttack.type === 2) return o.unit.name === 'Quickwalker' && o.total > 0
+            if (showAttack.type === 1) return o.total > 0
+            if (showAttack.type === 2) return o.unit.name === 'Quickwalker' && o.total > 0
             return false
         })
-    }, [_units,showAttack])
+    }, [_units, showAttack])
 
     const slowestUnit = useMemo(() => {
         let slowest = 0
@@ -104,61 +105,47 @@ const Attack: FC = () => {
     }
 
     const handleSelectAll = () => {
-        const selectedUnits : any = []
+        const selectedUnits: any = []
         units.forEach(unit => {
             selectedUnits.push({
                 ...unit,
             })
-            const input : any= document.querySelector(`.row input[data-name="${unit.unit.name}"]`)
+            const input: any = document.querySelector(`.row input[data-name="${unit.unit.name}"]`)
             input.value = unit.total
         })
         setUnits([...selectedUnits])
     }
-    
+
     const handleSelectNone = () => {
         setUnits([...[]])
         const inputs = document.querySelectorAll('.row input')
-        inputs.forEach((input : any) => {
+        inputs.forEach((input: any) => {
             input.value = 0
-        })        
+        })
     }
     return (
         <>
             {showAttack && <div className="attack">
                 <div onClick={() => dispatch(actionChangeShowAttack(null))} className="mask"></div>
-                <div className="list-units">
-                    <div className="title">{showAttack.type === 1 ? 'Attack' : 'Spy'} {showAttack.username}</div>
-                    <div className="select">
-                        <div onClick={handleSelectAll} className="all">Select all</div>
-                        <div onClick={handleSelectNone} className="none">Unselect all</div>
-                    </div>
-                    <form onSubmit={handleSubmitForm} action="">
-                        {
-                            units.length ? units.map(o => {
-                                if (showAttack.type === 1) {
-                                    return <div key={o._id} className="unit">
-                                        <div className="row">
-                                            <div className="info">
-                                                <div className="name">{o.unit.name} </div>
-                                                <div className="total">Total: {o.total}</div>
-                                                <div className="speed">Speed: {o.unit.speed}</div>
-                                                <div className="cargo">Cargo: {o.unit.cargo}</div>
-                                            </div>
-                                            <div className="input">
-                                                <div className="min-max">
-                                                    <span onClick={e => handleSetMin(e, o)}>Min</span>
-                                                    <span onClick={e => handleSetMax(e, o)}>Max</span>
-                                                </div>
-                                                <input data-name={o.unit.name} defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                } else {
-                                    if (o.unit.name === 'Quickwalker') {
+
+            </div>}
+            <Modal onClose={() => dispatch(actionChangeShowAttack(null))} show={!!showAttack}>
+                <div className="attack">
+                    <div className="list-units">
+                        <div className="title">{showAttack?.type === 1 ? 'Attack' : 'Spy'} {showAttack?.username}</div>
+                        <div className="select">
+                            <div onClick={handleSelectAll} className="all">Select all</div>
+                            <div onClick={handleSelectNone} className="none">Unselect all</div>
+                        </div>
+                        <form onSubmit={handleSubmitForm} action="">
+                            {
+                                units?.length ? units.map(o => {
+                                    if (showAttack.type === 1) {
                                         return <div key={o._id} className="unit">
                                             <div className="row">
                                                 <div className="info">
-                                                    <div className="name">{o.unit.name} ({o.total})</div>
+                                                    <div className="name">{o.unit.name} </div>
+                                                    <div className="total">Total: {o.total}</div>
                                                     <div className="speed">Speed: {o.unit.speed}</div>
                                                     <div className="cargo">Cargo: {o.unit.cargo}</div>
                                                 </div>
@@ -167,38 +154,58 @@ const Attack: FC = () => {
                                                         <span onClick={e => handleSetMin(e, o)}>Min</span>
                                                         <span onClick={e => handleSetMax(e, o)}>Max</span>
                                                     </div>
-                                                    <input defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
+                                                    <input data-name={o.unit.name} defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
                                                 </div>
                                             </div>
                                         </div>
-                                    }
-                                }
-                                return null
-                            })
-                                :
-                                <p className="no-unit">You have no unit</p>
-                        }
-                        {
-                            units.length > 0 ?
-                            <>
-                                <div className="attack-speed">
-                                    <span>Moving Speed:</span>
-                                    <select defaultValue={1} onChange={e => setAttackSpeed(Number(e.target.value))} name="" id="">
-                                        {
-                                            options.map(o => <option key={o} value={o}>{o * 100}%</option>)
+                                    } else {
+                                        if (o.unit.name === 'Quickwalker') {
+                                            return <div key={o._id} className="unit">
+                                                <div className="row">
+                                                    <div className="info">
+                                                        <div className="name">{o.unit.name} ({o.total})</div>
+                                                        <div className="speed">Speed: {o.unit.speed}</div>
+                                                        <div className="cargo">Cargo: {o.unit.cargo}</div>
+                                                    </div>
+                                                    <div className="input">
+                                                        <div className="min-max">
+                                                            <span onClick={e => handleSetMin(e, o)}>Min</span>
+                                                            <span onClick={e => handleSetMax(e, o)}>Max</span>
+                                                        </div>
+                                                        <input defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         }
-                                    </select>
-                                </div>
-                                <div className="moving-time">Moving Time : {secondsToTime(slowestUnit * 60 / AttackSpeed / worldSpeed)}</div>
-                                <button>{showAttack.type === 1 ? 'Attack' : 'Spy'}</button>
-                            </>
-                            :
-                            null
-                        }
-                    </form>
+                                    }
+                                    return null
+                                })
+                                    :
+                                    <p className="no-unit">You have no unit</p>
+                            }
+                            {
+                                units.length > 0 ?
+                                    <>
+                                        <div className="attack-speed">
+                                            <span>Moving Speed:</span>
+                                            <select defaultValue={1} onChange={e => setAttackSpeed(Number(e.target.value))} name="" id="">
+                                                {
+                                                    options.map(o => <option key={o} value={o}>{o * 100}%</option>)
+                                                }
+                                            </select>
+                                        </div>
+                                        <div className="moving-time">Moving Time : {secondsToTime(slowestUnit * 60 / AttackSpeed / worldSpeed)}</div>
+                                        <button>{showAttack.type === 1 ? 'Attack' : 'Spy'}</button>
+                                    </>
+                                    :
+                                    null
+                            }
+                        </form>
+                    </div>
                 </div>
-            </div>}
+            </Modal>
         </>
+
     )
 }
 

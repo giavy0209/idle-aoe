@@ -78,11 +78,11 @@ function App() {
         <>
           {/* <ScrollBackground /> */}
           <Activity />
-          <Attack />
           <Resources />
           <Upgrade />
           <Tranning />
           <Enemy />
+          <Attack />
           <BattleReports />
           <BattleDetail />
           <Queue />

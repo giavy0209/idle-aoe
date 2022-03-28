@@ -104,6 +104,23 @@ const Tranning: FC = () => {
         if(!units) return 0
         return units.find(o => o.unit.name === name)?.total || 0
     }, [units, name])
+
+    const mapedResources = useMemo(() => {
+        const _resources : {[key : string] : any} = {
+            gold : 0,
+            iron : 0,
+            wood : 0,
+            food : 0,
+        }
+        if(!resources) return resources
+        resources.forEach(resource => {
+            const name = resource.type.name.toLowerCase()
+            _resources[name] = resource.value
+        })
+        return _resources
+    },[resources])
+    console.log(mapedResources);
+    
     return (
         <>
             <Modal show={!!name} onClose={() => dispatch(actionChangeTranning({ name: null }))}>
@@ -159,6 +176,25 @@ const Tranning: FC = () => {
                             </div>
                             <div className="cost">
                                 <span>{food * Total}</span>
+                                <img src={foodimg} alt="" />
+                            </div>
+                        </div>
+                        <div className="costs">
+                            <div className="total-cost">Resources left</div>
+                            <div className="cost">
+                                <span>{Math.floor(mapedResources.gold - gold * Total)}</span>
+                                <img src={goldore} alt="" />
+                            </div>
+                            <div className="cost">
+                                <span>{Math.floor(mapedResources.iron - iron * Total)}</span>
+                                <img src={ironore} alt="" />
+                            </div>
+                            <div className="cost">
+                                <span>{Math.floor(mapedResources.wood -wood * Total)}</span>
+                                <img src={woodimg} alt="" />
+                            </div>
+                            <div className="cost">
+                                <span>{Math.floor(mapedResources.food -food * Total)}</span>
                                 <img src={foodimg} alt="" />
                             </div>
                         </div>
