@@ -1,3 +1,4 @@
+import Modal from "components/Modal";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionChangeBattleDetail } from "store/actions";
@@ -9,17 +10,21 @@ const BattleDetail: FC = () => {
     
     return (
         <>
-            {battleDetail && <div className="modal">
-                <div onClick={() => dispatch(actionChangeBattleDetail(null))} className="mask"></div>
+            {/* {battleDetail && <div className="modal">
+                <div className="mask"></div>
                 <div className="body">
+                </div>
+            </div>} */}
+            <Modal show={!!battleDetail} onClose={() => dispatch(actionChangeBattleDetail(null))}>
                     {
-                        battleDetail.marching.type === 1 ?
+                        battleDetail ? battleDetail.marching.type === 1 ?
                         <DetailAttack /> 
                         :
                         <DetailSpy />
+                        :
+                        null
                     }
-                </div>
-            </div>}
+            </Modal>
         </>
     )
 }
