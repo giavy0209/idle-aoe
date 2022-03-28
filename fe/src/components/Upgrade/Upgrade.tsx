@@ -8,6 +8,8 @@ import foodimg from 'assets/images/food.webp'
 import secondsToTime from "helpers/secondsToTime";
 import callAPI from "callAPI";
 import { toast } from "react-toastify";
+import Modal from "components/Modal";
+import Button from "components/Button";
 
 interface IUpgrade {
     name: string,
@@ -15,13 +17,13 @@ interface IUpgrade {
     iron: number,
     wood: number,
     food: number,
-    level : number,
-    generate : number,
-    time : number,
-    _id : string,
+    level: number,
+    generate: number,
+    time: number,
+    _id: string,
 }
 
-const resources = ['Gold Mine' , 'Iron Mine' , 'Lumberjacks' , 'Farms']
+const resources = ['Gold Mine', 'Iron Mine', 'Lumberjacks', 'Farms']
 
 const Upgrade: FC = function () {
     const {
@@ -34,25 +36,27 @@ const Upgrade: FC = function () {
         generate,
         time,
         _id
-    } : IUpgrade = useSelector((state : any) => state?.upgrade || {})
-    const worldSpeed = useSelector((state : any) => state.user?.world.speed)
+    }: IUpgrade = useSelector((state: any) => state?.upgrade || {})
+    const worldSpeed = useSelector((state: any) => state.user?.world.speed)
     const dispatch = useDispatch()
     const handleUpgrade = useCallback(async () => {
         dispatch(actionChangeLoading(true))
-        const res = await callAPI.post(`/upgrade?building=${_id}`,{})
+        const res = await callAPI.post(`/upgrade?building=${_id}`, {})
         dispatch(actionChangeLoading(false))
-        if(res.status === 102) toast('Not enough resources' , {type : 'error'})
-        if(res.status === 103) toast('There is a building upgrading' , {type : 'error'})
-        if(res.status === 1) {
+        if (res.status === 102) toast('Not enough resources', { type: 'error' })
+        if (res.status === 103) toast('There is a building upgrading', { type: 'error' })
+        if (res.status === 1) {
             toast('Building is upgraded')
         }
         dispatch(actionChangeUpgrade({}))
-    },[_id,dispatch])
+    }, [_id, dispatch])
+    console.log(name);
+    
     return (
         <>
-            <div className={`upgrade ${name ? 'show' : ''}`}>
-                <div onClick={()=>dispatch(actionChangeUpgrade({name : null}))} className="mask"></div>
-                <div className="body">
+            <Modal show={!!name} onClose={() => dispatch(actionChangeUpgrade({ name: null }))}>
+                <div className="upgrade">
+
                     <div className="title">Upgrade {name}</div>
                     <div className="content">
                         <div className="costs">
@@ -79,11 +83,9 @@ const Upgrade: FC = function () {
                             <div className="time">Time: {secondsToTime(time / worldSpeed || 0)}</div>
                         </div>
                     </div>
-                    <div onClick={handleUpgrade} className="button">
-                        Upgrade
-                    </div>
+                    <Button onClick={handleUpgrade} text="Upgrade" />    
                 </div>
-            </div>
+            </Modal>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Building, Loading, Login, Resources, TrainningQueue, Tranning, Units, Upgrade, Upgrading, Enemy, Actions, Attack, Activities, BattleReports, BattleDetail, Activity, Modal, Queue } from "components";
+import { Building, Loading, Login, Resources, Tranning, Units, Upgrade, Enemy, Actions, Attack, BattleReports, BattleDetail, Activity, Modal, Queue, ScrollBackground } from "components";
 import useWindowSize from "hooks/useWindowSize";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -76,6 +76,7 @@ function App() {
       {
         user &&
         <>
+          {/* <ScrollBackground /> */}
           <Activity />
           <Attack />
           <Resources />

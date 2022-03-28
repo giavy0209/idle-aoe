@@ -1,6 +1,7 @@
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import callAPI from "callAPI";
+import Button from "components/Button";
 import Modal from "components/Modal";
 import storage from "helpers/storage";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
@@ -19,8 +20,13 @@ const Login: FC = function () {
                 setWorlds([...res.data])
             })
     }, [])
-    const handleLogin = useCallback(async (e) => {
-        e.preventDefault()
+    const handleLogin = useCallback(async (e ? : any) => {
+        console.log(e);
+        
+        if(e) {
+            e.preventDefault()
+
+        }
         const form = new FormData(formRef.current)
         const submitData = {}
         for (let field of form) {
@@ -43,8 +49,7 @@ const Login: FC = function () {
         }
 
     }, [])
-    const handleSignup = useCallback(async (e) => {
-        e.preventDefault()
+    const handleSignup = useCallback(async () => {
         const form = new FormData(formRef.current)
         const submitData = {}
         for (let field of form) {
@@ -63,7 +68,7 @@ const Login: FC = function () {
     return (
         <>
             <div className="login">
-                <form ref={ref => formRef.current = ref} onSubmit={handleLogin} action="">
+                <form ref={formRef} onSubmit={handleLogin} action="">
                     <input type="text" name="username" placeholder="username" />
                     <input type="password" name="password" id="" placeholder="password" />
                     <select name="world" placeholder="Select Worlds">
@@ -72,9 +77,9 @@ const Login: FC = function () {
                         }
                     </select>
                     <div onClick={() => setShowModal(true)} className="show-info">What is Worlds? <FontAwesomeIcon icon={faCircleQuestion} /></div>
-
-                    <button type="submit">Login</button>
-                    <button type="button" onClick={handleSignup}>Signup</button>
+                    <button type="submit" style={{display : 'none'}}></button>
+                    <Button text="Login" onClick={handleLogin} />
+                    <Button text="Signup" onClick={handleSignup} />
                 </form>
             </div>
             <Modal onClose={() => setShowModal(false)} show={ShowModal}>

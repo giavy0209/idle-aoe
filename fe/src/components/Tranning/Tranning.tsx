@@ -8,6 +8,8 @@ import foodimg from 'assets/images/food.webp'
 import secondsToTime from "helpers/secondsToTime";
 import callAPI from "callAPI";
 import { toast } from "react-toastify";
+import Modal from "components/Modal";
+import Button from "components/Button";
 interface ITranning {
     name: string,
     gold: number,
@@ -20,7 +22,7 @@ interface ITranning {
     range: number,
     cargo: number,
     life: number,
-    description : string,
+    description: string,
     strength: {
         archer: number,
         barrack: number,
@@ -46,9 +48,11 @@ const Tranning: FC = () => {
         description
     }: ITranning = useSelector((state: any) => state?.tranning || {})
 
-    const resources = useSelector((state : any) => state.resources )
+    const units = useSelector((state: any) => state.units)
+    
+    const resources = useSelector((state: any) => state.resources)
 
-    const worldSpeed = useSelector((state : any) => state.user?.world.speed)
+    const worldSpeed = useSelector((state: any) => state.user?.world.speed)
 
     const [Total, setTotal] = useState(1)
 
@@ -68,12 +72,12 @@ const Tranning: FC = () => {
         dispatch(actionChangeTranning({}))
         setTotal(0)
 
-    }, [Total, _id,dispatch])
+    }, [Total, _id, dispatch])
 
     const max = useMemo(() => {
-        let maxes : any[]= []
-        if(!resources) return setTotal(0)
-        const costs = {gold, iron,wood, food}
+        let maxes: any[] = []
+        if (!resources) return setTotal(0)
+        const costs = { gold, iron, wood, food }
         resources.forEach(resource => {
             const name = resource.type.name.toLowerCase()
             const cost = costs[name]
@@ -81,10 +85,10 @@ const Tranning: FC = () => {
         })
         let max = maxes[0]
         maxes.forEach(_max => {
-            if(_max < max) max = _max
+            if (_max < max) max = _max
         })
         return max
-    },[resources, gold,iron,wood, food])
+    }, [resources, gold, iron, wood, food])
 
     const handleSetMaxTraining = () => {
         setTotal(max)
@@ -95,15 +99,20 @@ const Tranning: FC = () => {
         if (value > max) value = max
         setTotal(value)
     }
+
+    const available = useMemo(() => {
+        if(!units) return 0
+        return units.find(o => o.unit.name === name)?.total || 0
+    }, [units, name])
     return (
         <>
-            <div className={`upgrade ${name ? 'show' : ''}`}>
-                <div onClick={() => dispatch(actionChangeTranning({ name: null }))} className="mask"></div>
-                <div className="body">
+            <Modal show={!!name} onClose={() => dispatch(actionChangeTranning({ name: null }))}>
+                <div className="upgrade">
                     <div className="title">Tranning {name}</div>
                     <div className="content">
                         <div className="unit-info">
                             <div className="title">Unit Info</div>
+                            <div className="info"><span>Available:</span> <span> {available}</span> </div>
                             <div className="info"><span>Life:</span> <span> {life}</span></div>
                             <div className="info"><span>Range:</span> <span> {range}</span></div>
                             <div className="info"><span>Speed:</span> <span> {speed}</span></div>
@@ -133,7 +142,7 @@ const Tranning: FC = () => {
                                 <img src={foodimg} alt="" />
                             </div>
                         </div>
-                        
+
                         <div className="costs">
                             <div className="total-cost">Total Cost</div>
                             <div className="cost">
@@ -154,20 +163,19 @@ const Tranning: FC = () => {
                             </div>
                         </div>
                         <div className="sub-info">
-                            <div className="time">Time: {secondsToTime(time / worldSpeed )}</div>
+                            <div className="time">Time: {secondsToTime(time / worldSpeed)}</div>
                             <div className="time">Total: {secondsToTime(time * Total / worldSpeed)}</div>
                         </div>
-                        
+
                         <div className="input">
                             <input value={Total} onChange={onChangeInput} type="text" placeholder="Total Unit" />
                             <div onClick={handleSetMaxTraining} className="max">Max : {max}</div>
                         </div>
                     </div>
-                    <div onClick={handleTranning} className="button">
-                        Tranning
-                    </div>
+                    <Button onClick={handleTranning} text="Tranning"/>
                 </div>
-            </div>
+
+            </Modal>
         </>
     )
 }

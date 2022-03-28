@@ -1,19 +1,23 @@
-import { FC, useEffect, useState } from "react";
-interface IModal  {
-    onClose?() : any,
-    show : boolean,
-    
+import ScrollBackground from "components/ScrollBackground";
+import { FC } from "react";
+
+interface IModal {
+    onClose?(): any,
+    show: boolean,
+
 }
-const Modal : FC <IModal> = ({children , onClose = ()=>{}, show = false}) => {
+const Modal: FC<IModal> = ({ children, onClose = () => { }, show = false }) => {
     const _onClose = function () {
         onClose()
     }
-    return(
+    return (
         <>
             {show && <div className="modal">
                 <div onClick={_onClose} className="mask"></div>
                 <div className="body">
-                    {children}
+                    <ScrollBackground >
+                        {children}
+                    </ScrollBackground>
                 </div>
             </div>}
         </>

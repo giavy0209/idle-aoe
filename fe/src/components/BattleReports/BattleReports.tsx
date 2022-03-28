@@ -7,6 +7,7 @@ import victory from 'assets/images/victory.webp'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import Modal from "components/Modal";
+import Button from "components/Button";
 const BattleReports: FC = () => {
     const [ShowModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
@@ -15,43 +16,40 @@ const BattleReports: FC = () => {
 
     return (
         <>
-            {battleReports && <div className="modal">
-                <div onClick={() => dispatch(actionChangeBattleReport(null))} className="mask"></div>
-                <div className="body">
-                    <div className="battles">
-                        <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
-                        {
-                            battleReports.map(o => <div key={o._id} className="battle">
-                                <div className="time">Start At {renderDate({ date: o.marching.arriveTime })}</div>
-                                <div className="from-to">
-                                    <div className="from">From : {o.attacker.username}</div>
-                                    <div className="to">Target : {o.defender.username}</div>
-                                </div>
-                                <div className="result">Result
-                                    {
-                                        o.marching.user === user._id ?
-                                            (
-                                                o.marching.status === 1 || o.marching.status === 2 ?
-                                                    <img src={victory} alt="" />
-                                                    :
-                                                    <img src={defeat} alt="" />
-                                            )
-                                            :
-                                            (
-                                                o.marching.status === 1 || o.marching.status === 2 ?
-                                                    <img src={defeat} alt="" />
-                                                    :
-                                                    <img src={victory} alt="" />
-                                            )
-                                    }
-                                </div>
-                                <div onClick={() => dispatch(actionChangeBattleDetail(o))} className="detail">Battle Detail</div>
-                            </div>)
-                        }
-                    </div>
+            <Modal onClose={() => dispatch(actionChangeBattleReport(null))} show={battleReports}>
+                <div className="battles">
+                    <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
+                    {
+                        battleReports?.map(o => <div key={o._id} className="battle">
+                            <div className="time">Start At {renderDate({ date: o.marching.arriveTime })}</div>
+                            <div className="from-to">
+                                <div className="from">From : {o.attacker.username}</div>
+                                <div className="to">Target : {o.defender.username}</div>
+                            </div>
+                            <div className="result">Result
+                                {
+                                    o.marching.user === user._id ?
+                                        (
+                                            o.marching.status === 1 || o.marching.status === 2 ?
+                                                <img src={victory} alt="" />
+                                                :
+                                                <img src={defeat} alt="" />
+                                        )
+                                        :
+                                        (
+                                            o.marching.status === 1 || o.marching.status === 2 ?
+                                                <img src={defeat} alt="" />
+                                                :
+                                                <img src={victory} alt="" />
+                                        )
+                                }
+                            </div>
+                            <Button onClick={() => dispatch(actionChangeBattleDetail(o))} text="Battle Detail" />
+                        </div>)
+                    }
                 </div>
-            </div>}
-            <Modal onClose={()=> setShowModal(false)} show={ShowModal}>
+            </Modal>
+            <Modal onClose={() => setShowModal(false)} show={ShowModal}>
                 <div className="question">
                     <div className="title">Attack</div>
                     <div className="content">

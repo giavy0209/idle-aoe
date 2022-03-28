@@ -1,6 +1,7 @@
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "components";
+import Button from "components/Button";
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionChangeEnemy, actionChangeShowAttack, asyncGetEnemy } from "store/actions";
@@ -15,23 +16,22 @@ const Enemy: FC = () => {
 
     return (
         <>
-            {enemy && <div className="enemy-model">
-                <div onClick={() => dispatch(actionChangeEnemy(null))} className="mask"></div>
+            <Modal show={enemy} onClose={() => dispatch(actionChangeEnemy(null))}>
                 <div className="list-enemy">
                     <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
-                    <div onClick={() => dispatch(asyncGetEnemy())} className="reload">Reload</div>
+                    <Button onClick={() => dispatch(asyncGetEnemy())} text="Reload" />
                     {
                         enemy?.map(o => <div key={o._id} className="enemy">
                             <span>Player {o.username}</span>
                             <div className="actions">
-                                <div onClick={() => openModelAttack(o, 1)} className="action">Attack</div>
-                                <div onClick={() => openModelAttack(o, 2)} className="action">Spy</div>
+                                <Button onClick={() => openModelAttack(o, 1)} text="Attack" />
+                                <Button onClick={() => openModelAttack(o, 2)} text="Spy" />
                             </div>
                         </div>)
                     }
                 </div>
-            </div>}
-            <Modal onClose={()=> setShowModal(false)} show={ShowModal}>
+            </Modal>
+            <Modal onClose={() => setShowModal(false)} show={ShowModal}>
                 <div className="question">
                     <div className="title">Attack</div>
                     <div className="content">

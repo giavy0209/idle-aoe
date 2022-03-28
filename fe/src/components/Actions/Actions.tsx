@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { asyncGetActivity, asyncGetBattlleReport, asyncGetEnemy } from "store/actions";
-
+import { asyncGetBattlleReport, asyncGetEnemy } from "store/actions";
+import {Button} from 'components'
 const Actions : FC = () => {
     const dispatch = useDispatch()
     const openModelSendArmy = () => {
@@ -13,8 +13,8 @@ const Actions : FC = () => {
     return (
         <>
         <div className="actions">
-            <div onClick={openModelSendArmy} className="action">Send Army</div>
-            <div onClick={openModelBattleReport} className="action">Battle Report</div>
+            <Button onClick={openModelSendArmy} text="Send Army"/>
+            <Button onClick={openModelBattleReport} text="Battle Report"/>
         </div>
         </>
     )
