@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionChangeLoading, actionChangeUpgrade } from "store/actions";
 import goldore from 'assets/images/goldore.webp'
@@ -23,7 +23,7 @@ interface IUpgrade {
     _id: string,
 }
 
-const resources = ['Gold Mine', 'Iron Mine', 'Lumberjacks', 'Farms']
+const resourcesName = ['Gold Mine', 'Iron Mine', 'Lumberjacks', 'Farms']
 
 const Upgrade: FC = function () {
     const {
@@ -38,6 +38,8 @@ const Upgrade: FC = function () {
         _id
     }: IUpgrade = useSelector((state: any) => state?.upgrade || {})
     const worldSpeed = useSelector((state: any) => state.user?.world.speed)
+    const resources = useSelector((state: any) => state.resources)
+
     const dispatch = useDispatch()
     const handleUpgrade = useCallback(async () => {
         dispatch(actionChangeLoading(true))
@@ -50,7 +52,21 @@ const Upgrade: FC = function () {
         }
         dispatch(actionChangeUpgrade({}))
     }, [_id, dispatch])
-    console.log(name);
+    
+    const mapedResources = useMemo(() => {
+        const _resources : {[key : string] : any} = {
+            gold : 0,
+            iron : 0,
+            wood : 0,
+            food : 0,
+        }
+        if(!resources) return resources
+        resources.forEach(resource => {
+            const name = resource.type.name.toLowerCase()
+            _resources[name] = resource.value
+        })
+        return _resources
+    },[resources])
     
     return (
         <>
@@ -77,9 +93,28 @@ const Upgrade: FC = function () {
                                 <img src={foodimg} alt="" />
                             </div>
                         </div>
+                        <div className="costs">
+                            <div className="total-cost">Resources left</div>
+                            <div className="cost">
+                                <span>{Math.floor(mapedResources?.gold - gold)}</span>
+                                <img src={goldore} alt="" />
+                            </div>
+                            <div className="cost">
+                                <span>{Math.floor(mapedResources?.iron - iron)}</span>
+                                <img src={ironore} alt="" />
+                            </div>
+                            <div className="cost">
+                                <span>{Math.floor(mapedResources?.wood -wood)}</span>
+                                <img src={woodimg} alt="" />
+                            </div>
+                            <div className="cost">
+                                <span>{Math.floor(mapedResources?.food -food)}</span>
+                                <img src={foodimg} alt="" />
+                            </div>
+                        </div>
                         <div className="sub-info">
                             <div className="level">Next Level: {level}</div>
-                            <div className="generate">Next generate: {resources.includes(name) ? generate * worldSpeed : generate}</div>
+                            <div className="generate">Next generate: {resourcesName.includes(name) ? generate * worldSpeed : generate}</div>
                             <div className="time">Time: {secondsToTime(time / worldSpeed || 0)}</div>
                         </div>
                     </div>

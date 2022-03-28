@@ -119,7 +119,6 @@ const Tranning: FC = () => {
         })
         return _resources
     },[resources])
-    console.log(mapedResources);
     
     return (
         <>
@@ -182,19 +181,19 @@ const Tranning: FC = () => {
                         <div className="costs">
                             <div className="total-cost">Resources left</div>
                             <div className="cost">
-                                <span>{Math.floor(mapedResources.gold - gold * Total)}</span>
+                                <span>{Math.floor(mapedResources?.gold - gold * Total)}</span>
                                 <img src={goldore} alt="" />
                             </div>
                             <div className="cost">
-                                <span>{Math.floor(mapedResources.iron - iron * Total)}</span>
+                                <span>{Math.floor(mapedResources?.iron - iron * Total)}</span>
                                 <img src={ironore} alt="" />
                             </div>
                             <div className="cost">
-                                <span>{Math.floor(mapedResources.wood -wood * Total)}</span>
+                                <span>{Math.floor(mapedResources?.wood -wood * Total)}</span>
                                 <img src={woodimg} alt="" />
                             </div>
                             <div className="cost">
-                                <span>{Math.floor(mapedResources.food -food * Total)}</span>
+                                <span>{Math.floor(mapedResources?.food -food * Total)}</span>
                                 <img src={foodimg} alt="" />
                             </div>
                         </div>
