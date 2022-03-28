@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Building, Loading, Login, Resources, TrainningQueue, Tranning, Units, Upgrade, Upgrading, Enemy, Actions, Attack, Activities, BattleReports, BattleDetail, Activity, Modal } from "components";
+import { Building, Loading, Login, Resources, TrainningQueue, Tranning, Units, Upgrade, Upgrading, Enemy, Actions, Attack, Activities, BattleReports, BattleDetail, Activity, Modal, Queue } from "components";
 import useWindowSize from "hooks/useWindowSize";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,7 @@ function App() {
   const [ShowModal, setShowModal] = useState(false)
   const refApp = useRef<any>(null)
   const user = useSelector((state: any) => state.user)
-  const {height} = useWindowSize()
+  const { height } = useWindowSize()
   const handleInit = useCallback(() => {
     const jwt = storage.getToken()
     if (jwt) {
@@ -67,16 +67,15 @@ function App() {
   }
 
   return (
-    <div style={{height : height + 'px'}} ref={ref => refApp.current = ref} id="App">
+    <div style={{ height: height + 'px' }} ref={ref => refApp.current = ref} id="App">
       <Loading />
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-center"
+      />
       {!user && <Login />}
       {
         user &&
         <>
-          <div onClick={handleLogout} className="logout">LOGOUT</div>
-          <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
-
           <Activity />
           <Attack />
           <Resources />
@@ -85,12 +84,12 @@ function App() {
           <Enemy />
           <BattleReports />
           <BattleDetail />
+          <Queue />
           <div id="fixed-height">
-            <Activities />
+            <div onClick={handleLogout} className="logout">LOGOUT</div>
+            <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
             <Actions />
-            <Upgrading />
             <Building />
-            <TrainningQueue />
             <Units />
           </div>
           <Modal onClose={() => setShowModal(false)} show={ShowModal}>

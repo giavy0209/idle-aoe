@@ -32,7 +32,7 @@ const Activities: FC = () => {
             }
         })
     }, [_activity, Now])
-    
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setNow(Date.now())
@@ -44,11 +44,10 @@ const Activities: FC = () => {
 
     return (
         <>
-            {
-                activity?.length > 0 &&
-                <div className="activities">
-                    <div className="title">Activites</div>
-                    <div className="list-activity">
+            <div className="activities">
+                <div className="title">Activites</div>
+                {
+                    activity?.length > 0 ? <div className="list-activity">
                         <div className="title-head">
                             <div className="from">From</div>
                             <div className="time">Time</div>
@@ -64,8 +63,10 @@ const Activities: FC = () => {
                             </div>)
                         }
                     </div>
-                </div>
-            }
+                    :
+                    <p className="no-active">No action</p>
+                }
+            </div>
 
         </>
     )

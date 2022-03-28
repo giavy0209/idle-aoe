@@ -87,7 +87,7 @@ const Units : FC = () => {
     return (
         <>
         <div className="units">
-            <div className="title">Army</div>
+            <div className="title highlight">Army</div>
             {
                 units.map(o => <div onClick={() => handleTraning(o.unit.name)} key={o._id} className="unit">
                     <div className="img">

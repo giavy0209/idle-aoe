@@ -43,7 +43,7 @@ const Building : FC = () => {
     return (
         <>
         <div className="buildings">
-            <div className="title">Building List</div>
+            <div className="title highlight">Building List</div>
             {
                 buildings.map( o => <div key={o.name} onClick={() => handleUpgrade(o.name)} className="building">
                     <div className="img">
