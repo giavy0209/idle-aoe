@@ -28,13 +28,14 @@ body {
     position: relative;
     @include pxToRem(24);
     background-image: url(../images/button-mid.png);
-    padding: 10px 40px;
+    padding: 10px 3rem;
     background-repeat: repeat-x;
     background-size: contain;
     text-align: center;
     color: #fff;
     font-weight: 600;
     cursor: pointer;
+    border-radius: 3rem;
     &::before {
         content: "";
         position: absolute;
@@ -45,7 +46,6 @@ body {
         aspect-ratio: 1/1.2083;
         background-size: cover;
         background-repeat: no-repeat;
-        transform: translate(-50%, 0);
     }
     &::after {
         content: "";
@@ -57,7 +57,6 @@ body {
         aspect-ratio: 1/1.2083;
         background-size: cover;
         background-repeat: no-repeat;
-        transform: translate(50%, 0);
     }
 }
 .title {
@@ -444,6 +443,12 @@ body {
         justify-content: center;
         column-gap: 40px;
         margin-top: 10px;
+        @media only screen and (max-width : 768px) {
+            flex-direction: column;
+            .button {
+                margin-top: 10px;
+            }
+        }
     }
     .list-enemy {
         .enemy {
