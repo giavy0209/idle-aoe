@@ -87,7 +87,7 @@ const Login: FC = function () {
                     <div className="title">What is Worlds?</div>
                     <div className="content">
                         <p>We have several worlds</p>
-                        <p>Each worlds have it own speed, start date, end date</p>
+                        <p>Each of the worlds have it's own speed, start date, end date</p>
                     </div>
                     <div className="title">What is speed?</div>
                     <div className="content">
