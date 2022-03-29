@@ -1,6 +1,6 @@
-import { query, Response } from "express";
+import {  Response } from "express";
 import { Clans, Users } from 'models'
-import { IClan, IRequest } from "interfaces";
+import { IRequest } from "interfaces";
 class clanController {
     static async get(req: IRequest, res: Response) {
         const { page, name } = req.query
@@ -13,6 +13,7 @@ class clanController {
             .limit(10)
             .skip(skip)
             .sort({ exp: -1 })
+            .populate('owner')
 
         const total = await Clans.countDocuments(query)
 

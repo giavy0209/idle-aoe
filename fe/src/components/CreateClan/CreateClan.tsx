@@ -29,8 +29,8 @@ const CreateClan: FC = () => {
         }
         if(res.status === 1) {
             toast('Create clan successfully')
+            dispatch(actionChangeShowCreateClan(false))
         }
-        
     }
     return (
         <>
