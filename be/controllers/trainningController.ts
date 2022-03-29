@@ -87,7 +87,7 @@ class trainningController {
 
         CHANGE_EXP.push({
             user : _id,
-            newValue : resourceUsed
+            newValue : Math.floor(resourceUsed / 3)
         })
         changeUser(_id)
         changeTrainningQueue(_id)
