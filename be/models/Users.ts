@@ -8,7 +8,8 @@ const UserSchema = new Schema<IUsers>({
     lastLogin : {type : Date},
     world : {type : Schema.Types.ObjectId , ref : 'worlds'},
     exp : {type : Number, default : 0},
-    clan : {type : Schema.Types.ObjectId , ref : 'clans'}
+    clan : {type : Schema.Types.ObjectId , ref : 'clans'},
+    population : {type : Number, default : 0},
 }, {
     timestamps : true,
 })

@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { clanController as controller } from 'controllers'
+import { isAuth } from "../../middleware";
+
+const router = Router()
+
+router.route('/clan')
+    .get(isAuth ,controller.get)
+    .post(isAuth , controller.post)
+export default router

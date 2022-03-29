@@ -20,7 +20,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 9,
+      "versionCode": 10,
       "permissions" : [],
       "package": "com.idlebytegame.idleaoe",
       "adaptiveIcon": {

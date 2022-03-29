@@ -10,6 +10,7 @@ export default interface IUser {
     name : string,
     world : Iworld,
     lastLogin : Date | number,
+    population : number,
     exp : number,
     clan : Iclan,
 }
