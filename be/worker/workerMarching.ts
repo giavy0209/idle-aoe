@@ -175,7 +175,7 @@ const Hit = async function (
     attackStrength += attackStrength * randomStrength
 
     const totalStrength = attackStrength * total
-    console.log(randomHit.dead);
+    console.log((randomHit.total - (randomHit.dead || 0));
     
     const totalLife = randomHit.unit.life * (randomHit.total - (randomHit.dead || 0))
 
