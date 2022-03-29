@@ -1,4 +1,24 @@
 .pagination {
     background-color: rgba(81, 42, 10, 0.2);
-    
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 5px;
+    .page {
+        padding: 2rem;
+        cursor: pointer;
+        border: 1px solid #000;
+        border-radius: 5px;
+        position: relative;
+        &.active {
+            background-color: #999;
+        }
+        span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+        }
+    }
 }

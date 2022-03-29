@@ -20,6 +20,10 @@
                 text-align: right;
             }
         }
+        .type {
+            font-weight: 600;
+            text-align: center;
+        }
         .result {
             @include pxToRem(24);
             font-weight: 600;
@@ -35,5 +39,11 @@
         + .battle {
             margin-top: 10px;
         }
+        +.battle-report {
+            margin-top: 10px;
+        }
+    }
+    .pagination {
+        margin-top: 10px;
     }
 }

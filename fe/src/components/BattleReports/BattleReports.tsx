@@ -1,10 +1,10 @@
 import renderDate from "helpers/renderDate";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeBattleReport, actionChangeBattleDetail } from "store/actions";
+import { actionChangeBattleReport, actionChangeBattleDetail, asyncGetBattlleReport } from "store/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
-import {Modal,Button,Pagination} from "components";
+import { Modal, Button, Pagination } from "components";
 import defeat from 'assets/images/defeat.webp'
 import victory from 'assets/images/victory.webp'
 const BattleReports: FC = () => {
@@ -14,43 +14,52 @@ const BattleReports: FC = () => {
     const battleReports = useSelector((state: any) => state.battleReports?.data)
     const totalBattleReports = useSelector((state: any) => state.battleReports?.total)
     const user = useSelector((state: any) => state.user)
-    
+
+    useEffect(() => {
+        dispatch(asyncGetBattlleReport(CurrentPage))
+    }, [CurrentPage])
     return (
         <>
             <Modal onClose={() => dispatch(actionChangeBattleReport(null))} show={battleReports}>
                 <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
-                <div className="battles-report">
-                    {
-                        battleReports?.map(o => <div key={o._id} className="battle-report">
-                            <div className="time">Start At {renderDate({ date: o.marching.arriveTime })}</div>
-                            <div className="from-to">
-                                <div className="from">From : {o.attacker.username}</div>
-                                <div className="to">Target : {o.defender.username}</div>
-                            </div>
-                            <div className="result">Result
-                                {
-                                    o.marching.user === user._id ?
-                                        (
-                                            o.marching.status === 1 || o.marching.status === 2 ?
-                                                <img src={victory} alt="" />
-                                                :
-                                                <img src={defeat} alt="" />
-                                        )
-                                        :
-                                        (
-                                            o.marching.status === 1 || o.marching.status === 2 ?
-                                                <img src={defeat} alt="" />
-                                                :
-                                                <img src={victory} alt="" />
-                                        )
-                                }
-                            </div>
-                            <Button onClick={() => dispatch(actionChangeBattleDetail(o))} text="Battle Detail" />
-                        </div>)
-                    }
+                    <div className="battles-report">
+                        {
+                            battleReports?.map(o => <div key={o._id} className="battle-report">
+                                <div className="time">Start At {renderDate({ date: o.marching.arriveTime })}</div>
+                                <div className="from-to">
+                                    <div className="from">From : {o.attacker.username}</div>
+                                    <div className="to">Target : {o.defender.username}</div>
+                                </div>
+                                <div className="type">{
+                                    o.marching.type === 1 ? 
+                                    'Attack' : 
+                                    o.marching.type === 2 ? 'Spy' : 
+                                    ''
+                                }</div>
+                                <div className="result">Result
+                                    {
+                                        o.marching.user === user._id ?
+                                            (
+                                                o.marching.status === 1 || o.marching.status === 2 ?
+                                                    <img src={victory} alt="" />
+                                                    :
+                                                    <img src={defeat} alt="" />
+                                            )
+                                            :
+                                            (
+                                                o.marching.status === 1 || o.marching.status === 2 ?
+                                                    <img src={defeat} alt="" />
+                                                    :
+                                                    <img src={victory} alt="" />
+                                            )
+                                    }
+                                </div>
+                                <Button onClick={() => dispatch(actionChangeBattleDetail(o))} text="Battle Detail" />
+                            </div>)
+                        }
 
+                    <Pagination current={CurrentPage} onChange={page => setCurrentPage(page)} total={totalBattleReports} />
                 </div>
-                <Pagination total={totalBattleReports}/>
             </Modal>
             <Modal onClose={() => setShowModal(false)} show={ShowModal}>
                 <div className="question">

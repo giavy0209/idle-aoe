@@ -111,7 +111,11 @@ const Attack: FC = () => {
                 ...unit,
             })
             const input: any = document.querySelector(`.row input[data-name="${unit.unit.name}"]`)
-            input.value = unit.total
+            console.log(`.row input[data-name="${unit.unit.name}"]`);
+
+            if (input) {
+                input.value = unit.total
+            }
         })
         setUnits([...selectedUnits])
     }
@@ -133,55 +137,31 @@ const Attack: FC = () => {
                 <div className="attack">
                     <div className="list-units">
                         <div className="title">{showAttack?.type === 1 ? 'Attack' : 'Spy'} {showAttack?.username}</div>
-                        <div className="select">
+                        {units?.length ? <div className="select">
                             <div onClick={handleSelectAll} className="all">Select all</div>
                             <div onClick={handleSelectNone} className="none">Unselect all</div>
-                        </div>
+                        </div> : null}
                         <form onSubmit={handleSubmitForm} action="">
                             {
-                                units?.length ? units.map(o => {
-                                    if (showAttack.type === 1) {
-                                        return <div key={o._id} className="unit">
-                                            <div className="row">
-                                                <div className="info">
-                                                    <div className="name">{o.unit.name} </div>
-                                                    <div className="total">Total: {o.total}</div>
-                                                    <div className="speed">Speed: {o.unit.speed}</div>
-                                                    <div className="cargo">Cargo: {o.unit.cargo}</div>
-                                                </div>
-                                                <div className="input">
-                                                    <div className="min-max">
-                                                        <span onClick={e => handleSetMin(e, o)}>Min</span>
-                                                        <span onClick={e => handleSetMax(e, o)}>Max</span>
-                                                    </div>
-                                                    <input data-name={o.unit.name} defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
-                                                </div>
-                                            </div>
+                                units?.length ? units.map(o => <div key={o._id} className="unit">
+                                    <div className="row">
+                                        <div className="info">
+                                            <div className="name">{o.unit.name} </div>
+                                            <div className="total">Total: {o.total}</div>
+                                            <div className="speed">Speed: {o.unit.speed}</div>
+                                            <div className="cargo">Cargo: {o.unit.cargo}</div>
                                         </div>
-                                    } else {
-                                        if (o.unit.name === 'Quickwalker') {
-                                            return <div key={o._id} className="unit">
-                                                <div className="row">
-                                                    <div className="info">
-                                                        <div className="name">{o.unit.name} ({o.total})</div>
-                                                        <div className="speed">Speed: {o.unit.speed}</div>
-                                                        <div className="cargo">Cargo: {o.unit.cargo}</div>
-                                                    </div>
-                                                    <div className="input">
-                                                        <div className="min-max">
-                                                            <span onClick={e => handleSetMin(e, o)}>Min</span>
-                                                            <span onClick={e => handleSetMax(e, o)}>Max</span>
-                                                        </div>
-                                                        <input defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
-                                                    </div>
-                                                </div>
+                                        <div className="input">
+                                            <div className="min-max">
+                                                <span onClick={e => handleSetMin(e, o)}>Min</span>
+                                                <span onClick={e => handleSetMax(e, o)}>Max</span>
                                             </div>
-                                        }
-                                    }
-                                    return null
-                                })
-                                    :
-                                    <p className="no-unit">You have no unit</p>
+                                            <input data-name={o.unit.name} defaultValue={0} onChange={e => validInput(e, e.target.value, o.total, o)} type="number" name={o._id} />
+                                        </div>
+                                    </div>
+                                </div>)
+                                :
+                                <p className="no-unit">You have no unit</p>
                             }
                             {
                                 units.length > 0 ?

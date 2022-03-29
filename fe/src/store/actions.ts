@@ -176,10 +176,25 @@ export const actionChangeBattleReport = function(battleReports) {
     }
 }
 
-export const asyncGetBattlleReport = () => async dispatch => {
-    const {data,total} = await callAPI.get(`/battle`)
-    
+export const asyncGetBattlleReport = (page?: number|string) => async dispatch => {
+    dispatch(actionChangeLoading(true))
+    const {data,total} = await callAPI.get(`/battle?page=${page}`)
+    dispatch(actionChangeLoading(false))
     dispatch(actionChangeBattleReport({data,total}))
+}
+
+export const CHANGE_CLAN = 'CHANGE_CLAN'
+
+export const actionChangeClan = function(clan) {
+    return {
+        type : CHANGE_CLAN,
+        payload : {clan}
+    }
+}
+
+export const asyncGetClan = () => async dispatch => {
+    const {data} = await callAPI.get(`/marching`)
+    dispatch(actionChangeClan(data))
 }
 
 export const asyncInit = () => async dispatch => {

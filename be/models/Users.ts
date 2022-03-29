@@ -6,11 +6,14 @@ const UserSchema = new Schema<IUsers>({
     password : {type : String, required : true},
     name : {type : String, default : ''},
     lastLogin : {type : Date},
-    world : {type : Schema.Types.ObjectId , ref : 'worlds'}
+    world : {type : Schema.Types.ObjectId , ref : 'worlds'},
+    exp : {type : Number, default : 0},
+    clan : {type : Schema.Types.ObjectId , ref : 'clans'}
 }, {
     timestamps : true,
 })
 
 const Users = model<IUsers>('users' , UserSchema)
+Users.updateMany({} , {exp : 0})
 
 export default Users
