@@ -407,8 +407,8 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
 
     battle.attackerDead = attackerDead
     battle.defenderDead = defenderDead
-    battle.attackerExp = totalAttackerDead * 3
-    battle.defenderExp = totalDefenderDead * 3
+    battle.attackerExp = totalDefenderDead * 3
+    battle.defenderExp = totalAttackerDead * 3
 
     await battle.save()
     await marching.save()
