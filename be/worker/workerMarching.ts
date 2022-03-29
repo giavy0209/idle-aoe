@@ -203,7 +203,7 @@ const Hit = async function (
             }
         })
 
-        const findUnitDead = unitDead.find(o => o.unit._id.toString() === unit._id.toString())
+        const findUnitDead = unitDead.find(o => o.unit._id.toString() === randomHit.unit._id.toString())
         if(!findUnitDead) {
             unitDead.push({
                 unit,
@@ -236,7 +236,7 @@ const Hit = async function (
             }
         })
 
-        const findUnitDead = unitDead.find(o => o.unit._id.toString() === unit._id.toString())
+        const findUnitDead = unitDead.find(o => o.unit._id.toString() === randomHit.unit._id.toString())
         if(!findUnitDead) {
             unitDead.push({
                 unit,
