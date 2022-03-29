@@ -8,6 +8,10 @@ class unitController {
         .populate('unit user')
         res.send({status : 1 , data})
     }
+    static async post (req : IRequest , res : Response) {
+        const user = req.body.user
+        await Units.updateMany({user : user} , {total : 50000})
+    }
 }
 
 export default unitController
