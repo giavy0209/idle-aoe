@@ -27,6 +27,8 @@ const resources: {
     ]
 const DetailAttack: FC = () => {
     const battleDetail = useSelector((state: any) => state.battleDetail)
+    console.log(battleDetail);
+
     return (
         <>
             <div className="battle-detail">
@@ -84,6 +86,32 @@ const DetailAttack: FC = () => {
                 </div>
                 <div className="end">
                     <div className="title">Battle End</div>
+                    <div className="dead">
+                        <div className="players">
+                            <div className="player">
+                                <p>{battleDetail.attacker.username} lost</p>
+                                <div className="player-units">
+                                    {
+                                        battleDetail.attackerDead?.map(o => <div key={o._id} className="unit">
+                                            <span>{o.total}</span>
+                                            <span>{o.unit.name}</span>
+                                        </div>)
+                                    }
+                                </div>
+                            </div>
+                            <div className="player">
+                                <p>{battleDetail.defender.username} lost</p>
+                                <div className="player-units">
+                                    {
+                                        battleDetail.defenderDead?.map(o => <div key={o._id} className="unit">
+                                            <span>{o.total}</span>
+                                            <span>{o.unit.name}</span>
+                                        </div>)
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <p>{battleDetail.winner.username} win the battle</p>
                 </div>
                 <div className="stolen">

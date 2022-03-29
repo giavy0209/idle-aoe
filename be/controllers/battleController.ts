@@ -11,7 +11,7 @@ class battleController {
             { defender: _id }
         ] }
         const data = await Battles.find(query)
-            .populate('marching attacker defender attackerUnits.unit defenderUnits.unit winner')
+            .populate('marching attacker defender attackerUnits.unit defenderUnits.unit attackerDead.unit defenderDead.unit winner')
             .populate({
                 path: 'rounds',
                 populate: {
