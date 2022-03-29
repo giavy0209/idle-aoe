@@ -20,8 +20,9 @@ class clanController {
     }
     static async post(req: IRequest, res: Response) {
         const { _id } = req
-        let { name, description,website,minPopulation } = req.body
+        let { name, description, website, minPopulation } = req.body
         name = name.trim()
+        if(name.length < 4 || name.length > 10) return res.send({status : 101})
         description = description.trim()
         website = website.trim()
         minPopulation = Number(minPopulation) || 0
@@ -33,15 +34,16 @@ class clanController {
         if (user.clan) return res.send({ status: 100 })
 
         const isHave = await Clans.exists({ name })
-        if (isHave) return res.send({ status: 101 })
+        if (isHave) return res.send({ status: 102 })
 
-         await Clans.create({
+        await Clans.create({
             name,
             description,
             website,
             minPopulation,
-            owner : _id,
+            owner: _id,
         })
+        res.send({status : 1})
     }
 }
 

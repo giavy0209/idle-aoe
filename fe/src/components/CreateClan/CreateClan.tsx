@@ -1,7 +1,9 @@
+import callAPI from "callAPI";
 import Button from "components/Button";
 import Modal from "components/Modal";
 import { FC, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { actionChangeShowCreateClan } from "store/actions";
 
 const CreateClan: FC = () => {
@@ -18,7 +20,10 @@ const CreateClan: FC = () => {
             submitData[field[0]] = field[1]
         }
 
-        console.log(submitData);
+        const res = await callAPI.post('/clan' , submitData)
+        if(res.status === 101) {
+            toast("Clan's name must be 4-10 character")
+        }
         
     }
     return (
