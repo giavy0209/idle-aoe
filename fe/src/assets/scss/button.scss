@@ -1,0 +1,35 @@
+.button {
+    position: relative;
+    @include pxToRem(24);
+    background-image: url(../images/button-mid.png);
+    padding: 10px 3rem;
+    background-repeat: repeat-x;
+    background-size: contain;
+    text-align: center;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 3rem;
+    &::before {
+        content: "";
+        position: absolute;
+        background-image: url(../images/button-left.webp);
+        top: 0;
+        left: 0px;
+        height: 100%;
+        aspect-ratio: 1/1.2083;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        background-image: url(../images/button-right.webp);
+        top: 0;
+        right: 0px;
+        height: 100%;
+        aspect-ratio: 1/1.2083;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+}

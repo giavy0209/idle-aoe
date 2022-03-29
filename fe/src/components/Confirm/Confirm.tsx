@@ -1,3 +1,4 @@
+import Modal from "components/Modal";
 import { FC } from "react";
 
 interface IConfirm {
@@ -15,21 +16,16 @@ const Confirm: FC<IConfirm> = ({
     show = false
 }) => {
     return (
-        <>
-            {
-                show && <div className="confirm">
-                    <div onClick={onCancel} className="mask"></div>
-                    <div className="body">
-                        <div className="title">{title}</div>
-                        <div className="message">{message}</div>
-                        <div className="action">
-                            <div onClick={onOk} className="ok">OK</div>
-                            <div onClick={onCancel} className="cancel">Cancel</div>
-                        </div>
-                    </div>
+        <Modal onClose={onCancel} show={show}>
+            <div className="confirm">
+                <div className="title">{title}</div>
+                <div className="message">{message}</div>
+                <div className="action">
+                    <div onClick={onOk} className="ok">OK</div>
+                    <div onClick={onCancel} className="cancel">Cancel</div>
                 </div>
-            }
-        </>
+            </div>
+        </Modal>
     )
 }
 

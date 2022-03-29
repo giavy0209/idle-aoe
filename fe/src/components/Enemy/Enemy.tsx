@@ -17,19 +17,17 @@ const Enemy: FC = () => {
     return (
         <>
             <Modal show={enemy} onClose={() => dispatch(actionChangeEnemy(null))}>
-                <div className="list-enemy">
-                    <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
-                    <Button onClick={() => dispatch(asyncGetEnemy())} text="Reload" />
-                    {
-                        enemy?.map(o => <div key={o._id} className="enemy">
-                            <span>Player {o.username}</span>
-                            <div className="actions">
-                                <Button onClick={() => openModelAttack(o, 1)} text="Attack" />
-                                <Button onClick={() => openModelAttack(o, 2)} text="Spy" />
-                            </div>
-                        </div>)
-                    }
-                </div>
+                <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
+                <Button onClick={() => dispatch(asyncGetEnemy())} text="Reload" />
+                {
+                    enemy?.map(o => <div key={o._id} className="enemy">
+                        <span>Player {o.username}</span>
+                        <div className="actions">
+                            <Button onClick={() => openModelAttack(o, 1)} text="Attack" />
+                            <Button onClick={() => openModelAttack(o, 2)} text="Spy" />
+                        </div>
+                    </div>)
+                }
             </Modal>
             <Modal onClose={() => setShowModal(false)} show={ShowModal}>
                 <div className="question">

@@ -1,0 +1,37 @@
+.confirm {
+    .title {
+        text-align: center;
+        border-bottom: 1px solid #000;
+        padding-bottom: 10px;
+        @include pxToRem(24);
+        font-weight: 600;
+    }
+    .message {
+        padding: 10px 0;
+        @include pxToRem(20);
+        text-align: center;
+    }
+    .action {
+        margin-top: 10px;
+        border-top: 1px solid #000;
+        padding-top: 10px;
+        display: flex;
+        justify-content: flex-end;
+        * {
+            width: fit-content;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            @include pxToRem(24);
+        }
+        .ok {
+            background-color: #c23f3f;
+            color: #fff;
+        }
+        .cancel {
+            background-color: transparent;
+            border: 1px solid #000;
+            margin-left: 10px;
+        }
+    }
+}

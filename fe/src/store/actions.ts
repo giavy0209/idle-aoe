@@ -177,9 +177,9 @@ export const actionChangeBattleReport = function(battleReports) {
 }
 
 export const asyncGetBattlleReport = () => async dispatch => {
-    const {data} = await callAPI.get(`/battle`)
+    const {data,total} = await callAPI.get(`/battle`)
     
-    dispatch(actionChangeBattleReport(data))
+    dispatch(actionChangeBattleReport({data,total}))
 }
 
 export const asyncInit = () => async dispatch => {

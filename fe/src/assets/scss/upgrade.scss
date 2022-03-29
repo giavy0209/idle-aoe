@@ -1,0 +1,105 @@
+.upgrade {
+    .title {
+        font-weight: 600;
+        border-bottom: 1px solid #000;
+        padding-bottom: 20px;
+    }
+    .content {
+        .input {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            input {
+                width: 50%;
+                padding: 5px;
+                @include pxToRem(24);
+                border: 1px solid #997755;
+                background-color: #e6ddca;
+                color: #321a04;
+            }
+            .max {
+                width: 50%;
+                @include pxToRem(24);
+                text-decoration: underline;
+                cursor: pointer;
+                text-align: center;
+            }
+        }
+        .costs {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            .title {
+                width: 100%;
+                border: none;
+                padding: 0;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .total-cost {
+                width: 100%;
+                @include pxToRem(24);
+                margin-bottom: 10px;
+                text-align: center;
+                font-weight: 600;
+            }
+            .cost {
+                display: flex;
+                align-items: center;
+                width: 25%;
+                justify-content: center;
+                span {
+                    font-size: 24px;
+                    font-weight: 500;
+                    margin-right: 10px;
+                }
+                img {
+                    width: 30%;
+                }
+                @media only screen and (max-width: 768px) {
+                    width: 50%;
+                    img {
+                        width: 20%;
+                    }
+                }
+            }
+        }
+        .sub-info {
+            display: flex;
+            margin-top: 20px;
+            justify-content: space-between;
+            @include pxToRem(24);
+            @media only screen and (max-width: 768px) {
+                flex-direction: column;
+            }
+        }
+        .unit-info {
+            .title {
+                border: none;
+                padding: 0;
+                text-align: center;
+                width: 100%;
+                margin-bottom: 10px;
+                margin-top: 10px;
+            }
+            .info {
+                display: flex;
+                padding: 5px;
+                @include pxToRem(20);
+                border-bottom: 1px solid #321a04;
+                span {
+                    display: block;
+                    flex: 1;
+                    + span {
+                        flex: 0;
+                    }
+                }
+            }
+        }
+    }
+    .button {
+        margin-top: 10px;
+    }
+}

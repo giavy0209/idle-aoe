@@ -1,0 +1,58 @@
+.buildings {
+    padding: 20px;
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    .title {
+        width: 100%;
+        font-weight: 600;
+        text-align: center;
+    }
+    .building {
+        padding: 10px;
+        width: 25%;
+        cursor: pointer;
+        position: relative;
+        &::before {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            background-color: rgba($color: #000000, $alpha: 0);
+            transition: 0.3s;
+        }
+        &:hover {
+            &::before {
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba($color: #000000, $alpha: 0.2);
+            }
+        }
+        .img {
+            width: 100%;
+            img {
+                width: 100%;
+            }
+        }
+        .name {
+            @include pxToRem(24);
+            text-align: center;
+        }
+        .generate {
+            text-align: center;
+            @include pxToRem(20);
+            span {
+                width: 100%;
+                display: inline-block;
+                @include pxToRem(22);
+            }
+        }
+        @media only screen and (max-width: 768px) {
+            width: 50%;
+        }
+    }
+}

@@ -1,3 +1,3 @@
-import Enemy from "./Emeny";
+import Enemy from "./Enemy";
 
 export default Enemy

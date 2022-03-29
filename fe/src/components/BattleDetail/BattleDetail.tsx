@@ -10,11 +10,6 @@ const BattleDetail: FC = () => {
     
     return (
         <>
-            {/* {battleDetail && <div className="modal">
-                <div className="mask"></div>
-                <div className="body">
-                </div>
-            </div>} */}
             <Modal show={!!battleDetail} onClose={() => dispatch(actionChangeBattleDetail(null))}>
                     {
                         battleDetail ? battleDetail.marching.type === 1 ?

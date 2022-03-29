@@ -1,0 +1,182 @@
+.queue {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 8;
+    width: 100%;
+    background-color: #fff;
+    border: 4px solid #000;
+    height: 0;
+    transition: 0.3s;
+    color: #000;
+    .queue-body {
+        height: 100%;
+        overflow-y: scroll;
+    }
+    &.show {
+        height: 30%;
+    }
+    .toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: 4px solid #000;
+        padding: 10px;
+        cursor: pointer;
+        font-size: 24px;
+        transform: translate(0, -100%);
+        background-color: #d96218;
+        color: #fff;
+        transition: 0.3s;
+    }
+    .no-active {
+        text-align: center;
+        @include pxToRem(24);
+        margin-top: 10px;
+    }
+    .upgrading {
+        padding: 20px;
+        .title {
+            font-weight: 600;
+            text-align: center;
+        }
+        .timeleft {
+            @include pxToRem(24);
+            margin-top: 10px;
+        }
+        .cancel {
+            @include pxToRem(24);
+            background-color: #d96218;
+            color: #fff;
+            border-radius: 5px;
+            width: fit-content;
+            padding: 10px;
+            cursor: pointer;
+        }
+    }
+    
+    
+    .trainning-queue {
+        padding: 20px;
+        .title {
+            font-weight: 600;
+            text-align: center;
+            .total {
+                color: #ff0000;
+            }
+        }
+        .timeleft {
+            @include pxToRem(20);
+        }
+        .cancel {
+            @include pxToRem(24);
+            background-color: #d96218;
+            color: #fff;
+            border-radius: 5px;
+            width: fit-content;
+            padding: 10px;
+            cursor: pointer;
+        }
+    }
+    .activities {
+        padding: 20px;
+        .title {
+            font-weight: 600;
+            text-align: center;
+        }
+        .list-activity {
+            border-radius: 5px;
+            margin-top: 10px;
+            .title-head {
+                display: flex;
+                * {
+                    font-size: 2rem;
+                    font-weight: 600;
+                    text-align: center;
+                    margin-bottom: 10px;
+                }
+                .from,
+                .to {
+                    width: 20%;
+                }
+
+                .time {
+                    flex: 1;
+                }
+            }
+            .activity {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                + .activity {
+                    margin-top: 10px;
+                }
+                .from,
+                .target {
+                    width: fit-content;
+                    width: 20%;
+                    text-align: center;
+                    @include pxToRem(18);
+                }
+                .time {
+                    flex: 1;
+                    border: 2px #2a2a2a solid;
+                    position: relative;
+                    width: 100%;
+                    height: 30px;
+                    @include pxToRem(18);
+                    overflow: hidden;
+                    span {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                    &.moving {
+                        &::before {
+                            left: 0;
+                        }
+                        &::after {
+                            left: var(--progress);
+                            border-top: 20px solid transparent;
+                            border-bottom: 20px solid transparent;
+        
+                            border-left: 20px solid rgb(71, 214, 71);
+                        }
+                    }
+                    &.comehome {
+                        &::before {
+                            right: 0;
+                        }
+                        &::after {
+                            right: var(--progress);
+                            border-top: 20px solid transparent;
+                            border-bottom: 20px solid transparent;
+        
+                            border-right: 20px solid rgb(71, 214, 71);
+                        }
+                    }
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        display: block;
+                        height: 100%;
+                        width: var(--progress);
+                        top: 0;
+                        background-color: rgb(71, 214, 71);
+                    }
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        display: block;
+                        width: 0;
+                        height: 0;
+                        top: 50%;
+                        transform: translate(0, -50%);
+                        z-index: -1;
+                    }
+                }
+            }
+        }
+    }
+}

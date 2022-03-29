@@ -4,10 +4,13 @@ import { IRequest } from "interfaces";
 class battleController {
     static async get(req: IRequest, res: Response) {
         const { _id } = req
-        const data = await Battles.find({ $or: [
+        let {page} = req.query
+        const skip = (Number(page) - 1) * 10 || 0
+        const query = { $or: [
             { attacker: _id }, 
             { defender: _id }
-        ] })
+        ] }
+        const data = await Battles.find(query)
             .populate('marching attacker defender attackerUnits.unit defenderUnits.unit winner')
             .populate({
                 path: 'rounds',
@@ -31,7 +34,12 @@ class battleController {
                 }
             })
             .sort({ _id: -1 })
-        res.send({ status: 1, data })
+            .limit(10)
+            .skip(skip)
+
+        const total = await Battles.countDocuments(query)
+
+        res.send({ status: 1, data ,total})
     }
 }
 

@@ -69,8 +69,7 @@ const Tranning: FC = () => {
             toast('Not enough resource')
         }
         dispatch(actionChangeLoading(false))
-        dispatch(actionChangeTranning({}))
-        setTotal(0)
+        onClose()
 
     }, [Total, _id, dispatch])
 
@@ -120,9 +119,13 @@ const Tranning: FC = () => {
         return _resources
     },[resources])
     
+    const onClose = () => {
+        dispatch(actionChangeTranning({ name: null }))
+        setTotal(0)
+    }
     return (
         <>
-            <Modal show={!!name} onClose={() => dispatch(actionChangeTranning({ name: null }))}>
+            <Modal show={!!name} onClose={onClose}>
                 <div className="upgrade">
                     <div className="title">Tranning {name}</div>
                     <div className="content">

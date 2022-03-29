@@ -1,0 +1,223 @@
+.battle-detail {
+    .start {
+        .title {
+            font-weight: 600;
+            text-align: center;
+        }
+        .players {
+            display: flex;
+            margin-top: 10px;
+            background-color: #ccc;
+            > p {
+                @include pxToRem(24);
+                text-align: center;
+                width: 100%;
+                padding: 5px;
+                .attacker {
+                    color: #c23f3f;
+                    font-weight: 600;
+                }
+                .defender {
+                    color: rgb(85, 214, 85);
+                    font-weight: 600;
+                }
+                .total {
+                    color: #c23f3f;
+                    font-weight: 600;
+                }
+            }
+            .player {
+                height: 100%;
+                width: 50%;
+                padding: 10px;
+                p {
+                    @include pxToRem(18);
+                    color: #c23f3f;
+                    font-weight: 500;
+                }
+                .player-units {
+                    width: 100%;
+                    margin-top: 10px;
+                    .unit {
+                        display: flex;
+                        background-color: #ddd;
+                        padding: 5px 0;
+                        &:nth-child(odd) {
+                            background-color: #eee;
+                        }
+                        span {
+                            display: block;
+                            width: 30%;
+                            text-align: center;
+                            @include pxToRem(16);
+                            + span {
+                                width: 70%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .rounds {
+            .round {
+                margin-top: 10px;
+                .round-actions {
+                    margin-top: 10px;
+                    .action {
+                        padding: 10px;
+                        background-color: #f5b48b;
+                        @include pxToRem(18);
+                        &:nth-child(odd) {
+                            background-color: #f1d2bf;
+                        }
+                        .attacker-unit {
+                            color: #d96218;
+                            font-weight: 600;
+                        }
+                        .attacker-name {
+                            font-weight: 600;
+                            color: #db5b5b;
+                        }
+                        .total-hit {
+                            color: #c23f3f;
+                            font-weight: 600;
+                        }
+                        .defender-unit {
+                            font-weight: 600;
+                            color: rgb(24, 240, 24);
+                        }
+                        .defender-name {
+                            font-weight: 600;
+                            color: rgb(72, 240, 72);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .end {
+        margin-top: 10px;
+        .title {
+            font-weight: 600;
+            text-align: center;
+        }
+        p {
+            text-align: center;
+            font-weight: 600;
+            @include pxToRem(24);
+            color: #c23f3f;
+        }
+        .lose,
+        .information {
+            text-align: center;
+            @include pxToRem(18);
+            span {
+                display: block;
+                width: 100%;
+                text-align: center;
+                color: #c23f3f;
+                font-weight: 600;
+            }
+        }
+        .information {
+            .resrouces {
+                margin-top: 10px;
+                display: flex;
+                flex-wrap: wrap;
+                .title {
+                    width: 100%;
+                    font-weight: 600;
+                    text-align: center;
+                    margin-bottom: 10px;
+                }
+                .res {
+                    display: flex;
+                    width: 25%;
+                    align-items: center;
+                    justify-content: center;
+                    .img {
+                        width: 30%;
+                        img {
+                            width: 100%;
+                        }
+                    }
+                    .value {
+                        @include pxToRem(18);
+                        font-weight: 600;
+                        margin-left: 5px;
+                    }
+                    @media only screen and (max-width: 768px) {
+                        width: 50%;
+                        .img {
+                            width: 20%;
+                        }
+                    }
+                }
+            }
+            .spy-units {
+                margin-top: 10px;
+                .unit {
+                    padding: 5px 0;
+                    display: flex;
+                    background-color: #ccc;
+                    &:nth-child(odd) {
+                        background-color: #ddd;
+                    }
+                }
+            }
+            .spy-building {
+                margin-top: 10px;
+                .building {
+                    padding: 5px 0;
+                    display: flex;
+                    background-color: #ccc;
+                    &:nth-child(odd) {
+                        background-color: #ddd;
+                    }
+                }
+            }
+        }
+    }
+    .lost {
+        span {
+            display: block;
+            width: 100%;
+            color: #c23f3f;
+            margin-top: 10px;
+            @include pxToRem(24);
+            text-align: center;
+            font-weight: 600;
+        }
+    }
+    .stolen {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        .title {
+            width: 100%;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .res {
+            display: flex;
+            width: 25%;
+            align-items: center;
+            justify-content: center;
+            .img {
+                width: 20%;
+                img {
+                    width: 100%;
+                }
+            }
+            .value {
+                font-size: 18px;
+                font-weight: 600;
+                margin-left: 5px;
+            }
+            @media only screen and (max-width: 768px) {
+                width: 50%;
+            }
+        }
+    }
+}
