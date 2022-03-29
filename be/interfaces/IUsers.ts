@@ -2,7 +2,6 @@ import { Types } from "mongoose";
 import {IClan, IWorlds} from ".";
 
 interface Iworld extends IWorlds , Types.ObjectId {}
-interface Iclan extends IClan , Types.ObjectId {}
 
 export default interface IUser {
     username : string,
@@ -12,5 +11,5 @@ export default interface IUser {
     lastLogin : Date | number,
     population : number,
     exp : number,
-    clan : Iclan,
+    clan : Types.ObjectId,
 }

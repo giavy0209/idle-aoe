@@ -1,6 +1,6 @@
 import { query, Response } from "express";
 import { Clans, Users } from 'models'
-import { IRequest } from "interfaces";
+import { IClan, IRequest } from "interfaces";
 class clanController {
     static async get(req: IRequest, res: Response) {
         const { page, name } = req.query
@@ -29,20 +29,22 @@ class clanController {
         minPopulation = minPopulation < 50000 && minPopulation > 0 ? minPopulation : 0
 
         const user = await Users.findById(_id)
+
         if (!user) return res.send({ status: 100 })
 
         if (user.clan) return res.send({ status: 100 })
 
-        const isHave = await Clans.exists({ name })
+        const isHave = await Clans.findOne({ name })
         if (isHave) return res.send({ status: 102 })
-
-        await Clans.create({
+        const clan = await Clans.create({
             name,
             description,
             website,
             minPopulation,
             owner: _id,
         })
+        user.clan = clan._id
+        await user.save()
         res.send({status : 1})
     }
 }
