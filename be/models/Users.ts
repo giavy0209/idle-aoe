@@ -14,10 +14,5 @@ const UserSchema = new Schema<IUsers>({
 })
 
 const Users = model<IUsers>('users' , UserSchema)
-Users.updateMany({} , {exp : 0})
-.then(res => {
-    console.log(res);
-    
-})
 
 export default Users
