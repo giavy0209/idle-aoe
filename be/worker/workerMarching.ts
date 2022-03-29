@@ -188,8 +188,11 @@ const Hit = async function (
         } else {
             totalDead = Math.floor(totalStrength / randomHit.unit.life)
         }
-        
-        randomHit.dead += totalDead
+        if(randomHit.dead) {
+            randomHit.dead += totalDead
+        }else {
+            randomHit.dead = totalDead
+        }
 
         const battleActions = await BattleActions.create({
             type: 1,
