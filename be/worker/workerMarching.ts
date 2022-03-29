@@ -148,6 +148,7 @@ const Hit = async function (
     },
     attacker: any,
     defender: any,
+    unitDead : any[],
 ) {
     const randomHit = randomUnitToHit(canHit)
     if (!randomHit) return
@@ -177,14 +178,14 @@ const Hit = async function (
 
 
     if (totalStrength < totalLife) {
-        let unitDead = 0
+        let totalDead = 0
         const instantlyKill = Math.random() * 100 <= 5 ? true : false
         if (instantlyKill) {
-            unitDead = Math.ceil((totalStrength) / randomHit.unit.life)
+            totalDead = Math.ceil((totalStrength) / randomHit.unit.life)
         } else {
-            unitDead = Math.floor((totalStrength) / randomHit.unit.life)
+            totalDead = Math.floor((totalStrength) / randomHit.unit.life)
         }
-        randomHit.dead = unitDead
+        randomHit.dead = totalDead
 
         const battleActions = await BattleActions.create({
             type: 1,
@@ -198,9 +199,19 @@ const Hit = async function (
             unitDefend: {
                 user: defender,
                 unit: randomHit.unit._id,
-                totalHit: Number(unitDead)
+                totalHit: Number(totalDead)
             }
         })
+
+        const findUnitDead = unitDead.find(o => o.unit._id.toString() === unit._id.toString())
+        if(!findUnitDead) {
+            unitDead.push({
+                unit,
+                total : Number(totalDead)
+            })
+        }else {
+            findUnitDead.total += Number(totalDead)
+        }
 
         round.actions.push(battleActions._id)
 
@@ -224,9 +235,20 @@ const Hit = async function (
                 totalHit: Number(randomHit.total)
             }
         })
+
+        const findUnitDead = unitDead.find(o => o.unit._id.toString() === unit._id.toString())
+        if(!findUnitDead) {
+            unitDead.push({
+                unit,
+                total : Number(randomHit.total)
+            })
+        }else {
+            findUnitDead.total += Number(randomHit.total)
+        }
+        
         round.actions.push(battleActions._id)
         if (attackUnitLeft > 0) {
-            await Hit(canHit, unit, attackUnitLeft, round, attacker, defender)
+            await Hit(canHit, unit, attackUnitLeft, round, attacker, defender, unitDead)
         }
     }
 }
@@ -239,6 +261,7 @@ async function unitHitByUnit(
     },
     attacker: any,
     defender: any,
+    unitDead : any[]
 ) {
 
     for (let i = 0; i < attackerUnits.length; i++) {
@@ -273,7 +296,7 @@ async function unitHitByUnit(
             })
         })
 
-        await Hit(canHit, unit, total, round, attacker, defender)
+        await Hit(canHit, unit, total, round, attacker, defender,unitDead)
     }
 }
 
@@ -301,6 +324,8 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
         attackerUnits: marching.units,
         defenderUnits: await Units.find({ user: marching.target, total: { $gt: 0 } })
     })
+    const attackerDead : any[] = []
+    const defenderDead : any[] = []
     round.battle = battle._id
     let index = 0
     while (true) {
@@ -313,11 +338,11 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
         const defenderUnits = defenderUnitsWithOrder.find(o => o.order === index + 1)?.units
 
         if (attackerUnits) {
-            await unitHitByUnit(attackerUnits, defenderUnitsWithOrder, round, marching.user, marching.target)
+            await unitHitByUnit(attackerUnits, defenderUnitsWithOrder, round, marching.user, marching.target, defenderDead)
         }
 
         if (defenderUnits) {
-            await unitHitByUnit(defenderUnits, attackerUnitsWithOrder, round, marching.target, marching.user)
+            await unitHitByUnit(defenderUnits, attackerUnitsWithOrder, round, marching.target, marching.user, attackerDead)
         }
 
         defenderUnitsWithOrder.forEach(el => {
@@ -369,6 +394,21 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
             })
         }
     }
+
+    let totalAttackerDead = 0
+    attackerDead.forEach(({unit, total}) => {
+        totalAttackerDead += (unit.population * total)
+    })
+
+    let totalDefenderDead = 0
+    defenderDead.forEach(({unit, total}) => {
+        totalDefenderDead += (unit.population * total)
+    })
+
+    battle.attackerDead = attackerDead
+    battle.defenderDead = defenderDead
+    battle.attackerExp = totalAttackerDead * 3
+    battle.defenderExp = totalDefenderDead * 3
 
     await battle.save()
     await marching.save()

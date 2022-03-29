@@ -22,6 +22,7 @@ interface ITranning {
     range: number,
     cargo: number,
     life: number,
+    population : number,
     description: string,
     strength: {
         archer: number,
@@ -44,6 +45,7 @@ const Tranning: FC = () => {
         range,
         cargo,
         life,
+        population,
         strength,
         description
     }: ITranning = useSelector((state: any) => state?.tranning || {})
@@ -136,6 +138,7 @@ const Tranning: FC = () => {
                             <div className="info"><span>Range:</span> <span> {range}</span></div>
                             <div className="info"><span>Speed:</span> <span> {speed}</span></div>
                             <div className="info"><span>Cargo:</span> <span> {cargo}</span></div>
+                            <div className="info"><span>Population:</span> <span> {population}</span></div>
                             <div className="info"><span>Attack against infantry:</span> <span> {strength?.barrack}</span></div>
                             <div className="info"><span>Attack against cavalry:</span> <span> {strength?.stable}</span></div>
                             <div className="info"><span>Attack against archers:</span> <span> {strength?.archer}</span></div>

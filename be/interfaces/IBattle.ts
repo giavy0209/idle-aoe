@@ -37,5 +37,9 @@ export default interface IBattle {
     }[],
     attackerUnits : IUnitsArray[],
     defenderUnits : IUnitsArray[],
+    attackerDead : IUnitData[],
+    defenderDead : IUnitData[],
+    attackerExp : number,
+    defenderExp : number
     spy : ISpy
 }

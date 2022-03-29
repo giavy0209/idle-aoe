@@ -31,7 +31,17 @@ const BattleSchema = new Schema<IBattle>({
             level : Number
         }],
         quickWalkerLost : {type : Number}
-    }
+    },
+    attackerDead : [{
+        unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
+        total : Number
+    }],
+    defenderDead : [{
+        unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
+        total : Number
+    }],
+    attackerExp : {type : Number},
+    defenderExp : {type : Number},
 })
 
 const Battles = model<IBattle>('battles', BattleSchema)
