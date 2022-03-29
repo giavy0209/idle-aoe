@@ -10,6 +10,7 @@ const UnitDataSchema = new Schema<IUnitData>({
     range : Number,
     building : {type : Schema.Types.ObjectId , ref : 'building_datas'},
     description : {type : String , default : ''},
+    population : {type : Number},
     resource : {
         gold : Number,
         iron : Number,
