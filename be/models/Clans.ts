@@ -8,6 +8,7 @@ const ClanSchema = new Schema<IClan>({
     description : {type : String, default : ''},
     website : {type : String, default : ''},
     members : {type : Number, default : 1},
+    minPopulation : {type : Number, default : 0}
 },{
     timestamps : true,
 })

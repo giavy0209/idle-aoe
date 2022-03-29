@@ -9,6 +9,7 @@ export default interface IClan {
     name : string,
     description : string,
     website : string,
+    minPopulation : number,
     createdAt : Date | number,
     updatedAt : Date | number,
 }

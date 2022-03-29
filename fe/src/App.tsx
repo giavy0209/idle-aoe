@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Building, Loading, Login, Resources, Tranning, Units, Upgrade, Enemy, Actions, Attack, BattleReports, BattleDetail, Activity, Modal, Queue, ScrollBackground } from "components";
+import { Building, Loading, Login, Resources, Tranning, Units, Upgrade, Enemy, Actions, Attack, BattleReports, BattleDetail, Activity, Modal, Queue, ScrollBackground, Clan, CreateClan } from "components";
 import useWindowSize from "hooks/useWindowSize";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -97,6 +97,8 @@ function App() {
           <BattleReports />
           <BattleDetail />
           <Queue />
+          <Clan />
+          <CreateClan />
           <div id="fixed-height">
             <header>
               <div id="exp">{user?.exp} EXP</div>

@@ -38,6 +38,15 @@ export const actionChangeShowAttack = function (showAttack) {
     }
 }
 
+export const CHANGE_SHOW_CREATE_CLAN = 'CHANGE_SHOW_CREATE_CLAN'
+
+export const actionChangeShowCreateClan = function (showCreateClan) {
+    return {
+        type : CHANGE_SHOW_CREATE_CLAN,
+        payload : {showCreateClan}
+    }
+}
+
 export const CHANGE_USER = 'CHANGE_USER'
 
 export const actionChangeUser = function (user) {
@@ -197,7 +206,7 @@ export const actionChangeClan = function(clan) {
 }
 
 export const asyncGetClan = () => async dispatch => {
-    const {data} = await callAPI.get(`/marching`)
+    const {data} = await callAPI.get(`/clan`)
     dispatch(actionChangeClan(data))
 }
 

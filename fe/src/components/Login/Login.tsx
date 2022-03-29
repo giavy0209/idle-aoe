@@ -27,7 +27,6 @@ const Login: FC = function () {
         
         if(e) {
             e.preventDefault()
-
         }
         const form = new FormData(formRef.current)
         const submitData = {}

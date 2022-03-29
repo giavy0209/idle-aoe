@@ -1,0 +1,24 @@
+.create-clan {
+    .title {
+        text-align: center;
+    }
+    .input {
+        margin-top: 10px;
+        .label {
+            text-align: center;
+            @include pxToRem(20);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #997755;
+            background-color: #e6ddca;
+            margin-top: 10px;
+            @include pxToRem(20);
+        }
+    }
+    .button {
+        margin-top: 10px;
+    }
+}

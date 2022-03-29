@@ -20,7 +20,12 @@ class clanController {
     }
     static async post(req: IRequest, res: Response) {
         const { _id } = req
-        const { name, description,website } = req.body
+        let { name, description,website,minPopulation } = req.body
+        name = name.trim()
+        description = description.trim()
+        website = website.trim()
+        minPopulation = Number(minPopulation) || 0
+        minPopulation = minPopulation < 50000 && minPopulation > 0 ? minPopulation : 0
 
         const user = await Users.findById(_id)
         if (!user) return res.send({ status: 100 })
@@ -30,10 +35,12 @@ class clanController {
         const isHave = await Clans.exists({ name })
         if (isHave) return res.send({ status: 101 })
 
-        const clan = await Clans.create({
+         await Clans.create({
             name,
             description,
-            website
+            website,
+            minPopulation,
+            owner : _id,
         })
     }
 }
