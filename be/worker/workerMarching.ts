@@ -151,7 +151,6 @@ const Hit = async function (
     unitDead : any[],
 ) {
     const randomHit = randomUnitToHit(canHit)
-    console.log(randomHit);
     
     if (!randomHit) return
     let { strength } = unit
@@ -183,13 +182,12 @@ const Hit = async function (
         let totalDead = 0
         const instantlyKill = Math.random() * 100 <= 5 ? true : false
         if (instantlyKill) {
-            totalDead = Math.ceil((totalStrength) / randomHit.unit.life)
+            totalDead = Math.ceil(totalStrength / randomHit.unit.life)
         } else {
-            totalDead = Math.floor((totalStrength) / randomHit.unit.life)
+            totalDead = Math.floor(totalStrength / randomHit.unit.life)
         }
-        console.log(totalDead);
         
-        randomHit.dead = totalDead
+        randomHit.dead += totalDead
 
         const battleActions = await BattleActions.create({
             type: 1,
