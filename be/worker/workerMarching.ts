@@ -202,12 +202,11 @@ const Hit = async function (
                 totalHit: Number(totalDead)
             }
         })
-        console.log(randomHit);
         
         const findUnitDead = unitDead.find(o => o.unit._id.toString() === randomHit.unit._id.toString())
         if(!findUnitDead) {
             unitDead.push({
-                unit,
+                unit : randomHit.unit,
                 total : Number(totalDead)
             })
         }else {
@@ -240,7 +239,7 @@ const Hit = async function (
         const findUnitDead = unitDead.find(o => o.unit._id.toString() === randomHit.unit._id.toString())
         if(!findUnitDead) {
             unitDead.push({
-                unit,
+                unit: randomHit.unit,
                 total : Number(randomHit.total)
             })
         }else {
