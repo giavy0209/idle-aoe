@@ -15,7 +15,7 @@ const Actions : FC = () => {
         <div className="actions">
             <Button onClick={openModelSendArmy} text="Send Army"/>
             <Button onClick={openModelBattleReport} text="Battle Report"/>
-            <Button onClick={openModelBattleReport} text="Clan"/>
+            {/* <Button onClick={openModelBattleReport} text="Clan"/> */}
         </div>
         </>
     )

@@ -30,6 +30,8 @@ function App() {
     socket.on('connect', () => console.log('connected ws'))
 
     const changeUser = ({ data }) => {
+      console.log(data);
+
       dispatch(actionChangeUser(data))
     }
 
@@ -96,9 +98,11 @@ function App() {
           <BattleDetail />
           <Queue />
           <div id="fixed-height">
-            <div onClick={handleLogout} className="logout">LOGOUT</div>
-            <div id="exp">{user?.exp} EXP</div>
-            <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
+            <header>
+              <div id="exp">{user?.exp} EXP</div>
+              <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
+              <div onClick={handleLogout} className="logout">LOGOUT</div>
+            </header>
             <Actions />
             <Building />
             <Units />
@@ -109,6 +113,11 @@ function App() {
               <div className="content">
                 <p>On your top screen is your resource and generate per hour</p>
                 <p>You can tap on it to upgrade and increase your generate</p>
+                <p>Next you will see your EXP. You will be ranked base on EXP you earn, </p>
+                <p>You can gain Experience from:</p>
+                <p>Buildings - they give you Experience, which equals the sum of the spent Resources on the current Building level (</p>
+                <p>Units- they give you Experience, which equals to 1/3 (one third) of the sum of the spent</p>
+                <p>Battles - the Experience gained after Battle is based on 3 time of the population of the killed Units. </p>
                 <p>2 button bellow is send your army to soneome and check battle report. You can skip it for this time</p>
                 <p>Next you will see building list. You can tap on it to upgrade and decrease trainning time</p>
                 <p>I recommend you should upgrade your resource to level 5 first</p>
