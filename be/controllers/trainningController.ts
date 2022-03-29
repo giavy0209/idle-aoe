@@ -4,6 +4,7 @@ import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources, changeTrainningQueue, changeUser } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 import { isValidObjectId } from "mongoose";
+import { CHANGE_EXP } from "../worker/workerChangeEXP";
 class trainningController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
@@ -84,8 +85,10 @@ class trainningController {
             resourceUsed += costs[name]
         }
 
-        user.exp += resourceUsed
-        await user.save()
+        CHANGE_EXP.push({
+            user : _id,
+            newValue : resourceUsed
+        })
         changeUser(_id)
         changeTrainningQueue(_id)
         res.send({status : 1})

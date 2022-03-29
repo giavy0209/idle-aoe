@@ -97,6 +97,7 @@ function App() {
           <Queue />
           <div id="fixed-height">
             <div onClick={handleLogout} className="logout">LOGOUT</div>
+            <div id="exp">{user?.exp} EXP</div>
             <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
             <Actions />
             <Building />

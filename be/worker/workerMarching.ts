@@ -3,6 +3,7 @@ import { BattleActions, BattleRounds, Battles, Buildings, Marchings, Resources, 
 import { Document, Schema, Types } from "mongoose";
 import { changeMarching, changeResources } from "wsServices";
 import { waitfor, getRndInteger } from "../utils";
+import { CHANGE_EXP } from "./workerChangeEXP";
 import { CHANGE_RESOURCE } from "./workerChangeResource";
 import { CHANGE_UNIT } from "./workerChangeUnit";
 async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
@@ -416,6 +417,16 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
     battle.defenderDead = defenderDead
     battle.attackerExp = totalDefenderDead * 3
     battle.defenderExp = totalAttackerDead * 3
+
+    CHANGE_EXP.push({
+        user : marching.user,
+        newValue : totalDefenderDead * 3
+    })
+
+    CHANGE_EXP.push({
+        user : marching.target,
+        newValue : totalAttackerDead * 3
+    })
 
     await battle.save()
     await marching.save()

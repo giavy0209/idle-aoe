@@ -113,6 +113,10 @@ const DetailAttack: FC = () => {
                         </div>
                     </div>
                     <p>{battleDetail.winner.username} win the battle</p>
+                    <div className="exp-earn">
+                        <p><span className="username">{battleDetail.attacker.username}</span> earn <span className="exp">{battleDetail.attackerExp}EXP</span></p>
+                        <p><span className="username">{battleDetail.defender.username}</span> earn <span className="exp">{battleDetail.defenderExp}EXP</span></p>
+                    </div>
                 </div>
                 <div className="stolen">
                     <div className="title">Resource stolen</div>

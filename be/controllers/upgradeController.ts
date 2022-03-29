@@ -4,6 +4,7 @@ import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources, changeUser } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 import { isValidObjectId } from "mongoose";
+import { CHANGE_EXP } from "../worker/workerChangeEXP";
 class upgradeController {
     static async get(req: IRequest, res: Response) {
         const { _id } = req
@@ -68,12 +69,10 @@ class upgradeController {
             resourceUsed += findUpgrade[name]
         }
 
-        const user = await Users.findById(_id)
-        if (user) {
-            user.exp += resourceUsed
-            changeUser(_id)
-            await user.save()
-        }
+        CHANGE_EXP.push({
+            user : _id,
+            newValue : resourceUsed
+        })
 
         changeBuilding(_id)
         res.send({ status: 1 })
