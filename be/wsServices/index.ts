@@ -1,5 +1,11 @@
-import { Buildings, Marchings, Resources, Trainnings, Units } from "models";
+import { Buildings, Marchings, Resources, Trainnings, Units, Users } from "models";
 import io from "../ws";
+
+export async function changeUser(_id: string) {
+    const user = await Users.findById(_id)
+    .populate('world clan')
+    io.to(_id).emit('user', { data: user })
+}
 
 export async function changeResources(_id: string) {
     const resources = await Resources.find({ user: _id }).populate('type').lean()

@@ -8,19 +8,23 @@ import { asyncGetUpgrade } from "store/actions";
 const _buildings = [
     {
         name : "Barracks",
-        img : barrack
+        img : barrack,
+        generateText : 'Reduce trainning time',
     },
     {
         name : "Archery Range",
-        img : archer
+        img : archer,
+        generateText : 'Reduce trainning time',
     },
     {
         name : "Stables",
-        img : stable
+        img : stable,
+        generateText : 'Reduce trainning time',
     },
     {
         name : "Workshop",
-        img : workshop
+        img : workshop,
+        generateText : 'Reduce trainning time',
     },
 ]
 const Building : FC = () => {
@@ -32,20 +36,23 @@ const Building : FC = () => {
         return _buildings.map(o => {
             return {
                 ...o,
-                generate : stateBuilding.find(_o => _o.building.name === o.name).value
+                generate : stateBuilding.find(_o => _o.building.name === o.name).value,
             }
         })
     },[stateBuilding])
 
-    const handleUpgrade = name => {
-        dispatch(asyncGetUpgrade(name))
+    const handleUpgrade = building => {
+        dispatch(asyncGetUpgrade({
+            ...building,
+            unit : '%'
+        }))
     }
     return (
         <>
         <div className="buildings">
             <div className="title highlight">Building List</div>
             {
-                buildings.map( o => <div key={o.name} onClick={() => handleUpgrade(o.name)} className="building">
+                buildings.map( o => <div key={o.name} onClick={() => handleUpgrade(o)} className="building">
                     <div className="img">
                         <img src={o.img} alt="" />
                     </div>

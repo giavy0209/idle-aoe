@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import storage from "helpers/storage";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeActivity, actionChangeBuildings, actionChangeResources, actionChangeTranningQueue, actionChangeUnits, asyncInit } from "store/actions";
+import { actionChangeActivity, actionChangeBuildings, actionChangeResources, actionChangeTranningQueue, actionChangeUnits, actionChangeUser, asyncInit } from "store/actions";
 import socket from './socket'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
@@ -28,9 +28,17 @@ function App() {
 
   useEffect(() => {
     socket.on('connect', () => console.log('connected ws'))
+
+    const changeUser = ({ data }) => {
+      dispatch(actionChangeUser(data))
+    }
+
+    socket.on('user', changeUser)
+
     const changeResource = ({ data }) => {
       dispatch(actionChangeResources(data))
     }
+
     socket.on('resources', changeResource)
 
     const changeBuilding = ({ data }) => {
@@ -54,6 +62,7 @@ function App() {
     socket.on('marching', changeActivity)
 
     return () => {
+      socket.removeListener('user', changeUser)
       socket.removeListener('resources', changeResource)
       socket.removeListener('building', changeBuilding)
       socket.removeListener('trainning-queue', changeTrainningQueue)

@@ -57,13 +57,17 @@ const Resources : FC = function  () {
     },[stateResources,stateBuildings])
     
     const handleUpgrade = useCallback((building) => {
-        dispatch(asyncGetUpgrade(building))
+        dispatch(asyncGetUpgrade({
+            ...building,
+            generateText : 'Income',
+            unit : '/h'
+        }))
     },[dispatch])
     return (
         <div id='resources' className="resources">
             {
                 resources.map(({name, img,value,rate,building}) => 
-                    <div onClick={()=>handleUpgrade(building)} key={name} className="type">
+                    <div onClick={()=>handleUpgrade({name : building})} key={name} className="type">
                         <div className="value">{Math.round(value)}</div>
                         <img src={img} alt="" />
                         <div className="name">{name}</div>

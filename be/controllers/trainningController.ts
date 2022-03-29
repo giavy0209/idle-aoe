@@ -1,7 +1,7 @@
 import {Response} from "express";
 import {BuildingDatas, Buildings, Resources, Trainnings, UnitDatas, Units, Users} from 'models'
 import { IRequest, IResourceData } from "interfaces";
-import { changeBuilding, changeResources, changeTrainningQueue } from "wsServices";
+import { changeBuilding, changeResources, changeTrainningQueue, changeUser } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 import { isValidObjectId } from "mongoose";
 class trainningController {
@@ -73,6 +73,7 @@ class trainningController {
             time :  Date.now() + time * 1000 * total
         })
 
+        let resourceUsed = 0
         for (let index = 0; index < userResource.length; index++) {
             const resource = userResource[index];
             const name = resource.type.name.toLowerCase();
@@ -80,8 +81,12 @@ class trainningController {
                 resource : resource._id,
                 newValue : -costs[name]
             })
+            resourceUsed += costs[name]
         }
 
+        user.exp += resourceUsed
+        await user.save()
+        changeUser(_id)
         changeTrainningQueue(_id)
         res.send({status : 1})
     }

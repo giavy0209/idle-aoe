@@ -7,7 +7,7 @@ class userController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
         const data = await Users.findById(_id)
-        .populate('world')
+        .populate('world clan')
         
         res.send({status : 1 , data})
     }

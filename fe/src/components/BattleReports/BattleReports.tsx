@@ -15,9 +15,10 @@ const BattleReports: FC = () => {
     const totalBattleReports = useSelector((state: any) => state.battleReports?.total)
     const user = useSelector((state: any) => state.user)
 
-    useEffect(() => {
-        dispatch(asyncGetBattlleReport(CurrentPage))
-    }, [CurrentPage])
+    const onChangePage = page => {
+        dispatch(asyncGetBattlleReport(page))
+        setCurrentPage(page)
+    }
     return (
         <>
             <Modal onClose={() => dispatch(actionChangeBattleReport(null))} show={battleReports}>
@@ -58,7 +59,7 @@ const BattleReports: FC = () => {
                             </div>)
                         }
 
-                    <Pagination current={CurrentPage} onChange={page => setCurrentPage(page)} total={totalBattleReports} />
+                    <Pagination current={CurrentPage} onChange={onChangePage} total={totalBattleReports} />
                 </div>
             </Modal>
             <Modal onClose={() => setShowModal(false)} show={ShowModal}>

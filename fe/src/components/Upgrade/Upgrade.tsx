@@ -19,6 +19,8 @@ interface IUpgrade {
     food: number,
     level: number,
     generate: number,
+    generateText: string,
+    unit : string,
     time: number,
     _id: string,
 }
@@ -34,6 +36,8 @@ const Upgrade: FC = function () {
         food,
         level,
         generate,
+        generateText,
+        unit,
         time,
         _id
     }: IUpgrade = useSelector((state: any) => state?.upgrade || {})
@@ -52,22 +56,22 @@ const Upgrade: FC = function () {
         }
         dispatch(actionChangeUpgrade({}))
     }, [_id, dispatch])
-    
+
     const mapedResources = useMemo(() => {
-        const _resources : {[key : string] : any} = {
-            gold : 0,
-            iron : 0,
-            wood : 0,
-            food : 0,
+        const _resources: { [key: string]: any } = {
+            gold: 0,
+            iron: 0,
+            wood: 0,
+            food: 0,
         }
-        if(!resources) return resources
+        if (!resources) return resources
         resources.forEach(resource => {
             const name = resource.type.name.toLowerCase()
             _resources[name] = resource.value
         })
         return _resources
-    },[resources])
-    
+    }, [resources])
+
     return (
         <>
             <Modal show={!!name} onClose={() => dispatch(actionChangeUpgrade({ name: null }))}>
@@ -104,21 +108,21 @@ const Upgrade: FC = function () {
                                 <img src={ironore} alt="" />
                             </div>
                             <div className="cost">
-                                <span>{Math.floor(mapedResources?.wood -wood)}</span>
+                                <span>{Math.floor(mapedResources?.wood - wood)}</span>
                                 <img src={woodimg} alt="" />
                             </div>
                             <div className="cost">
-                                <span>{Math.floor(mapedResources?.food -food)}</span>
+                                <span>{Math.floor(mapedResources?.food - food)}</span>
                                 <img src={foodimg} alt="" />
                             </div>
                         </div>
                         <div className="sub-info">
-                            <div className="level">Next Level: {level}</div>
-                            <div className="generate">Next generate: {resourcesName.includes(name) ? generate * worldSpeed : generate}</div>
-                            <div className="time">Time: {secondsToTime(time / worldSpeed || 0)}</div>
+                            <div className="time"><span>Time:</span> <span>{secondsToTime(time / worldSpeed || 0)}</span></div>
+                            <div className="level"><span>Next Level:</span> <span>{level}</span></div>
+                            <div className="generate"><span>{generateText}:</span> <span>{resourcesName.includes(name) ? generate * worldSpeed : generate}{unit}</span></div>
                         </div>
                     </div>
-                    <Button onClick={handleUpgrade} text="Upgrade" />    
+                    <Button onClick={handleUpgrade} text="Upgrade" />
                 </div>
             </Modal>
         </>
