@@ -22,7 +22,13 @@ const CreateClan: FC = () => {
 
         const res = await callAPI.post('/clan' , submitData)
         if(res.status === 101) {
-            toast("Clan's name must be 4-10 character")
+            toast("Clan's name must be 4-20 character")
+        }
+        if(res.status === 102) {
+            toast("Clan's name is exist")
+        }
+        if(res.status === 1) {
+            toast('Create clan successfully')
         }
         
     }

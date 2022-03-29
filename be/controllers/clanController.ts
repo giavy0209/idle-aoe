@@ -22,7 +22,7 @@ class clanController {
         const { _id } = req
         let { name, description, website, minPopulation } = req.body
         name = name.trim()
-        if(name.length < 4 || name.length > 10) return res.send({status : 101})
+        if(name.length < 4 || name.length > 20) return res.send({status : 101})
         description = description.trim()
         website = website.trim()
         minPopulation = Number(minPopulation) || 0
