@@ -175,9 +175,9 @@ const Hit = async function (
     attackStrength += attackStrength * randomStrength
 
     const totalStrength = attackStrength * total
-    console.log((randomHit.total - (randomHit.dead || 0)));
+    const unitCanHitLeft = randomHit.total - (randomHit.dead || 0)
     
-    const totalLife = randomHit.unit.life * (randomHit.total - (randomHit.dead || 0))
+    const totalLife = randomHit.unit.life * unitCanHitLeft
 
 
     if (totalStrength < totalLife) {
@@ -239,7 +239,7 @@ const Hit = async function (
             unitDefend: {
                 user: defender,
                 unit: randomHit.unit._id,
-                totalHit: Number(randomHit.total)
+                totalHit: Number(unitCanHitLeft)
             }
         })
 
@@ -247,10 +247,10 @@ const Hit = async function (
         if(!findUnitDead) {
             unitDead.push({
                 unit: randomHit.unit,
-                total : Number(randomHit.total)
+                total : Number(unitCanHitLeft)
             })
         }else {
-            findUnitDead.total += Number(randomHit.total)
+            findUnitDead.total += Number(unitCanHitLeft)
         }
         
         round.actions.push(battleActions._id)
