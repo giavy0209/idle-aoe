@@ -24,8 +24,6 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
             let totalResources = 0
             targetResource.forEach(({ value }) => totalResources += value)
 
-            console.log(totalResources, shelterValue, totalResources <= shelterValue);
-
             if (totalResources <= shelterValue) {
                 targetResource.forEach(resource => {
                     resource.value = 0
@@ -33,14 +31,8 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
             } else {
                 let hidePerRes = 0
                 targetResource.forEach((resource, index) => {
-                    console.log(resource.value, 'before');
                     hidePerRes = Math.floor(shelterValue / (4 - index))
-                    resource.value = 0
                     const targetResourceValue = resource.value
-                    console.log({
-                        targetResourceValue, hidePerRes
-                    });
-
                     const resourceCanHide = targetResourceValue > hidePerRes ? hidePerRes : targetResourceValue
                     shelterValue -= resourceCanHide
                     resource.value -= resourceCanHide
@@ -48,7 +40,6 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
             }
         }
     }
-    console.log(targetResource, 'after');
 
     marching.units.forEach(unit => {
         cargo += unit.unit.cargo * unit.total
