@@ -22,6 +22,9 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
             let shelterValue = targetShelter.value
             let totalResources = 0
             targetResource.forEach(({ value }) => totalResources += value)
+
+            console.log(totalResources , shelterValue);
+            
             if (totalResources <= shelterValue) {
                 targetResource.forEach(resource => {
                     resource.value = 0

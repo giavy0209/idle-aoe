@@ -9,9 +9,4 @@ const UnitSchema = new Schema<IUnit>({
 })
 
 const Units = model<IUnit>('units' , UnitSchema)
-Units.updateMany({}, {inTower : 0})
-.then(res => {
-    console.log(res);
-    
-})
 export default Units

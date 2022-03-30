@@ -46,7 +46,7 @@ const _buildings = [
     {
         name: "Market",
         img: market,
-        generateText: 'Increase cargo',
+        generateText: 'Cargo',
         type : 'other',
         unit : ''
         // dispatchAction : () => actionChangeUnitType('siege')
@@ -54,7 +54,7 @@ const _buildings = [
     {
         name: "Shelter",
         img: shelter,
-        generateText: 'Increase capacity',
+        generateText: 'Capacity',
         type : 'other',
         unit : ''
         // dispatchAction : () => actionChangeUnitType('siege')
@@ -62,7 +62,7 @@ const _buildings = [
     {
         name: "Tower",
         img: tower,
-        generateText: 'Increase capacity',
+        generateText: 'Capacity',
         type : 'other',
         unit : ''
         // dispatchAction : () => actionChangeUnitType('siege')
@@ -105,7 +105,7 @@ const Building: FC = () => {
                                 <img src={o.img} alt="" />
                             </div>
                             <div className="name">{o.name}</div>
-                            <div className="generate">{o.generateText}: <span>{o.generate}%</span></div>
+                            <div className="generate">{o.generateText}: <span>{o.generate}{o.unit}</span></div>
                         </div>)
                     }
                 </div>

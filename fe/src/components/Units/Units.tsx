@@ -116,7 +116,8 @@ const Units: FC = () => {
                                 <img src={o.img} alt="" />
                             </div>
                             <div className="name">{o.unit.name}</div>
-                            <div className="total">{o.total}</div>
+                            <div className="total">Defense: {o.total}</div>
+                            <div className="total">In Tower: {o.inTower}</div>
                         </div>)
                     }
                 </div>

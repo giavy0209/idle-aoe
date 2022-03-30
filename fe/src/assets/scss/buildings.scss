@@ -41,7 +41,6 @@
             text-align: center;
             @include pxToRem(20);
             span {
-                width: 100%;
                 display: inline-block;
                 @include pxToRem(22);
             }
