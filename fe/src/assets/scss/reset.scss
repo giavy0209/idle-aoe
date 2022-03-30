@@ -102,4 +102,11 @@ header {
     text-align: center;
 }
 
-
+input {
+    padding: 5px;
+    @include pxToRem(24);
+    border: 1px solid #997755;
+    background-color: #e6ddca;
+    color: #321a04;
+    border-radius: 5px;
+}

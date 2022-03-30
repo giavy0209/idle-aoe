@@ -5,13 +5,17 @@ import { Types } from "mongoose";
 class enemyController {
     static async get(req: IRequest, res: Response) {
         const { _id } = req
+        const {search} = req.query
+
         const user = await Users.findById(_id)
         if(!user) return res.send({status : 100})
         const data = await Users.aggregate([
             {
                 $match: {
-                    _id: { $nin: [new Types.ObjectId(_id)] },
-                    world : user.world
+                    _id: { $nin: [new Types.ObjectId(_id)]},
+                    clan : {$nin : [user.clan]},
+                    world : user.world,
+                    username : {$regex : new RegExp(`${search}` , 'i')}
                 }
             },
             {

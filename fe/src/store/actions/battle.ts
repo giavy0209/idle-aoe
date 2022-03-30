@@ -28,8 +28,8 @@ export const actionChangeEnemy = function(enemy) {
     }
 }
 
-export const asyncGetEnemy = () => async dispatch => {
-    const {data} = await callAPI.get(`/enemy`)
+export const asyncGetEnemy = (search ? : string) => async dispatch => {
+    const {data} = await callAPI.get(`/enemy?search=${search ? search : ''}`)
     dispatch(actionChangeEnemy(data))
 }
 

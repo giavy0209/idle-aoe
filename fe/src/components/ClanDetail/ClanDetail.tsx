@@ -4,6 +4,7 @@ import callAPI from "callAPI";
 import Button from "components/Button";
 import Confirm from "components/Confirm";
 import Modal from "components/Modal";
+import convertDateAgo from "helpers/convertDateAgo";
 import { FC, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -64,7 +65,7 @@ const ClanDetail: FC = () => {
                                     clanDetail.users.map(o => <div key={o._id} className="member">
                                         <div className="name">{o._id === clanDetail.owner._id ? 'Leader' : 'Member'} {o.username}</div>
                                         <div className="population">{o.population}</div>
-                                        <div className="last">{o.sockets.length > 0 ? 'Now' : o.lastOnline}</div>
+                                        <div className="last">{o.sockets.length > 0 ? 'Now' : convertDateAgo(o.lastOnline) }</div>
                                         {
                                             (isOwner && o._id !== clanDetail.owner._id) && <Button onClick={()=>setShowConfirm(o._id)} text="Request Leave" />
                                         }
