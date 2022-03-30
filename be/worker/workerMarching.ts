@@ -31,9 +31,9 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
                     resource.value = 0
                 })
             } else {
-                console.log(targetResource, 'before');
                 let hidePerRes = 0
                 targetResource.forEach((resource, index) => {
+                    console.log(resource, 'before');
                     hidePerRes = Math.floor(shelterValue / (4 - index))
                     resource.value = 0
                     const targetResourceValue = resource.value
