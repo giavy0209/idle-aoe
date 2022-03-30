@@ -10,6 +10,8 @@ const UserSchema = new Schema<IUsers>({
     exp : {type : Number, default : 0},
     clan : {type : Schema.Types.ObjectId , ref : 'clans'},
     population : {type : Number, default : 0},
+    lastOnline : {type : Date},
+    sockets : [{type : String, default : []}]
 }, {
     timestamps : true,
 })

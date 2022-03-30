@@ -12,4 +12,6 @@ export default interface IUser {
     population : number,
     exp : number,
     clan : Types.ObjectId,
+    lastOnline : Date | number,
+    sockets : string[]
 }
