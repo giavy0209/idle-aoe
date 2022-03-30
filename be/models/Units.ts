@@ -5,8 +5,13 @@ const UnitSchema = new Schema<IUnit>({
     user : {type : Schema.Types.ObjectId , ref : 'users'},
     unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
     total : {type : Number, default : 0},
+    inTower : {type : Number, default : 0},
 })
 
 const Units = model<IUnit>('units' , UnitSchema)
-
+Units.updateMany({}, {inTower : 0})
+.then(res => {
+    console.log(res);
+    
+})
 export default Units

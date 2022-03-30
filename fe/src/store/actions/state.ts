@@ -43,8 +43,6 @@ export const actionChangeUnitType = function (unitType) {
     }
 }
 
-
-
 export const CHANGE_MODAL_ACTIVITY = 'CHANGE_MODAL_ACTIVITY'
 
 export const actionChangeModalActivity = function (modalActivity) {
