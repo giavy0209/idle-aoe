@@ -7,4 +7,7 @@ const router = Router()
 router.route('/clan')
     .get(isAuth ,controller.get)
     .post(isAuth , controller.post)
+
+router.route('/clan/:id')
+    .get(isAuth , controller.getDetail)
 export default router

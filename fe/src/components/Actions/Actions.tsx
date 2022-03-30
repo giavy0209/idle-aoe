@@ -1,9 +1,10 @@
 import { FC } from "react";
-import { useDispatch } from "react-redux";
-import { asyncGetBattlleReport, asyncGetClan, asyncGetEnemy } from "store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncGetBattlleReport, asyncGetClan, asyncGetClanDetail, asyncGetEnemy } from "store/actions";
 import {Button} from 'components'
 const Actions : FC = () => {
     const dispatch = useDispatch()
+    const user = useSelector((state : any) => state.user)
     const openModelSendArmy = () => {
         dispatch(asyncGetEnemy())
     }
@@ -11,7 +12,11 @@ const Actions : FC = () => {
         dispatch(asyncGetBattlleReport())
     }
     const openModalClan = () => {
-        dispatch(asyncGetClan())
+        if(user?.clan) {
+            dispatch(asyncGetClanDetail(user.clan))
+        }else {
+            dispatch(asyncGetClan())
+        }
     }
     return (
         <>

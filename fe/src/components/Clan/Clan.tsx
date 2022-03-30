@@ -6,6 +6,7 @@ import { actionChangeClan, actionChangeShowCreateClan } from "store/actions";
 
 const Clan : FC = () => {
     const dispatch = useDispatch()
+
     const clan = useSelector((state : any) => state.clan)
     const handleCreateClan = () => {
         dispatch(actionChangeShowCreateClan(true))
@@ -16,7 +17,7 @@ const Clan : FC = () => {
                 <div className="clans">
                     <Button text="Create Clan" onClick={handleCreateClan} />
                     {
-                        clan?.length > 0 ? clan.map(o => <div className="clan">
+                        clan?.length > 0 ? clan.map(o => <div key={o._id} className="clan">
                             <div className="row">
                                 <span>Owner: </span>
                                 <span>{o.owner.username}</span>
@@ -33,6 +34,10 @@ const Clan : FC = () => {
                                 <span>Group chat:</span>
                                 <span>{o.website}</span>
                             </div>}
+                            <div className="row">
+                                <span>Min Population:</span>
+                                <span>{o.minPopulation}</span>
+                            </div>
 
                         </div> )
                         :

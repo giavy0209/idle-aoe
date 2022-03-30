@@ -1,6 +1,7 @@
 import {  Response } from "express";
 import { Clans, Users } from 'models'
 import { IRequest } from "interfaces";
+import { Types } from "mongoose";
 class clanController {
     static async get(req: IRequest, res: Response) {
         const { page, name } = req.query
@@ -47,6 +48,40 @@ class clanController {
         user.clan = clan._id
         await user.save()
         res.send({status : 1})
+    }
+
+    static async getDetail(req: IRequest, res: Response) {
+        const clanID = req.params.id
+        const clanDetail = await Clans.aggregate([
+            {
+                $match : {
+                    _id : new Types.ObjectId(clanID)
+                }
+            },
+            {
+                $lookup : {
+                    from : 'users',
+                    localField : '_id',
+                    foreignField : "clan",
+                    as : 'users'
+                }
+            },
+            {
+                $lookup : {
+                    from : 'users',
+                    localField : 'owner',
+                    foreignField : '_id',
+                    as : 'owner'
+                }
+            },
+            {
+                $unwind : {
+                    path : "$owner"
+                }
+            }
+        ])
+        if(!clanDetail.length) return res.send({status : 100})
+        return res.send({status : 1 , data : clanDetail})
     }
 }
 

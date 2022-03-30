@@ -210,6 +210,20 @@ export const asyncGetClan = () => async dispatch => {
     dispatch(actionChangeClan(data))
 }
 
+export const CHANGE_CLAN_DETAIL = 'CHANGE_CLAN_DETAIL'
+
+export const actionChangeClanDetail = function(clanDetail) {
+    return {
+        type : CHANGE_CLAN_DETAIL,
+        payload : {clanDetail}
+    }
+}
+
+export const asyncGetClanDetail = (id) => async dispatch => {
+    const {data} = await callAPI.get(`/clan/${id}`)
+    dispatch(actionChangeClanDetail(data))
+}
+
 export const asyncInit = () => async dispatch => {
     const {status} = await callAPI.get('/valid-jwt')
     if(status === 1) {
