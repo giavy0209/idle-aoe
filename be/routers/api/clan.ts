@@ -11,6 +11,8 @@ router.route('/clan')
 router.route('/clan/join/:id')
     .get(isAuth , controller.getJoin)
     .post(isAuth , controller.postJoin)
+    .put(isAuth , controller.putJoin)
+    .delete(isAuth , controller.deleteJoin)
 
 router.route('/clan/:id')
     .get(isAuth , controller.getDetail)
