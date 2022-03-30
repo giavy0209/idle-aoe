@@ -14,11 +14,11 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
         .sort({ value: 1 })
 
     let cargo = 0
+    console.log(targetResource , 'before');
 
     const shelter = await BuildingDatas.findOne({ name: 'Shelter' })
     if (shelter) {
-        const targetShelter = await Buildings.findOne({ user: marching.target })
-        console.log(targetShelter);
+        const targetShelter = await Buildings.findOne({ user: marching.target , building : shelter._id})
         
         if (targetShelter) {
             let shelterValue = targetShelter.value
@@ -44,7 +44,8 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
             }
         }
     }
-
+    console.log(targetResource , 'after');
+    
     marching.units.forEach(unit => {
         cargo += unit.unit.cargo * unit.total
     })
