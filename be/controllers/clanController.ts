@@ -2,6 +2,7 @@ import { Response } from "express";
 import { ClanRequests, Clans, Users } from 'models'
 import { IRequest } from "interfaces";
 import { Types } from "mongoose";
+import { changeUser } from "wsServices";
 class clanController {
     static async get(req: IRequest, res: Response) {
         const { page, name } = req.query
@@ -109,6 +110,8 @@ class clanController {
         await ClanRequests.deleteMany({ user: request.user })
 
         res.send({ status: 1 })
+
+        changeUser(user._id.toString())
     }
 
     static async deleteJoin(req: IRequest, res: Response) {
@@ -195,6 +198,7 @@ class clanController {
         await Users.updateOne({_id : user._id}, {$unset : {clan : 1}} )
 
         res.send({status : 1})
+        changeUser(userId)
     }
 }
 

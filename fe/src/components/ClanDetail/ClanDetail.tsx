@@ -7,7 +7,7 @@ import Modal from "components/Modal";
 import { FC, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { actionChangeClanDetail, actionChangeShowCreateClan } from "store/actions";
+import { actionChangeClanDetail, actionChangeShowCreateClan ,asyncGetClanDetail} from "store/actions";
 import { asyncGetClanRequest } from "store/actions/clan";
 
 const ClanDetail: FC = () => {
@@ -26,12 +26,11 @@ const ClanDetail: FC = () => {
         dispatch(asyncGetClanRequest(clanDetail?._id))
     }
     const removeMember = async () => {
-
         const res = await callAPI.delete(`/clan/user/${ShowConfirm}`)
         if(res.status === 1) {
             toast('Removed 1 member')
+            dispatch(asyncGetClanDetail(user?.clan._id))
         }
-        
         setShowConfirm(null)
     }
     return (
