@@ -27,7 +27,7 @@
         .head {
             display: flex;
             span {
-                width: 50%;
+                width: 33.3333%;
                 text-align: center;
                 display: block;
                 font-weight: 600;
@@ -41,7 +41,7 @@
             padding: 10px 0;
             flex-wrap: wrap;
             > * {
-                width: 50%;
+                width: 33.33333%;
                 text-align: center;
                 @include pxToRem(20);
             }

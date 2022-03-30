@@ -93,6 +93,8 @@ class clanController {
         const clan = await Clans.findById(request.clan)
         if (!clan || clan.owner.toString() !== owner._id.toString()) return res.send({ status: 100 })
 
+        if(clan.members > 30) return res.send({status : 101})
+
         if (!request) return res.send({ status: 100 })
 
         const user = await Users.findById(request.user)
@@ -158,6 +160,7 @@ class clanController {
         if (!clanDetail.length) return res.send({ status: 100 })
         return res.send({ status: 1, data: clanDetail[0] })
     }
+    
     static async patchDetail(req: IRequest, res: Response) {
         const { _id } = req
         const clanID = req.params.id
@@ -176,6 +179,23 @@ class clanController {
             clan.minPopulation = minPopulation
         await clan.save()
         res.send({ status: 1 })
+    }
+
+    static async deleteUser(req: IRequest, res: Response) {
+        const { _id } = req
+        const userId = req.params.id
+        const owner = await Users.findById(_id)
+        if(!owner) return res.send({status : 100})
+        const clan = await Clans.findById(owner.clan)
+        if (!clan || clan.owner.toString() !== owner._id.toString()) return res.send({ status: 100 })
+
+        const user = await Users.findById(userId)
+        if(!user) return res.send({status : 100})
+
+        user.clan = null
+        await user.save()
+
+        res.send({status : 1})
     }
 }
 

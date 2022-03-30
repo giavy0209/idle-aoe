@@ -2,16 +2,30 @@ import callAPI from "callAPI";
 import {Modal,Button} from "components";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeClanRequest } from "store/actions";
+import { toast } from "react-toastify";
+import { actionChangeClanRequest, asyncGetClanDetail, asyncGetClanRequest } from "store/actions";
 
 const ClanRequest : FC = () => {
     const dispatch = useDispatch()
     const clanRequest = useSelector((state : any) => state.clanRequest)
+    const user = useSelector((state : any) => state.user)
     const handleAccept = async id => {
-        const res = await callAPI.post
+        const res = await callAPI.put(`/clan/join/${id}`, {})
+        if(res.status === 101) {
+            toast('Your clan is full')
+        }
+        if(res.status === 1) {
+            toast('Accepted new member')
+        }
+        dispatch(asyncGetClanRequest(user?.clan._id))
+        dispatch(asyncGetClanDetail(user?.clan._id))
     }
     const handleReject = async id => {
-
+        const res = await callAPI.delete(`/clan/join/${id}`)
+        if(res.status === 1) {
+            toast('Rejected user')
+        }
+        dispatch(asyncGetClanRequest(user?.clan._id))
     }
     return (
         <>

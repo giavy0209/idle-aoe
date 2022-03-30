@@ -17,4 +17,7 @@ router.route('/clan/join/:id')
 router.route('/clan/:id')
     .get(isAuth , controller.getDetail)
     .patch(isAuth , controller.patchDetail)
+
+router.route('/clan/user/:id')
+    .delete(isAuth , controller.deleteUser)
 export default router
