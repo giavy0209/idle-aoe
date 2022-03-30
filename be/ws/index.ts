@@ -15,7 +15,16 @@ const updateSocket = async (io : Server, _id : string) => {
     for (const id of ids) {
         idsArray.push(id);
     }
-    await Users.findByIdAndUpdate(_id, { sockets: idsArray })
+    const update : {
+        sockets : string[],
+        lastOnline? : Date | number
+    } = {
+        sockets : idsArray
+    }
+    if(idsArray.length === 0) {
+        update.lastOnline = Date.now()
+    }
+    await Users.findByIdAndUpdate(_id, update)
 }
 
 io.use((socket , next) => {
