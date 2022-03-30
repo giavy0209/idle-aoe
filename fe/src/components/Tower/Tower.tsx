@@ -113,7 +113,7 @@ const Tower: FC = () => {
     }
     return (
         <Modal show={showTower} onClose={onClose} >
-            <div className="tower">
+            {tower && <div className="tower">
                 <div className="title">Tower</div>
                 <div className="tower-units">
                     {
@@ -150,7 +150,7 @@ const Tower: FC = () => {
                     <span>{usedCapacity}/{tower.value}</span>
                 </div>
                 <Button text="Move" onClick={moveUnit} />
-            </div>
+            </div>}
         </Modal>
     )
 }

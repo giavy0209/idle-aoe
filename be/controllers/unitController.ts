@@ -23,7 +23,7 @@ class unitController {
         .populate('unit')
         let inTower = 0
 
-        units.forEach(o => inTower+= o.unit.population * o.total)
+        units.forEach(o => inTower+= o.unit.population * o.inTower)
 
         const changeUnitData = []
 
@@ -33,7 +33,6 @@ class unitController {
             .populate('unit')
             
             if(!findUnit) continue
-            console.log(findUnit , findUnit.unit.population * value , inTower);
             
             if(type === 'movein'){
                 inTower += findUnit.unit.population * value
