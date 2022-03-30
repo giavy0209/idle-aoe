@@ -104,8 +104,7 @@ class clanController {
         user.clan = clan._id
         await user.save()
 
-        clan.members++
-
+        clan.members = await Users.countDocuments({clan : clan._id})
         await clan.save()
         await ClanRequests.deleteMany({ user: request.user })
 
@@ -196,7 +195,8 @@ class clanController {
         if(!user) return res.send({status : 100})
 
         await Users.updateOne({_id : user._id}, {$unset : {clan : 1}} )
-
+        clan.members = await Users.countDocuments({clan : clan._id})
+        await clan.save()
         res.send({status : 1})
         changeUser(userId)
     }
