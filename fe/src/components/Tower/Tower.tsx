@@ -94,6 +94,9 @@ const Tower: FC = () => {
         if(res.status === 1) {
             toast('Move units successfully')
         }
+        if(res.status === 101) {
+            toast('Your tower is full')
+        }
     }
 
     return (

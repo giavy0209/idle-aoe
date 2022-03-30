@@ -1,5 +1,5 @@
 import {Response} from "express";
-import {Buildings, Units} from 'models'
+import {BuildingDatas, Buildings, Units} from 'models'
 import { IRequest } from "interfaces";
 import { CHANGE_UNIT } from "../worker/workerChangeUnit";
 class unitController {
@@ -11,29 +11,50 @@ class unitController {
     }
 
     static async patch (req : IRequest , res : Response) {
+        const {_id} = req
         const {data} = req.query
         if(!data?.[0]?.unit)  return res.send({status : 100})
+        const tower = await BuildingDatas.findOne({name : 'Tower'})
+        if(!tower) return res.send({status : 100})
+        const userTower = await Buildings.findOne({user :_id , building : tower._id})
+        if(!userTower) return res.send({status : 100})
+
+        const units = await Units.find({user : _id})
+        .populate('unit')
+        let inTower = 0
+
+        units.forEach(o => inTower+= o.unit.population * o.total)
+
+        const changeUnitData = []
 
         for (let index = 0; index < data.length; index++) {
             const {unit, type , value} = data[index];
             const findUnit = await Units.findById(unit)
+            .populate('unit')
+            
             if(!findUnit) continue
-
+            
             if(type === 'movein'){
-                CHANGE_UNIT.push({
+                inTower += findUnit.unit.population * value
+                changeUnitData.push({
                     unit : findUnit._id,
                     newValue : -value,
                     moveTower : true
                 })
             }
             if(type === 'moveout') {
-                CHANGE_UNIT.push({
+                inTower -= findUnit.unit.population * value
+                changeUnitData.push({
                     unit : findUnit._id,
                     newValue : value,
                     moveTower : true
                 })
             }
+            if(inTower > userTower.value) return res.send({status : 101})
         }
+        changeUnitData.forEach(unitData => {
+            CHANGE_UNIT.push(unitData)
+        })
         res.send({status : 1})
     }
 }
