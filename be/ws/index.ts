@@ -11,6 +11,8 @@ const io = new Server(server, {
 
 const updateSocket = async (io : Server, _id : string) => {
     const ids = await io.in(_id + '').allSockets()
+    console.log(ids);
+    
     const idsArray = []
     for (const id of ids) {
         idsArray.push(id);
