@@ -18,6 +18,8 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
     const shelter = await BuildingDatas.findOne({ name: 'Shelter' })
     if (shelter) {
         const targetShelter = await Buildings.findOne({ user: marching.target })
+        console.log(targetShelter);
+        
         if (targetShelter) {
             let shelterValue = targetShelter.value
             let totalResources = 0
