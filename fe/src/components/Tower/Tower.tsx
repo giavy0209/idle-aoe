@@ -9,7 +9,8 @@ import { actionChangeShowTower } from "store/actions";
 interface IData {
     unit : string,
     type : string,
-    value : number
+    value : number,
+    population : number
 }
 
 const Tower: FC = () => {
@@ -27,8 +28,11 @@ const Tower: FC = () => {
         if (!_units) return 0
         let used = 0
         _units.forEach(o => used += o.unit.population * o.inTower)
+        Data.forEach(data => {
+            if(data.type === 'movein') used += data.population * data.value
+        })
         return used
-    }, [_units])
+    }, [_units, Data])
 
     const validInput = (e, value, data) => {
         value = Number(value)
@@ -68,7 +72,8 @@ const Tower: FC = () => {
                 Data.push({
                     unit : data._id,
                     type : checkedType,
-                    value : value
+                    value : value,
+                    population : data.unit.population
                 })
             }
         }else {

@@ -12,7 +12,7 @@ class unitController {
 
     static async patch (req : IRequest , res : Response) {
         const {_id} = req
-        const {data} = req.query
+        const {data} = req.body
         if(!data?.[0]?.unit)  return res.send({status : 100})
         const tower = await BuildingDatas.findOne({name : 'Tower'})
         if(!tower) return res.send({status : 100})
