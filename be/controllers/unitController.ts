@@ -33,7 +33,6 @@ class unitController {
             .populate('unit')
             
             if(!findUnit) continue
-            console.log(findUnit , findUnit.unit.population * value , inTower);
             
             if(type === 'movein'){
                 inTower += findUnit.unit.population * value
@@ -51,6 +50,7 @@ class unitController {
                     moveTower : true
                 })
             }
+            console.log(findUnit , inTower,userTower);
             if(inTower > userTower.value) return res.send({status : 101})
         }
         changeUnitData.forEach(unitData => {
