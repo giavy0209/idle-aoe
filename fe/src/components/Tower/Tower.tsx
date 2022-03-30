@@ -96,11 +96,25 @@ const Tower: FC = () => {
         }
     }
 
+    const resetInput = () => {
+        document.querySelectorAll<HTMLInputElement>('.tower input[type="radio"]')
+        .forEach((input)  => {
+            input.checked = false
+        })
+        document.querySelectorAll<HTMLInputElement>('.tower input[type="number"]')
+        .forEach((input)  => {
+            console.log(input);
+            
+            input.value = '0'
+        })
+    }
+
     const moveUnit = async () => {
         const res = await callAPI.patch('/units', { data: Data })
         if (res.status === 1) {
             toast('Move units successfully')
             setData([])
+            resetInput()
         }
         if (res.status === 101) {
             toast('Your tower is full')
