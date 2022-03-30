@@ -10,7 +10,7 @@ export default async function workerResource () {
             const units = await Units.find({user : user._id})
             .populate('unit')
 
-            const marchings = await Marchings.find({user : user._id})
+            const marchings = await Marchings.find({user : user._id , status : 0})
 
             let totalPopulation = 0
             units.forEach(({unit , total}) => {
