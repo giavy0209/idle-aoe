@@ -7,10 +7,10 @@ import { toast } from "react-toastify";
 import { actionChangeShowTower } from "store/actions";
 
 interface IData {
-    unit : string,
-    type : string,
-    value : number,
-    population : number
+    unit: string,
+    type: string,
+    value: number,
+    population: number
 }
 
 const Tower: FC = () => {
@@ -29,7 +29,9 @@ const Tower: FC = () => {
         let used = 0
         _units.forEach(o => used += o.unit.population * o.inTower)
         Data.forEach(data => {
-            if(data.type === 'movein') used += data.population * data.value
+            console.log(data);
+
+            if (data.type === 'movein') used += data.population * data.value
         })
         return used
     }, [_units, Data])
@@ -64,48 +66,53 @@ const Tower: FC = () => {
         if (value > max) value = max
         e.target.value = value
 
-        if(value > 0) {
+        if (value > 0) {
             const findData = Data.find(o => o.unit === data._id)
-            if(findData) {
+            if (findData) {
                 findData.value = value
-            }else {
+            } else {
                 Data.push({
-                    unit : data._id,
-                    type : checkedType,
-                    value : value,
-                    population : data.unit.population
+                    unit: data._id,
+                    type: checkedType,
+                    value: value,
+                    population: data.unit.population
                 })
             }
-        }else {
+        } else {
             const findData = Data.findIndex(o => o.unit === data._id)
             Data.splice(findData, 1)
         }
         setData([...Data])
     }
-    
+
     const onChangeChecked = (id) => {
         const input = document.getElementById(`input${id}`) as HTMLInputElement
         input.value = '0'
 
         const findData = Data.findIndex(o => o.unit === id)
-        if(findData !== -1) {
+        if (findData !== -1) {
             Data.splice(findData, 1)
             setData([...Data])
         }
     }
 
     const moveUnit = async () => {
-        const res = await callAPI.patch('/units' , {data : Data})
-        if(res.status === 1) {
+        const res = await callAPI.patch('/units', { data: Data })
+        if (res.status === 1) {
             toast('Move units successfully')
+            setData([])
         }
-        if(res.status === 101) {
+        if (res.status === 101) {
             toast('Your tower is full')
         }
     }
 
+    const onClose = () => {
+        dispatch(actionChangeShowTower(false))
+        setData([])
+    }
     return (
-        <Modal show={showTower} onClose={() => dispatch(actionChangeShowTower(false))} >
+        <Modal show={showTower} onClose={onClose} >
             <div className="tower">
                 <div className="title">Tower</div>
                 <div className="tower-units">
