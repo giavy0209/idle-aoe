@@ -14,33 +14,33 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
         .sort({ value: 1 })
 
     let cargo = 0
-    console.log(targetResource , 'before');
 
     const shelter = await BuildingDatas.findOne({ name: 'Shelter' })
     if (shelter) {
-        const targetShelter = await Buildings.findOne({ user: marching.target , building : shelter._id})
-        
+        const targetShelter = await Buildings.findOne({ user: marching.target, building: shelter._id })
+
         if (targetShelter) {
             let shelterValue = targetShelter.value
             let totalResources = 0
             targetResource.forEach(({ value }) => totalResources += value)
 
-            console.log(totalResources , shelterValue);
-            
+            console.log(totalResources, shelterValue, totalResources <= shelterValue);
+
             if (totalResources <= shelterValue) {
                 targetResource.forEach(resource => {
                     resource.value = 0
                 })
             } else {
+                console.log(targetResource, 'before');
                 let hidePerRes = 0
-                targetResource.forEach((resource,index) => {
+                targetResource.forEach((resource, index) => {
                     hidePerRes = Math.floor(shelterValue / (4 - index))
                     resource.value = 0
                     const targetResourceValue = resource.value
                     console.log({
-                        targetResourceValue,hidePerRes
+                        targetResourceValue, hidePerRes
                     });
-                    
+
                     const resourceCanHide = targetResourceValue > hidePerRes ? hidePerRes : targetResourceValue
                     shelterValue -= resourceCanHide
                     resource.value -= resourceCanHide
@@ -48,8 +48,8 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
             }
         }
     }
-    console.log(targetResource , 'after');
-    
+    console.log(targetResource, 'after');
+
     marching.units.forEach(unit => {
         cargo += unit.unit.cargo * unit.total
     })
