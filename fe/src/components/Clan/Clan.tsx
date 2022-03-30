@@ -15,6 +15,9 @@ const Clan : FC = () => {
     }
     const handleRequestJoin =async id => {
         const res = await callAPI.post(`/clan/join/${id}`, {})
+        if(res.status === 101) {
+            toast('You have already request to join this clan')
+        }
         if(res.status === 1) {
             toast('Apply to clan successfully')
         }

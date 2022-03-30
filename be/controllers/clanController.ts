@@ -70,7 +70,7 @@ class clanController {
         const clan = await Clans.findById(clanID)
         if(!clan) return res.send({status : 100})
 
-        const isHave = ClanRequests.exists({user : _id , clan : clanID})
+        const isHave = await ClanRequests.exists({user : _id , clan : clanID})
         if(isHave)return res.send({status : 101})
 
         await ClanRequests.create({
