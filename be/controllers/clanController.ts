@@ -1,5 +1,5 @@
 import {  Response } from "express";
-import { Clans, Users } from 'models'
+import { ClanRequests, Clans, Users } from 'models'
 import { IRequest } from "interfaces";
 import { Types } from "mongoose";
 class clanController {
@@ -50,6 +50,55 @@ class clanController {
         res.send({status : 1})
     }
 
+    static async getJoin(req: IRequest, res: Response) {
+        const {_id} = req
+        const clanID = req.params.id
+        const user = await Users.findById(_id)
+        if(!user) return res.send({status : 100})
+        const clan = await Clans.findById(clanID)
+        if(!clan || clan.owner.toString() !== user._id.toString()) return res.send({status : 100})
+
+        const data = await ClanRequests.find({clan : clanID})
+        res.send({status : 1 , data})
+    }
+
+    static async postJoin(req: IRequest, res: Response) {
+        const {_id} = req
+        const clanID = req.params.id
+        const user = await Users.findById(_id)
+        if(!user) return res.send({status : 100})
+        const clan = await Clans.findById(clanID)
+        if(!clan) return res.send({status : 100})
+
+        await ClanRequests.create({
+            clan : clanID,
+            user : _id
+        })
+        res.send({status : 1})
+    }
+
+    static async putJoin(req: IRequest, res: Response) {
+        const {_id} = req
+        const clanID = req.params.id
+        const {requestUser} = req.body
+        const owner = await Users.findById(_id)
+        if(!owner) return res.send({status : 100})
+        const clan = await Clans.findById(clanID)
+        if(!clan || clan.owner.toString() !== owner._id.toString()) return res.send({status : 100})
+
+        const request = await ClanRequests.find({user : requestUser , clan : clan._id})
+        if(!request) return res.send({status : 100})
+
+        const user = await Users.findById(requestUser)
+        if(!user) return res.send({status : 100})
+
+        user.clan = new Types.ObjectId(clanID)
+        await user.save()
+        await ClanRequests.deleteMany({user : new Types.ObjectId(requestUser)})
+
+        res.send({status : 1})
+    }
+
     static async getDetail(req: IRequest, res: Response) {
         const clanID = req.params.id
         const clanDetail = await Clans.aggregate([
@@ -83,7 +132,7 @@ class clanController {
         if(!clanDetail.length) return res.send({status : 100})
         return res.send({status : 1 , data : clanDetail[0]})
     }
-    static async patch(req: IRequest, res: Response) {
+    static async patchDetail(req: IRequest, res: Response) {
         const {_id} = req
         const clanID = req.params.id
         let {description , website,minPopulation} = req.body

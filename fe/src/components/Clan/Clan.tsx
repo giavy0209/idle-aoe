@@ -1,7 +1,9 @@
+import callAPI from "callAPI";
 import Button from "components/Button";
 import Modal from "components/Modal";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { actionChangeClan, actionChangeShowCreateClan } from "store/actions";
 
 const Clan : FC = () => {
@@ -10,6 +12,12 @@ const Clan : FC = () => {
     const clan = useSelector((state : any) => state.clan)
     const handleCreateClan = () => {
         dispatch(actionChangeShowCreateClan({show : true , type : 'create'}))
+    }
+    const handleRequestJoin =async id => {
+        const res = await callAPI.post(`/clan/join/${id}`, {})
+        if(res.status === 1) {
+            toast('Apply to clan successfully')
+        }
     }
     return (
         <>
@@ -38,7 +46,7 @@ const Clan : FC = () => {
                                 <span>Min Population:</span>
                                 <span>{o.minPopulation}</span>
                             </div>
-
+                            <Button onClick={()=>handleRequestJoin(clan._id)} text="Join" />
                         </div> )
                         :
                         <p>No clan available</p>

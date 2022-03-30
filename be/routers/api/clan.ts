@@ -8,7 +8,10 @@ router.route('/clan')
     .get(isAuth ,controller.get)
     .post(isAuth , controller.post)
 
+router.route('/clan/join/:id')
+    .post(isAuth , controller.postJoin)
+
 router.route('/clan/:id')
     .get(isAuth , controller.getDetail)
-    .patch(isAuth , controller.patch)
+    .patch(isAuth , controller.patchDetail)
 export default router
