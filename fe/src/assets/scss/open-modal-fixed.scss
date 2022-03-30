@@ -1,0 +1,11 @@
+.open-modal-fixed {
+    margin-top: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    .title {
+        text-align: center;
+        cursor: pointer;
+    }
+}

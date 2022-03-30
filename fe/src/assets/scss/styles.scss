@@ -6,6 +6,7 @@
 
 @import "./button.scss";
 @import "./modal.scss";
+@import "./modal-fixed.scss";
 @import "./scroll-background.scss";
 @import "./pagination.scss";
 
@@ -25,11 +26,13 @@
 
 //fixed component===============
 @import "./queue.scss";
+@import "./army.scss";
+@import "./units.scss";
 
 //relative component===============
 
 @import "./resources.scss";
 @import "./actions.scss";
+@import "./open-modal-fixed.scss";
 @import "./buildings.scss";
-@import "./units.scss";
 

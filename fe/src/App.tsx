@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Building, Loading, Login, Resources, Tranning, Units, Upgrade, Enemy, Actions, Attack, BattleReports, BattleDetail, Activity, Modal, Queue, ScrollBackground, Clan, CreateClan, ClanDetail, ClanRequest } from "components";
+import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import { Building, Loading, Login, Resources, Tranning, Units, Upgrade, Enemy, Actions, Attack, BattleReports, BattleDetail, Activity, Modal, Queue, ScrollBackground, Clan, CreateClan, ClanDetail, ClanRequest, Army, OpenModalFixed, Buildings } from "components";
 import useWindowSize from "hooks/useWindowSize";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,7 @@ function App() {
   const [ShowModal, setShowModal] = useState(false)
   const refApp = useRef<any>(null)
   const user = useSelector((state: any) => state.user)
-  const { height } = useWindowSize()
+  const { width, height } = useWindowSize()
   const handleInit = useCallback(() => {
     const jwt = storage.getToken()
     if (jwt) {
@@ -78,7 +78,7 @@ function App() {
   }
 
   return (
-    <div style={{ height: height + 'px' }} ref={ref => refApp.current = ref} id="App">
+    <div style={{ '--window-width': width + 'px', '--window-height': height + 'px' } as CSSProperties} ref={ref => refApp.current = ref} id="App">
       <Loading />
       <ToastContainer
         position="bottom-center"
@@ -101,6 +101,10 @@ function App() {
           <ClanDetail />
           <CreateClan />
           <ClanRequest />
+          <Army />
+          <Buildings />
+          <Building />
+          <Units />
           <div id="fixed-height">
             <header>
               <div id="exp">{user?.exp} EXP</div>
@@ -108,8 +112,7 @@ function App() {
               <div onClick={handleLogout} className="logout">LOGOUT</div>
             </header>
             <Actions />
-            <Building />
-            <Units />
+            <OpenModalFixed />
           </div>
           <Modal onClose={() => setShowModal(false)} show={ShowModal}>
             <div className="question">

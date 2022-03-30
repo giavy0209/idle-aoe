@@ -1,13 +1,12 @@
 .units {
     padding: 20px;
+    padding-top: 40px;
     display: flex;
     align-items: flex-start;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    .title {
-        width: 100%;
-        font-weight: 600;
-        text-align: center;
-    }
+    flex-direction: row;
+    min-height: unset;
     .unit {
         width: 25%;
         cursor: pointer;

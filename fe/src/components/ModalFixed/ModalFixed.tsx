@@ -1,0 +1,28 @@
+import { faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ScrollBackground from "components/ScrollBackground";
+import { FC, useState } from "react";
+
+interface IModalFixed {
+    onClose?(): any,
+    show: boolean,
+
+}
+const ModalFixed: FC<IModalFixed> = ({ children, onClose = () => { }, show = false }) => {
+    const _onClose = function () {
+        onClose()
+    }
+    return (
+        <>
+            <div className={`modal-fixed ${show ? 'show' : ''}`}>
+                <div className="mask"></div>
+                <div onClick={_onClose} className="close">
+                    <FontAwesomeIcon icon={faChevronCircleLeft} />
+                </div>
+                {children}
+            </div>
+        </>
+    )
+}
+
+export default ModalFixed
