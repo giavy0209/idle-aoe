@@ -58,8 +58,6 @@ const Resources : FC = function  () {
     },[stateResources,stateBuildings])
     
     const handleUpgrade = useCallback((building) => {
-        console.log(building);
-        
         dispatch(asyncGetUpgrade({
             ...building,
             name : building.building,

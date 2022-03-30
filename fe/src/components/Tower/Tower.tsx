@@ -29,9 +29,8 @@ const Tower: FC = () => {
         let used = 0
         _units.forEach(o => used += o.unit.population * o.inTower)
         Data.forEach(data => {
-            console.log(data);
-
             if (data.type === 'movein') used += data.population * data.value
+            if (data.type === 'moveout') used -= data.population * data.value
         })
         return used
     }, [_units, Data])
@@ -160,7 +159,7 @@ const Tower: FC = () => {
                     }
                 </div>
                 <div className="capacity">
-                    <div className="used" style={{ width: `${usedCapacity / tower.value * 100}px` }}></div>
+                    <div className="used" style={{ width: `${usedCapacity / tower.value * 100}%` }}></div>
                     <span>{usedCapacity}/{tower.value}</span>
                 </div>
                 <Button text="Move" onClick={moveUnit} />
