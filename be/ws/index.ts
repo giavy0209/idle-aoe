@@ -37,7 +37,6 @@ io.use((socket , next) => {
         const _id = payload._id
         socket.data = {_id}
         socket.join(_id + '')
-        updateSocket(io, _id)
     } catch (error) {
         socket.disconnect()
         return
@@ -46,6 +45,7 @@ io.use((socket , next) => {
 })
 
 io.on('connection' , socket => {
+    updateSocket(io , socket.data._id)
     socket.on('disconnect' , async () => {
         updateSocket(io , socket.data._id)
     })
