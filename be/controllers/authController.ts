@@ -90,7 +90,7 @@ class authController {
             const user = users[index];
             for (let j = 0; j < buildingDatas.length; j++) {
                 const buildingData = buildingDatas[j];
-                const building = await Buildings.findOne({building : buildingData._id})
+                const building = await Buildings.findOne({building : buildingData._id, user : user._id})
                 if(!building) {
                     await Buildings.create({
                         building : buildingData._id,
