@@ -13,7 +13,7 @@ const Actions : FC = () => {
     }
     const openModalClan = () => {
         if(user?.clan) {
-            dispatch(asyncGetClanDetail(user.clan))
+            dispatch(asyncGetClanDetail(user.clan._id))
         }else {
             dispatch(asyncGetClan())
         }

@@ -81,7 +81,7 @@ class clanController {
             }
         ])
         if(!clanDetail.length) return res.send({status : 100})
-        return res.send({status : 1 , data : clanDetail})
+        return res.send({status : 1 , data : clanDetail[0]})
     }
 }
 
