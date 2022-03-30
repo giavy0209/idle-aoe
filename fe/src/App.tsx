@@ -98,8 +98,8 @@ function App() {
           <BattleDetail />
           <Queue />
           <Clan />
-          <CreateClan />
           <ClanDetail />
+          <CreateClan />
           <div id="fixed-height">
             <header>
               <div id="exp">{user?.exp} EXP</div>

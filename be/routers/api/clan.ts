@@ -10,4 +10,5 @@ router.route('/clan')
 
 router.route('/clan/:id')
     .get(isAuth , controller.getDetail)
+    .patch(isAuth , controller.patch)
 export default router

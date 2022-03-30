@@ -1,6 +1,48 @@
 .clan-detail {
+    position: relative;
+    .edit {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 10px;
+        border: 2px solid #000;
+        border-radius: 5px;
+        cursor: pointer;
+        @include pxToRem(24);
+    }
     .title {
         text-align: center;
         font-weight: 600;
+    }
+    .description, .website,.exp {
+        text-align: center;
+    }
+    .members {
+        .head {
+            display: flex;
+            span {
+                width: 50%;
+                text-align: center;
+                display: block;
+                font-weight: 600;
+                @include pxToRem(24);
+            }
+        }
+        .member {
+            display: flex;
+            margin-top: 10px;
+            border-top: 1px solid #000;
+            padding: 10px 0 ;
+            flex-wrap: wrap;
+            > * {
+                width: 50%;
+                text-align: center;
+                @include pxToRem(20);
+            }
+            .button {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
     }
 }

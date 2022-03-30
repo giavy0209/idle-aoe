@@ -83,6 +83,25 @@ class clanController {
         if(!clanDetail.length) return res.send({status : 100})
         return res.send({status : 1 , data : clanDetail[0]})
     }
+    static async patch(req: IRequest, res: Response) {
+        const {_id} = req
+        const clanID = req.params.id
+        let {description , website,minPopulation} = req.body
+        description = description.trim()
+        website = website.trim()
+        minPopulation = Number(minPopulation) || 0
+        minPopulation = minPopulation < 50000 && minPopulation > 0 ? minPopulation : 0
+        const user = await Users.findById(_id)
+        if(!user) return res.send({status : 100})
+        const clan = await Clans.findById(clanID)
+        if(!clan || clan.owner.toString() !== user._id.toString()) return res.send({status : 100})
+
+        clan.description = description
+        clan.website = website,
+        clan.minPopulation = minPopulation
+        await clan.save()
+        res.send({staus : 1})
+    }
 }
 
 export default clanController

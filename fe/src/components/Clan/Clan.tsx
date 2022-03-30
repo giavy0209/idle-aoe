@@ -9,7 +9,7 @@ const Clan : FC = () => {
 
     const clan = useSelector((state : any) => state.clan)
     const handleCreateClan = () => {
-        dispatch(actionChangeShowCreateClan(true))
+        dispatch(actionChangeShowCreateClan({show : true , type : 'create'}))
     }
     return (
         <>
