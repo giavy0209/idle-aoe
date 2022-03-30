@@ -1,4 +1,4 @@
-import { Units, Users } from "models";
+import { Marchings, Units, Users } from "models";
 import { waitfor } from "../utils";
 
 export default async function workerResource () {
@@ -10,10 +10,19 @@ export default async function workerResource () {
             const units = await Units.find({user : user._id})
             .populate('unit')
 
+            const marchings = await Marchings.find({user : user._id})
+
             let totalPopulation = 0
             units.forEach(({unit , total}) => {
                 totalPopulation += unit.population * total
             });
+
+            marchings.forEach(marching => {
+                marching.units.forEach(({unit , total}) => {
+                    totalPopulation += unit.population * total
+                })
+            })
+
             user.population = totalPopulation
             await user.save()
         }

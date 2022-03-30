@@ -22,7 +22,7 @@ const Pagination: FC<IPagination> = ({
         <>
             <div className="pagination">
                 {
-                    pages.map(o => <div onClick={()=>onChange(o)} className={`page ${o === current ? 'active' : ''}`}> <span>{o}</span> </div>)
+                    pages.map(o => <div key={o + 'pagination'} onClick={()=>onChange(o)} className={`page ${o === current ? 'active' : ''}`}> <span>{o}</span> </div>)
                 }
             </div>
         </>
