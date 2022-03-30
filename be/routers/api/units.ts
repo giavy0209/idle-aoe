@@ -6,5 +6,6 @@ const router = Router()
 
 router.route('/units')
     .get(isAuth ,controller.get)
-    .post(controller.post)
+    .patch(isAuth , controller.patch)
+
 export default router

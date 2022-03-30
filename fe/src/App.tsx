@@ -1,5 +1,5 @@
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
-import { Building, Loading, Login, Resources, Tranning, Units, Upgrade, Enemy, Actions, Attack, BattleReports, BattleDetail, Activity, Modal, Queue, ScrollBackground, Clan, CreateClan, ClanDetail, ClanRequest, Army, OpenModalFixed, Buildings } from "components";
+import { Building, Loading, Login, Resources, Tranning, Units, Upgrade, Enemy, Actions, Attack, BattleReports, BattleDetail, Activity, Modal, Queue, ScrollBackground, Clan, CreateClan, ClanDetail, ClanRequest, Army, OpenModalFixed, Buildings, Tower } from "components";
 import useWindowSize from "hooks/useWindowSize";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -87,24 +87,30 @@ function App() {
       {
         user &&
         <>
-          {/* <ScrollBackground /> */}
-          <Activity />
           <Resources />
+          {/* FIXED COMPONENT */}
+          <Queue />
+          <Army />
+          <Units />
+          <Buildings />
+          <Building />
+          {/* ABSOLUTE COMPONENT */}
+          <Activity />
+          <Tower />
+
           <Upgrade />
           <Tranning />
+
           <Enemy />
           <Attack />
+
           <BattleReports />
           <BattleDetail />
-          <Queue />
+
           <Clan />
           <ClanDetail />
           <CreateClan />
           <ClanRequest />
-          <Army />
-          <Buildings />
-          <Building />
-          <Units />
           <div id="fixed-height">
             <header>
               <div id="exp">{user?.exp} EXP</div>

@@ -8,7 +8,7 @@ import market from 'assets/images/market.webp'
 import shelter from 'assets/images/shelter.webp'
 import tower from 'assets/images/tower.webp'
 import { asyncGetUpgrade } from "store/actions";
-import { actionChangeBuildingType,actionChangeUnitType } from "store/actions";
+import { actionChangeBuildingType,actionChangeUnitType ,actionChangeShowTower} from "store/actions";
 import ModalFixed from "components/ModalFixed";
 const _buildings = [
     {
@@ -64,8 +64,8 @@ const _buildings = [
         img: tower,
         generateText: 'Capacity',
         type : 'other',
-        unit : ''
-        // dispatchAction : () => actionChangeUnitType('siege')
+        unit : '',
+        dispatchAction : () => actionChangeShowTower(true)
     },
 ]
 const Building: FC = () => {

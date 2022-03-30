@@ -23,8 +23,6 @@ const Login: FC = function () {
             })
     }, [])
     const handleLogin = useCallback(async (e ? : any) => {
-        console.log(e);
-        
         if(e) {
             e.preventDefault()
         }

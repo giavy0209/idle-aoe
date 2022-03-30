@@ -43,6 +43,15 @@ export const actionChangeUnitType = function (unitType) {
     }
 }
 
+export const CHANGE_SHOW_TOWER = 'CHANGE_SHOW_TOWER'
+
+export const actionChangeShowTower = function (showTower) {
+    return {
+        type : CHANGE_SHOW_TOWER,
+        payload : {showTower}
+    }
+}
+
 export const CHANGE_MODAL_ACTIVITY = 'CHANGE_MODAL_ACTIVITY'
 
 export const actionChangeModalActivity = function (modalActivity) {
