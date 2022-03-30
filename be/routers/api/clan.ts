@@ -9,6 +9,7 @@ router.route('/clan')
     .post(isAuth , controller.post)
 
 router.route('/clan/join/:id')
+    .get(isAuth , controller.getJoin)
     .post(isAuth , controller.postJoin)
 
 router.route('/clan/:id')

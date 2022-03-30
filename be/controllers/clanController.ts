@@ -97,6 +97,9 @@ class clanController {
 
         user.clan = new Types.ObjectId(clanID)
         await user.save()
+
+        clan.members++
+        await clan.save()
         await ClanRequests.deleteMany({user : new Types.ObjectId(requestUser)})
 
         res.send({status : 1})
