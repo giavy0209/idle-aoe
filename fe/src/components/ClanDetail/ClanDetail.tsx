@@ -1,10 +1,11 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "components/Button";
 import Modal from "components/Modal";
 import { FC, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionChangeClanDetail, actionChangeShowCreateClan } from "store/actions";
+import { asyncGetClanRequest } from "store/actions/clan";
 
 const ClanDetail: FC = () => {
     const dispatch = useDispatch()
@@ -15,7 +16,10 @@ const ClanDetail: FC = () => {
         return clanDetail.owner._id === user._id
     }, [clanDetail])
     const handleEditClan = () => {
-        dispatch(actionChangeShowCreateClan({ show: true, type: 'edit' , clan : clanDetail._id }))
+        dispatch(actionChangeShowCreateClan({ show: true, type: 'edit', clan: clanDetail?._id }))
+    }
+    const handleGetWaitingUser = () => {
+        dispatch(asyncGetClanRequest(clanDetail?._id))
     }
     return (
         <>
@@ -23,9 +27,14 @@ const ClanDetail: FC = () => {
                 {clanDetail &&
                     <>
                         <div className="clan-detail">
-                            {   isOwner &&
-                                <div onClick={handleEditClan} className="edit">
-                                    <FontAwesomeIcon icon={faEdit} />
+                            {isOwner &&
+                                <div className="owner-actions">
+                                    <div onClick={handleGetWaitingUser} className="user">
+                                        <FontAwesomeIcon icon={faUser} />
+                                    </div>
+                                    <div onClick={handleEditClan} className="edit">
+                                        <FontAwesomeIcon icon={faEdit} />
+                                    </div>
                                 </div>
                             }
                             <div className="title">{clanDetail.name}</div>

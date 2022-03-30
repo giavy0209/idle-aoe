@@ -1,20 +1,26 @@
 .clan-detail {
     position: relative;
-    .edit {
+    .owner-actions {
         position: absolute;
         top: 0;
         right: 0;
-        padding: 10px;
-        border: 2px solid #000;
-        border-radius: 5px;
-        cursor: pointer;
-        @include pxToRem(24);
+        display: flex;
+        column-gap: 10px;
+        > * {
+            padding: 10px;
+            border: 2px solid #000;
+            border-radius: 5px;
+            cursor: pointer;
+            @include pxToRem(24);
+        }
     }
     .title {
         text-align: center;
         font-weight: 600;
     }
-    .description, .website,.exp {
+    .description,
+    .website,
+    .exp {
         text-align: center;
     }
     .members {
@@ -32,7 +38,7 @@
             display: flex;
             margin-top: 10px;
             border-top: 1px solid #000;
-            padding: 10px 0 ;
+            padding: 10px 0;
             flex-wrap: wrap;
             > * {
                 width: 50%;

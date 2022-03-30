@@ -59,6 +59,7 @@ class clanController {
         if(!clan || clan.owner.toString() !== user._id.toString()) return res.send({status : 100})
 
         const data = await ClanRequests.find({clan : clanID})
+        .populate('user')
         res.send({status : 1 , data})
     }
 
