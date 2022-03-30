@@ -4,7 +4,7 @@ import Modal from "components/Modal";
 import { FC, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { actionChangeShowCreateClan } from "store/actions";
+import { actionChangeClan, actionChangeShowCreateClan, asyncGetClanDetail } from "store/actions";
 
 const CreateClan: FC = () => {
     const dispatch = useDispatch()
@@ -31,13 +31,17 @@ const CreateClan: FC = () => {
             if (res.status === 1) {
                 toast('Create clan successfully')
                 dispatch(actionChangeShowCreateClan({ show: false }))
+                dispatch(actionChangeClan(null))
             }
         }
         if (showCreateClan?.type === 'edit') {
-            const res = await callAPI.post(`/clan/${showCreateClan?.clan}`, submitData)
+            const res = await callAPI.patch(`/clan/${showCreateClan?.clan}`, submitData)
+            console.log(res.status === 1);
+            
             if (res.status === 1) {
                 toast('Edit clan successfully')
                 dispatch(actionChangeShowCreateClan({ show: false }))
+                dispatch(asyncGetClanDetail(showCreateClan?.clan))
             }
         }
     }

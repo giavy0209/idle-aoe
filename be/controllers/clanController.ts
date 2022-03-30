@@ -100,7 +100,7 @@ class clanController {
         clan.website = website,
         clan.minPopulation = minPopulation
         await clan.save()
-        res.send({staus : 1})
+        res.send({status : 1})
     }
 }
 

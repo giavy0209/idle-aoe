@@ -55,6 +55,19 @@ const callAPI = {
             console.log(error);
         }
     },
+    patch : async (route : string , body : {}) => {
+        try {
+            const client = create()
+            axiosRetry(client, {
+                retries: 3,
+                retryDelay: retryCount => retryCount * 1000,
+            })
+            const { data } = await client.patch(route,body)
+            return data
+        } catch (error: any) {
+            console.log(error);
+        }
+    },
     delete : async (route : string ) => {
         try {
             const client = create()
