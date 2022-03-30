@@ -16,6 +16,7 @@ const _buildings = [
         img: barrack,
         generateText: 'Reduce trainning time',
         type : 'army',
+        unit : '%',
         dispatchAction : () => actionChangeUnitType('infantry')
     },
     {
@@ -23,6 +24,7 @@ const _buildings = [
         img: archer,
         generateText: 'Reduce trainning time',
         type : 'army',
+        unit : '%',
         dispatchAction : () => actionChangeUnitType('archer')
     },
     {
@@ -30,6 +32,7 @@ const _buildings = [
         img: stable,
         generateText: 'Reduce trainning time',
         type : 'army',
+        unit : '%',
         dispatchAction : () => actionChangeUnitType('cavalry')
     },
     {
@@ -37,6 +40,7 @@ const _buildings = [
         img: workshop,
         generateText: 'Reduce trainning time',
         type : 'army',
+        unit : '%',
         dispatchAction : () => actionChangeUnitType('siege')
     },
     {
@@ -44,6 +48,7 @@ const _buildings = [
         img: market,
         generateText: 'Increase cargo',
         type : 'other',
+        unit : ''
         // dispatchAction : () => actionChangeUnitType('siege')
     },
     {
@@ -51,6 +56,7 @@ const _buildings = [
         img: shelter,
         generateText: 'Increase capacity',
         type : 'other',
+        unit : ''
         // dispatchAction : () => actionChangeUnitType('siege')
     },
     {
@@ -58,6 +64,7 @@ const _buildings = [
         img: tower,
         generateText: 'Increase capacity',
         type : 'other',
+        unit : ''
         // dispatchAction : () => actionChangeUnitType('siege')
     },
 ]
@@ -69,9 +76,10 @@ const Building: FC = () => {
     const buildings = useMemo(() => {
         if (!stateBuilding) return []
         const __buildings = _buildings.filter(o => {
-            if(buildingType) return true
+            if(!buildingType) return true
             return o.type === buildingType
         })
+        
         return __buildings.map(o => {
             const findStateBuilding = stateBuilding.find(_o => _o.building.name === o.name)
             return {
@@ -85,7 +93,6 @@ const Building: FC = () => {
     const handleUpgrade = building => {
         dispatch(asyncGetUpgrade({
             ...building,
-            unit: '%'
         }))
     }
     return (
@@ -98,7 +105,7 @@ const Building: FC = () => {
                                 <img src={o.img} alt="" />
                             </div>
                             <div className="name">{o.name}</div>
-                            <div className="generate">Reduce trainning: <span>{o.generate}%</span></div>
+                            <div className="generate">{o.generateText}: <span>{o.generate}%</span></div>
                         </div>)
                     }
                 </div>
