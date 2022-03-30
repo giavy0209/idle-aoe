@@ -127,13 +127,18 @@ const Attack: FC = () => {
             input.value = 0
         })
     }
+
+    const onClose = () => {
+        dispatch(actionChangeShowAttack(null))
+        setUnits([...[]])
+    }
     return (
         <>
             {showAttack && <div className="attack">
                 <div onClick={() => dispatch(actionChangeShowAttack(null))} className="mask"></div>
 
             </div>}
-            <Modal onClose={() => dispatch(actionChangeShowAttack(null))} show={!!showAttack}>
+            <Modal onClose={onClose} show={!!showAttack}>
                 <div className="attack">
                     <div className="list-units">
                         <div className="title">{showAttack?.type === 1 ? 'Attack' : 'Spy'} {showAttack?.username}</div>

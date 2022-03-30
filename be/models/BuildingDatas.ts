@@ -3,6 +3,7 @@ import { IBuildingData } from '../interfaces'
 
 const BuildingDataSchema = new Schema<IBuildingData>({
     name : {type : String},
+    description : {type : String},
     resource : {type : Schema.Types.ObjectId , ref : 'resource_datas'},
     order : {type : Number},
     upgrade : [{

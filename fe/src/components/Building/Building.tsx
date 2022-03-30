@@ -6,7 +6,7 @@ import stable from 'assets/images/stable.webp'
 import workshop from 'assets/images/workshop.webp'
 import { asyncGetUpgrade } from "store/actions";
 import Modal from "components/Modal";
-import { actionChangeBuildingType } from "store/actions/state";
+import { actionChangeBuildingType,actionChangeUnitType } from "store/actions";
 import ModalFixed from "components/ModalFixed";
 const _buildings = [
     {
@@ -14,31 +14,34 @@ const _buildings = [
         img: barrack,
         generateText: 'Reduce trainning time',
         type : 'army',
+        dispatchAction : () => actionChangeUnitType('infantry')
     },
     {
         name: "Archery Range",
         img: archer,
         generateText: 'Reduce trainning time',
         type : 'army',
+        dispatchAction : () => actionChangeUnitType('archer')
     },
     {
         name: "Stables",
         img: stable,
         generateText: 'Reduce trainning time',
         type : 'army',
+        dispatchAction : () => actionChangeUnitType('cavalry')
     },
     {
         name: "Workshop",
         img: workshop,
         generateText: 'Reduce trainning time',
         type : 'army',
+        dispatchAction : () => actionChangeUnitType('siege')
     },
 ]
 const Building: FC = () => {
     const dispatch = useDispatch()
     const stateBuilding = useSelector((state: any) => state.buildings)
     const buildingType = useSelector((state: any) => state.buildingType)
-    console.log(buildingType);
     
     const buildings = useMemo(() => {
         if (!stateBuilding) return []

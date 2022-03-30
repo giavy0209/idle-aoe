@@ -19,7 +19,9 @@ const ModalFixed: FC<IModalFixed> = ({ children, onClose = () => { }, show = fal
                 <div onClick={_onClose} className="close">
                     <FontAwesomeIcon icon={faChevronCircleLeft} />
                 </div>
-                {children}
+                <div className="body">
+                    {children}
+                </div>
             </div>
         </>
     )

@@ -3,6 +3,7 @@ import {IResourceData} from ".";
 interface Iresource extends Types.ObjectId , IResourceData{}
 export default interface IBuildingData {
     name : string,
+    description : string,
     resource : Iresource,
     order : number,
     upgrade : {

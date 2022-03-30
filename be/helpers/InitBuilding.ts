@@ -5,8 +5,9 @@ import ResourceDatas from "../models/ResourceDatas";
 const buildings = [
     {
         name: 'Gold Mine',
-        resource : 'Gold',
-        upgrade : [
+        resource: 'Gold',
+        description : "Gold is one of the four primary resources in the game. Like in the real world your leaders will need gold to construct buildings and to train an army. By constructing a higher level of the gold mine, your income of gold per hour will rise",
+        upgrade: [
             {
                 "level": 0,
                 "generate": 100,
@@ -284,9 +285,10 @@ const buildings = [
         ]
     },
     {
-        name : 'Iron Mine' , 
-        resource : 'Iron',
-        upgrade : [
+        name: 'Iron Mine',
+        resource: 'Iron',
+        description : "Iron is a very important resource, imagine building without using iron or an army without iron swords and armour. You gain iron from your iron mine.",
+        upgrade: [
             {
                 "level": 0,
                 "generate": 100,
@@ -564,9 +566,10 @@ const buildings = [
         ]
     },
     {
-        name : 'Lumberjacks',
-        resource : 'Wood',
-        upgrade : [
+        name: 'Lumberjacks',
+        resource: 'Wood',
+        description : "Just like iron, you will also need wood for your construction works. Make sure you develop the Lumberjacks, so that you can gain more wood per hour.",
+        upgrade: [
             {
                 "level": 0,
                 "generate": 100,
@@ -844,9 +847,10 @@ const buildings = [
         ]
     },
     {
-        name : "Farms",
-        resource : 'Food',
-        upgrade :[
+        name: "Farms",
+        resource: 'Food',
+        description : "Your Farms will make sure that your population will not starve to death. You will need lots of food if you are going to train a big and powerful army. Construct more Farms so your food income increases.",
+        upgrade: [
             {
                 "level": 0,
                 "generate": 100,
@@ -1124,9 +1128,10 @@ const buildings = [
         ]
     },
     {
-        name : "Barracks",
-        order : 4,
-        upgrade : [
+        name: "Barracks",
+        order: 4,
+        description : "This building allows you to train the basic infantry units. To be able to build Barracks you will need to have all resource gaining buildings at least at level two. Upgrading your barracks will make the training of your units faster.",
+        upgrade: [
             {
                 "level": 0,
                 "generate": 0,
@@ -1314,9 +1319,10 @@ const buildings = [
         ]
     },
     {
-        name : 'Archery Range',
-        order : 2,
-        upgrade : [
+        name: 'Archery Range',
+        order: 2,
+        description : "This building allows you to train archers. Upgrading the building makes training faster and unlocks more powerful units.",
+        upgrade: [
             {
                 "level": 0,
                 "generate": 0,
@@ -1504,9 +1510,10 @@ const buildings = [
         ]
     },
     {
-        name : "Stables",
-        order : 3,
-        upgrade : [
+        name: "Stables",
+        order: 3,
+        description : "The cavalry is the heavy force of the Medieval times. Building Stables will allow you to train light and heavy cavalry, perfect units against infantry and archers. They are fast and are able to carry more stolen goods. Each level of the stables will allow you to train cavalry units faster.",
+        upgrade: [
             {
                 "level": 0,
                 "generate": 0,
@@ -1694,9 +1701,10 @@ const buildings = [
         ]
     },
     {
-        name : "Workshop",
-        order : 1,
-        upgrade : [
+        name: "Workshop",
+        order: 1,
+        description : "Just like the barracks and stables you need to have this building in order to train special types of units. From here you can build siege machines which will help you breach the enemy's castle walls or give you the ability to ruin enemy buildings.",
+        upgrade: [
             {
                 "level": 0,
                 "generate": 0,
@@ -1837,21 +1845,624 @@ const buildings = [
                 "time": 5765
             }
         ]
+    },
+    {
+        name: "Market",
+        description : "Business is business, even in the medieval times. By expanding your marketplace you will be able to attract more traders and this will allow you to send bigger amounts of resources on the market or directly to other castles.",
+        upgrade: [
+            {
+                "level": 1,
+                "gold": 105,
+                "iron": 95,
+                "wood": 105,
+                "food": 95,
+                "generate": 2000,
+                "time": 2
+            },
+            {
+                "level": 2,
+                "gold": 166,
+                "iron": 150,
+                "wood": 166,
+                "food": 150,
+                "generate": 4000,
+                "time": 4
+            },
+            {
+                "level": 3,
+                "gold": 210,
+                "iron": 190,
+                "wood": 210,
+                "food": 190,
+                "generate": 6000,
+                "time": 6
+            },
+            {
+                "level": 4,
+                "gold": 264,
+                "iron": 239,
+                "wood": 264,
+                "food": 239,
+                "generate": 8000,
+                "time": 8
+            },
+            {
+                "level": 5,
+                "gold": 333,
+                "iron": 301,
+                "wood": 333,
+                "food": 301,
+                "generate": 10000,
+                "time": 10
+            },
+            {
+                "level": 6,
+                "gold": 420,
+                "iron": 380,
+                "wood": 420,
+                "food": 380,
+                "generate": 12000,
+                "time": 288
+            },
+            {
+                "level": 7,
+                "gold": 529,
+                "iron": 478,
+                "wood": 529,
+                "food": 478,
+                "generate": 14000,
+                "time": 363
+            },
+            {
+                "level": 8,
+                "gold": 667,
+                "iron": 603,
+                "wood": 667,
+                "food": 603,
+                "generate": 16000,
+                "time": 457
+            },
+            {
+                "level": 9,
+                "gold": 840,
+                "iron": 760,
+                "wood": 840,
+                "food": 760,
+                "generate": 18000,
+                "time": 576
+            },
+            {
+                "level": 10,
+                "gold": 1058,
+                "iron": 958,
+                "wood": 1058,
+                "food": 958,
+                "generate": 20000,
+                "time": 726
+            },
+            {
+                "level": 11,
+                "gold": 1334,
+                "iron": 1207,
+                "wood": 1334,
+                "food": 1207,
+                "generate": 22000,
+                "time": 915
+            },
+            {
+                "level": 12,
+                "gold": 1681,
+                "iron": 1521,
+                "wood": 1681,
+                "food": 1521,
+                "generate": 24000,
+                "time": 1153
+            },
+            {
+                "level": 13,
+                "gold": 2118,
+                "iron": 1916,
+                "wood": 2118,
+                "food": 1916,
+                "generate": 26000,
+                "time": 1453
+            },
+            {
+                "level": 14,
+                "gold": 2669,
+                "iron": 2414,
+                "wood": 2669,
+                "food": 2414,
+                "generate": 28000,
+                "time": 1830
+            },
+            {
+                "level": 15,
+                "gold": 3363,
+                "iron": 3042,
+                "wood": 3363,
+                "food": 3042,
+                "generate": 30000,
+                "time": 2306
+            },
+            {
+                "level": 16,
+                "gold": 4237,
+                "iron": 3834,
+                "wood": 4237,
+                "food": 3834,
+                "generate": 32000,
+                "time": 2906
+            },
+            {
+                "level": 17,
+                "gold": 5339,
+                "iron": 4830,
+                "wood": 5339,
+                "food": 4830,
+                "generate": 34000,
+                "time": 3661
+            },
+            {
+                "level": 18,
+                "gold": 6727,
+                "iron": 6086,
+                "wood": 6727,
+                "food": 6086,
+                "generate": 36000,
+                "time": 4613
+            },
+            {
+                "level": 19,
+                "gold": 8476,
+                "iron": 7669,
+                "wood": 8476,
+                "food": 7669,
+                "generate": 38000,
+                "time": 5813
+            },
+            {
+                "level": 20,
+                "gold": 10680,
+                "iron": 9663,
+                "wood": 10680,
+                "food": 9663,
+                "generate": 40000,
+                "time": 7324
+            },
+            {
+                "level": 21,
+                "gold": 13457,
+                "iron": 12176,
+                "wood": 13457,
+                "food": 12176,
+                "generate": 42000,
+                "time": 9228
+            },
+            {
+                "level": 22,
+                "gold": 16956,
+                "iron": 15341,
+                "wood": 16956,
+                "food": 15341,
+                "generate": 44000,
+                "time": 11627
+            },
+            {
+                "level": 23,
+                "gold": 21365,
+                "iron": 19330,
+                "wood": 21365,
+                "food": 19330,
+                "generate": 46000,
+                "time": 14650
+            },
+            {
+                "level": 24,
+                "gold": 26920,
+                "iron": 24356,
+                "wood": 26920,
+                "food": 24356,
+                "generate": 48000,
+                "time": 18460
+            },
+            {
+                "level": 25,
+                "gold": 33919,
+                "iron": 30689,
+                "wood": 33919,
+                "food": 30689,
+                "generate": 50000,
+                "time": 23259
+            }
+        ]
+    },
+    {
+        name: "Shelter",
+        description : "Every ruler suffers from an attack, and hence the loss of resources. These attacks usually take place when your army isn’t in your castle to protect your resource. The problem is you can’t always carry your resource with you to protect it. That’s why Shelters are so important.",
+        upgrade: [
+            {
+                "level": 1,
+                "gold": 45,
+                "iron": 55,
+                "wood": 45,
+                "food": 40,
+                "generate": 300,
+                "time": 2
+            },
+            {
+                "level": 2,
+                "gold": 63,
+                "iron": 77,
+                "wood": 63,
+                "food": 56,
+                "generate": 600,
+                "time": 4
+            },
+            {
+                "level": 3,
+                "gold": 82,
+                "iron": 100,
+                "wood": 82,
+                "food": 73,
+                "generate": 900,
+                "time": 6
+            },
+            {
+                "level": 4,
+                "gold": 106,
+                "iron": 130,
+                "wood": 106,
+                "food": 95,
+                "generate": 1200,
+                "time": 8
+            },
+            {
+                "level": 5,
+                "gold": 138,
+                "iron": 169,
+                "wood": 138,
+                "food": 123,
+                "generate": 1500,
+                "time": 10
+            },
+            {
+                "level": 6,
+                "gold": 180,
+                "iron": 220,
+                "wood": 180,
+                "food": 160,
+                "generate": 1800,
+                "time": 480
+            },
+            {
+                "level": 7,
+                "gold": 234,
+                "iron": 286,
+                "wood": 234,
+                "food": 208,
+                "generate": 2100,
+                "time": 600
+            },
+            {
+                "level": 8,
+                "gold": 304,
+                "iron": 372,
+                "wood": 304,
+                "food": 270,
+                "generate": 2400,
+                "time": 720
+            },
+            {
+                "level": 9,
+                "gold": 395,
+                "iron": 483,
+                "wood": 395,
+                "food": 351,
+                "generate": 2700,
+                "time": 900
+            },
+            {
+                "level": 10,
+                "gold": 514,
+                "iron": 628,
+                "wood": 514,
+                "food": 457,
+                "generate": 3000,
+                "time": 1080
+            },
+            {
+                "level": 11,
+                "gold": 668,
+                "iron": 817,
+                "wood": 668,
+                "food": 594,
+                "generate": 3600,
+                "time": 1260
+            },
+            {
+                "level": 12,
+                "gold": 869,
+                "iron": 1062,
+                "wood": 869,
+                "food": 772,
+                "generate": 4200,
+                "time": 1440
+            },
+            {
+                "level": 13,
+                "gold": 1129,
+                "iron": 1380,
+                "wood": 1129,
+                "food": 1004,
+                "generate": 4800,
+                "time": 1620
+            },
+            {
+                "level": 14,
+                "gold": 1468,
+                "iron": 1794,
+                "wood": 1468,
+                "food": 1305,
+                "generate": 5400,
+                "time": 1800
+            },
+            {
+                "level": 15,
+                "gold": 1908,
+                "iron": 2332,
+                "wood": 1908,
+                "food": 1696,
+                "generate": 6000,
+                "time": 2040
+            },
+            {
+                "level": 16,
+                "gold": 2481,
+                "iron": 3032,
+                "wood": 2481,
+                "food": 2205,
+                "generate": 6600,
+                "time": 2280
+            },
+            {
+                "level": 17,
+                "gold": 3225,
+                "iron": 3941,
+                "wood": 3225,
+                "food": 2866,
+                "generate": 7200,
+                "time": 2520
+            },
+            {
+                "level": 18,
+                "gold": 4192,
+                "iron": 5124,
+                "wood": 4192,
+                "food": 3726,
+                "generate": 7800,
+                "time": 2760
+            },
+            {
+                "level": 19,
+                "gold": 5031,
+                "iron": 6661,
+                "wood": 5450,
+                "food": 4844,
+                "generate": 8400,
+                "time": 3000
+            },
+            {
+                "level": 20,
+                "gold": 6037,
+                "iron": 7993,
+                "wood": 6540,
+                "food": 5813,
+                "generate": 9000,
+                "time": 3240
+            }
+        ]
+    },
+    {
+        name : "Tower",
+        description : "War never changes... By expanding your tower you will be able to increase the number of troops that will remain hidden and will not defend your castle from enemy attacks. Particularly useful when trying to prepare an ambush.",
+        upgrade : [
+            {
+                "level": 1,
+                "gold": 30,
+                "iron": 40,
+                "wood": 35,
+                "food": 28,
+                "generate": 50,
+                "time": 2
+            },
+            {
+                "level": 2,
+                "gold": 53,
+                "iron": 70,
+                "wood": 61,
+                "food": 49,
+                "generate": 150,
+                "time": 4
+            },
+            {
+                "level": 3,
+                "gold": 89,
+                "iron": 119,
+                "wood": 104,
+                "food": 83,
+                "generate": 300,
+                "time": 6
+            },
+            {
+                "level": 4,
+                "gold": 147,
+                "iron": 196,
+                "wood": 172,
+                "food": 137,
+                "generate": 500,
+                "time": 8
+            },
+            {
+                "level": 5,
+                "gold": 236,
+                "iron": 314,
+                "wood": 275,
+                "food": 220,
+                "generate": 700,
+                "time": 10
+            },
+            {
+                "level": 6,
+                "gold": 365,
+                "iron": 487,
+                "wood": 426,
+                "food": 341,
+                "generate": 950,
+                "time": 528
+            },
+            {
+                "level": 7,
+                "gold": 548,
+                "iron": 730,
+                "wood": 639,
+                "food": 511,
+                "generate": 1200,
+                "time": 648
+            },
+            {
+                "level": 8,
+                "gold": 822,
+                "iron": 1096,
+                "wood": 959,
+                "food": 767,
+                "generate": 1450,
+                "time": 780
+            },
+            {
+                "level": 9,
+                "gold": 1233,
+                "iron": 1643,
+                "wood": 1438,
+                "food": 1150,
+                "generate": 1700,
+                "time": 900
+            },
+            {
+                "level": 10,
+                "gold": 1849,
+                "iron": 2465,
+                "wood": 2157,
+                "food": 1726,
+                "generate": 2000,
+                "time": 1080
+            },
+            {
+                "level": 11,
+                "gold": 2588,
+                "iron": 3451,
+                "wood": 3020,
+                "food": 2416,
+                "generate": 2300,
+                "time": 1260
+            },
+            {
+                "level": 12,
+                "gold": 3365,
+                "iron": 4487,
+                "wood": 3926,
+                "food": 3141,
+                "generate": 2600,
+                "time": 1440
+            },
+            {
+                "level": 13,
+                "gold": 4038,
+                "iron": 5384,
+                "wood": 4711,
+                "food": 3769,
+                "generate": 2900,
+                "time": 1680
+            },
+            {
+                "level": 14,
+                "gold": 4442,
+                "iron": 5922,
+                "wood": 5182,
+                "food": 4146,
+                "generate": 3200,
+                "time": 1920
+            },
+            {
+                "level": 15,
+                "gold": 4886,
+                "iron": 6515,
+                "wood": 5700,
+                "food": 4560,
+                "generate": 3500,
+                "time": 2160
+            },
+            {
+                "level": 16,
+                "gold": 5375,
+                "iron": 7166,
+                "wood": 6270,
+                "food": 5016,
+                "generate": 3800,
+                "time": 2400
+            },
+            {
+                "level": 17,
+                "gold": 5912,
+                "iron": 7883,
+                "wood": 6897,
+                "food": 5518,
+                "generate": 4100,
+                "time": 2640
+            },
+            {
+                "level": 18,
+                "gold": 6503,
+                "iron": 8671,
+                "wood": 7587,
+                "food": 6070,
+                "generate": 4400,
+                "time": 2880
+            },
+            {
+                "level": 19,
+                "gold": 7153,
+                "iron": 9538,
+                "wood": 8346,
+                "food": 6677,
+                "generate": 4700,
+                "time": 3240
+            },
+            {
+                "level": 20,
+                "gold": 7869,
+                "iron": 10492,
+                "wood": 9180,
+                "food": 7344,
+                "generate": 5000,
+                "time": 3600
+            }
+        ]
     }
 ]
 
 const resources = [
     {
-        name : "Gold"
+        name: "Gold"
     },
     {
-        name : "Iron"
+        name: "Iron"
     },
     {
-        name : "Wood"
+        name: "Wood"
     },
     {
-        name : 'Food'
+        name: 'Food'
     }
 ]
 
@@ -1863,9 +2474,9 @@ const units = [
         "cargo": 25,
         "life": 40,
         "range": 2,
-        description : "The Pikeman is most efficient against Archers and Cavalry and has the highest carrying capacity of all Infantry units. The Pikemen's range is 2, that's why they are so useful in the battles.",
-        building : 'Barracks',
-        population : 1,
+        description: "The Pikeman is most efficient against Archers and Cavalry and has the highest carrying capacity of all Infantry units. The Pikemen's range is 2, that's why they are so useful in the battles.",
+        building: 'Barracks',
+        population: 1,
         "resource": {
             "gold": 30,
             "iron": 30,
@@ -1886,9 +2497,9 @@ const units = [
         "cargo": 15,
         "life": 80,
         "range": 1,
-        description : 'The Swordsman is equally strong against all unit types, but it costs a lot of Iron. It has average carrying capacity and a lot of health.',
-        building : 'Barracks',
-        population : 1,
+        description: 'The Swordsman is equally strong against all unit types, but it costs a lot of Iron. It has average carrying capacity and a lot of health.',
+        building: 'Barracks',
+        population: 1,
         "resource": {
             "gold": 30,
             "iron": 65,
@@ -1909,9 +2520,9 @@ const units = [
         "cargo": 10,
         "life": 70,
         "range": 1,
-        description : 'The Axeman is very powerful against Infantry and Archers, but has a small carrying capacity. The resources it requires the most are Food and Iron.',
-        building : 'Barracks',
-        population : 1,
+        description: 'The Axeman is very powerful against Infantry and Archers, but has a small carrying capacity. The resources it requires the most are Food and Iron.',
+        building: 'Barracks',
+        population: 1,
         "resource": {
             "gold": 10,
             "iron": 45,
@@ -1932,9 +2543,9 @@ const units = [
         "cargo": 20,
         "life": 60,
         "range": 1,
-        description : 'The Maceman is strong versus Cavalry and Siege machines and has good Carrying capacity. It requires more Food and Gold than other resources to train.',
-        building : 'Barracks',
-        population : 1,
+        description: 'The Maceman is strong versus Cavalry and Siege machines and has good Carrying capacity. It requires more Food and Gold than other resources to train.',
+        building: 'Barracks',
+        population: 1,
         "resource": {
             "gold": 45,
             "iron": 10,
@@ -1955,9 +2566,9 @@ const units = [
         "cargo": 25,
         "life": 40,
         "range": 3,
-        description : 'This is the basic Archer unit. It is cheap, can be trained quickly, and is most powerful against enemy Infantry.',
-        building : 'Archery Range',
-        population : 1,
+        description: 'This is the basic Archer unit. It is cheap, can be trained quickly, and is most powerful against enemy Infantry.',
+        building: 'Archery Range',
+        population: 1,
         "resource": {
             "gold": 25,
             "iron": 35,
@@ -1978,9 +2589,9 @@ const units = [
         "cargo": 15,
         "life": 40,
         "range": 4,
-        description : 'The Longbow archer is vital for every strong army. It takes only 1 population, it is strong against Cavalry and Siege machines, and it takes more Wood and Gold than other resources to build.',
-        building : 'Archery Range',
-        population : 1,
+        description: 'The Longbow archer is vital for every strong army. It takes only 1 population, it is strong against Cavalry and Siege machines, and it takes more Wood and Gold than other resources to build.',
+        building: 'Archery Range',
+        population: 1,
         "resource": {
             "gold": 50,
             "iron": 10,
@@ -2001,9 +2612,9 @@ const units = [
         "cargo": 20,
         "life": 40,
         "range": 4,
-        description : "Another must have in every army unit - it does most damage to Infantry and Archers, it's range is a big advantage, but requires a lot of Gold and Wood.",
-        building : 'Archery Range',
-        population : 1,
+        description: "Another must have in every army unit - it does most damage to Infantry and Archers, it's range is a big advantage, but requires a lot of Gold and Wood.",
+        building: 'Archery Range',
+        population: 1,
         "resource": {
             "gold": 50,
             "iron": 25,
@@ -2024,9 +2635,9 @@ const units = [
         "cargo": 2,
         "life": 80,
         "range": 1,
-        description : 'The Quickwalkers are really fast, but only light armored. They are not very powerful in a battle, as their main use is to Spy on enemies and get information about their castles.',
-        building : 'Stables',
-        population : 2,
+        description: 'The Quickwalkers are really fast, but only light armored. They are not very powerful in a battle, as their main use is to Spy on enemies and get information about their castles.',
+        building: 'Stables',
+        population: 2,
         "resource": {
             "gold": 10,
             "iron": 40,
@@ -2047,9 +2658,9 @@ const units = [
         "cargo": 90,
         "life": 320,
         "range": 1,
-        description : 'The Light Cavalry is a very fast unit with a high carrying capacity, making it perfect for attacks with the purpose of stealing a lot of resources. They are strong against all unit types, but are the most powerful against Archers and Infantry. They require a lot of Food to be trained.',
-        building : 'Stables',
-        population : 4,
+        description: 'The Light Cavalry is a very fast unit with a high carrying capacity, making it perfect for attacks with the purpose of stealing a lot of resources. They are strong against all unit types, but are the most powerful against Archers and Infantry. They require a lot of Food to be trained.',
+        building: 'Stables',
+        population: 4,
         "resource": {
             "gold": 120,
             "iron": 120,
@@ -2070,9 +2681,9 @@ const units = [
         "cargo": 45,
         "life": 500,
         "range": 1,
-        description : 'The Heavy Cavalry is an exceptionally tough and powerful unit. It is very strong against Infantry, Archers and Siege machines. Unfortunately it is expensive to train and takes up a lot of population.',
-        building : 'Stables',
-        population : 6,
+        description: 'The Heavy Cavalry is an exceptionally tough and powerful unit. It is very strong against Infantry, Archers and Siege machines. Unfortunately it is expensive to train and takes up a lot of population.',
+        building: 'Stables',
+        population: 6,
         "resource": {
             "gold": 300,
             "iron": 250,
@@ -2093,9 +2704,9 @@ const units = [
         "cargo": 15,
         "life": 300,
         "range": 5,
-        description : 'The Ballistician has a long range of 5 and is most powerful against Cavalry, Infantry and Archers. It is very useful to have a bunch of those in your army, but unfortunately it takes-up a lot of population (6) and costs a lot of Wood and Food to train.',
-        building : 'Workshop',
-        population : 6,
+        description: 'The Ballistician has a long range of 5 and is most powerful against Cavalry, Infantry and Archers. It is very useful to have a bunch of those in your army, but unfortunately it takes-up a lot of population (6) and costs a lot of Wood and Food to train.',
+        building: 'Workshop',
+        population: 6,
         "resource": {
             "gold": 94,
             "iron": 188,
@@ -2116,9 +2727,9 @@ const units = [
         "cargo": 15,
         "life": 400,
         "range": 5,
-        description : `The Catapult also has a long range of 5. It does the most damage to Infantry and Archers. It is quite expensive, especially Gold and Iron, but it's worth it.`,
-        building : 'Workshop',
-        population : 8,
+        description: `The Catapult also has a long range of 5. It does the most damage to Infantry and Archers. It is quite expensive, especially Gold and Iron, but it's worth it.`,
+        building: 'Workshop',
+        population: 8,
         "resource": {
             "gold": 647,
             "iron": 563,
@@ -2139,9 +2750,9 @@ const units = [
         "cargo": 8,
         "life": 500,
         "range": 5,
-        description : 'The Trebuchet is a very powerful siege engine. It is equally strong against all unit types. Its drawback is that it takes up 10 population and costs an enormous amount of Wood.',
-        building : 'Workshop',
-        population : 10,
+        description: 'The Trebuchet is a very powerful siege engine. It is equally strong against all unit types. Its drawback is that it takes up 10 population and costs an enormous amount of Wood.',
+        building: 'Workshop',
+        population: 10,
         "resource": {
             "gold": 375,
             "iron": 563,
@@ -2160,29 +2771,29 @@ async function InitBuilding() {
     const promise = []
     for (let index = 0; index < resources.length; index++) {
         const resouce = resources[index];
-        const ishave = await ResourceDatas.findOne({name : resouce.name})
-        if(!ishave) {
-            promise.push(ResourceDatas.create(resouce)) 
+        const ishave = await ResourceDatas.findOne({ name: resouce.name })
+        if (!ishave) {
+            promise.push(ResourceDatas.create(resouce))
         }
-        if(ishave) {
-            promise.push(ResourceDatas.findByIdAndUpdate(ishave._id , resouce))
+        if (ishave) {
+            promise.push(ResourceDatas.findByIdAndUpdate(ishave._id, resouce))
         }
     }
     for (let index = 0; index < buildings.length; index++) {
         const building = buildings[index];
-        const resource = await ResourceDatas.findOne({name : building.resource})
-        const ishave = await BuildingDatas.findOne({name : building.name})
-        if(!ishave) {
+        const resource = await ResourceDatas.findOne({ name: building.resource })
+        const ishave = await BuildingDatas.findOne({ name: building.name })
+        if (!ishave) {
             promise.push(BuildingDatas.create({
                 ...building,
-                resource : resource?._id
+                resource: resource?._id
             }))
         }
-        if(ishave) {
+        if (ishave) {
             promise.push(
-                BuildingDatas.findByIdAndUpdate(ishave._id , {
+                BuildingDatas.findByIdAndUpdate(ishave._id, {
                     ...building,
-                    resource : resource?._id
+                    resource: resource?._id
                 })
             )
         }
@@ -2190,25 +2801,25 @@ async function InitBuilding() {
 
     for (let index = 0; index < units.length; index++) {
         const unit = units[index];
-        const building = await BuildingDatas.findOne({name : unit.building})
-        const ishave = await UnitDatas.findOne({name : unit.name})
-        if(!ishave) {
+        const building = await BuildingDatas.findOne({ name: unit.building })
+        const ishave = await UnitDatas.findOne({ name: unit.name })
+        if (!ishave) {
             promise.push(UnitDatas.create({
                 ...unit,
-                building : building?._id
+                building: building?._id
             }))
         }
-        if(ishave) {
-            promise.push(UnitDatas.findByIdAndUpdate(ishave._id , {
+        if (ishave) {
+            promise.push(UnitDatas.findByIdAndUpdate(ishave._id, {
                 ...unit,
-                building : building?._id
+                building: building?._id
             }))
         }
     }
-    
+
     await Promise.all(promise)
     console.log('inited');
-    
+
 }
 
 export default InitBuilding

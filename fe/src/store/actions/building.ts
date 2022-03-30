@@ -28,9 +28,8 @@ export const asyncGetUpgrade = (building) => async dispatch => {
     const {data, status} = await callAPI.get(`/upgrade?building=${building.name}`)
     if(status === 101) toast('Your building is max level')
     dispatch(actionChangeUpgrade({
+        ...building,
         ...data,
-        generateText : building.generateText,
-        unit : building.unit
     }))
     
 }

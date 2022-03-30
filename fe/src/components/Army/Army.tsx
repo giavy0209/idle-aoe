@@ -9,7 +9,7 @@ const Army: FC = () => {
     return (
         <>
             <ModalFixed onClose={() => dispatch(actionChangeArmy(false))} show={show}>
-                <div className="army list-modal-fixed">
+                <div className="army">
                     <div onClick={()=>dispatch(actionChangeUnitType('infantry'))} className="title highlight">Infantry Unit</div>
                     <div onClick={()=>dispatch(actionChangeUnitType('cavalry'))} className="title highlight">Cavalry Unit</div>
                     <div onClick={()=>dispatch(actionChangeUnitType('archer'))} className="title highlight">Archers Unit</div>

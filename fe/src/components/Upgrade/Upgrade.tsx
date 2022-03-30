@@ -23,6 +23,7 @@ interface IUpgrade {
     unit : string,
     time: number,
     _id: string,
+    dispatchAction?() : any
 }
 
 const resourcesName = ['Gold Mine', 'Iron Mine', 'Lumberjacks', 'Farms']
@@ -39,11 +40,12 @@ const Upgrade: FC = function () {
         generateText,
         unit,
         time,
-        _id
+        _id,
+        dispatchAction
     }: IUpgrade = useSelector((state: any) => state?.upgrade || {})
     const worldSpeed = useSelector((state: any) => state.user?.world.speed)
     const resources = useSelector((state: any) => state.resources)
-
+    
     const dispatch = useDispatch()
     const handleUpgrade = useCallback(async () => {
         dispatch(actionChangeLoading(true))
@@ -76,7 +78,6 @@ const Upgrade: FC = function () {
         <>
             <Modal show={!!name} onClose={() => dispatch(actionChangeUpgrade({ name: null }))}>
                 <div className="upgrade">
-
                     <div className="title">Upgrade {name}</div>
                     <div className="content">
                         <div className="costs">
@@ -123,6 +124,7 @@ const Upgrade: FC = function () {
                         </div>
                     </div>
                     <Button onClick={handleUpgrade} text="Upgrade" />
+                    {typeof dispatchAction === 'function' && <Button onClick={()=>{dispatch(dispatchAction()) ; dispatch(actionChangeUpgrade({ name: null }))}} text="Enter Building" />}
                 </div>
             </Modal>
         </>
