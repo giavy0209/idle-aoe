@@ -46,7 +46,7 @@ const Clan : FC = () => {
                                 <span>Min Population:</span>
                                 <span>{o.minPopulation}</span>
                             </div>
-                            <Button onClick={()=>handleRequestJoin(clan._id)} text="Join" />
+                            <Button onClick={()=>handleRequestJoin(o._id)} text="Join" />
                         </div> )
                         :
                         <p>No clan available</p>
