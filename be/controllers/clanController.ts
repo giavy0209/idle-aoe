@@ -192,8 +192,7 @@ class clanController {
         const user = await Users.findById(userId)
         if(!user) return res.send({status : 100})
 
-        user.clan = null
-        await user.save()
+        await Users.updateOne({_id : user._id}, {$unset : {clan : 1}} )
 
         res.send({status : 1})
     }

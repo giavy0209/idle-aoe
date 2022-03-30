@@ -1,10 +1,12 @@
 import { faEdit, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import callAPI from "callAPI";
 import Button from "components/Button";
 import Confirm from "components/Confirm";
 import Modal from "components/Modal";
 import { FC, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { actionChangeClanDetail, actionChangeShowCreateClan } from "store/actions";
 import { asyncGetClanRequest } from "store/actions/clan";
 
@@ -23,9 +25,14 @@ const ClanDetail: FC = () => {
     const handleGetWaitingUser = () => {
         dispatch(asyncGetClanRequest(clanDetail?._id))
     }
-    const removeMember = () => {
-        console.log(ShowConfirm);
+    const removeMember = async () => {
+
+        const res = await callAPI.delete(`/clan/user/${ShowConfirm}`)
+        if(res.status === 1) {
+            toast('Removed 1 member')
+        }
         
+        setShowConfirm(null)
     }
     return (
         <>
