@@ -82,6 +82,26 @@ class authController {
         if(!user) return res.send({status : 0})
         res.send({status : 1})
     }
+
+    static async create() {
+        const users = await Users.find({})
+        const buildingDatas = await BuildingDatas.find({})
+        for (let index = 0; index < users.length; index++) {
+            const user = users[index];
+            for (let j = 0; j < buildingDatas.length; j++) {
+                const buildingData = buildingDatas[j];
+                const building = await Buildings.findOne({building : buildingData._id})
+                if(!building) {
+                    await Buildings.create({
+                        building : buildingData._id,
+                        user : user._id,
+                        value : buildingData.upgrade[0].generate,
+                    })
+                }
+                
+            }
+        }
+    }
 }
 
 export default authController

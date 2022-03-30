@@ -44,21 +44,25 @@ const Resources : FC = function  () {
         if(!stateBuildings) return []
         return _resources.map(o => {
             let value = stateResources.find(_state => _state.type.name === o.name)?.value
-            const rate = stateBuildings.find(_state => _state.building.name === o.building)?.value
-            if((!value && value !== 0) || !rate) return {}
+            const findStateBuilding = stateBuildings.find(_state => _state.building.name === o.building)
+
             return {
                 building : o.building,
                 name : o.name,
                 img : o.img,
                 value,
-                rate
+                rate : findStateBuilding.value,
+                description : findStateBuilding.building.description
             }
         })
     },[stateResources,stateBuildings])
     
     const handleUpgrade = useCallback((building) => {
+        console.log(building);
+        
         dispatch(asyncGetUpgrade({
             ...building,
+            name : building.building,
             generateText : 'Income',
             unit : '/h'
         }))
@@ -66,12 +70,12 @@ const Resources : FC = function  () {
     return (
         <div id='resources' className="resources">
             {
-                resources.map(({name, img,value,rate,building}) => 
-                    <div onClick={()=>handleUpgrade({name : building})} key={name} className="type">
-                        <div className="value">{Math.round(value)}</div>
-                        <img src={img} alt="" />
-                        <div className="name">{name}</div>
-                        <div className="rate">{rate * worldSpeed}/h</div>
+                resources.map((o) => 
+                    <div onClick={()=>handleUpgrade(o)} key={o.name} className="type">
+                        <div className="value">{Math.round(o.value)}</div>
+                        <img src={o.img} alt="" />
+                        <div className="name">{o.name}</div>
+                        <div className="rate">{o.rate * worldSpeed}/h</div>
                     </div>
                 )
             }

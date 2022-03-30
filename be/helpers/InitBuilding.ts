@@ -1851,6 +1851,10 @@ const buildings = [
         description : "Business is business, even in the medieval times. By expanding your marketplace you will be able to attract more traders and this will allow you to send bigger amounts of resources on the market or directly to other castles.",
         upgrade: [
             {
+                level : 0,
+                generate : 0
+            },
+            {
                 "level": 1,
                 "gold": 105,
                 "iron": 95,
@@ -2082,6 +2086,10 @@ const buildings = [
         description : "Every ruler suffers from an attack, and hence the loss of resources. These attacks usually take place when your army isn’t in your castle to protect your resource. The problem is you can’t always carry your resource with you to protect it. That’s why Shelters are so important.",
         upgrade: [
             {
+                level : 0,
+                generate : 0
+            },
+            {
                 "level": 1,
                 "gold": 45,
                 "iron": 55,
@@ -2267,6 +2275,10 @@ const buildings = [
         name : "Tower",
         description : "War never changes... By expanding your tower you will be able to increase the number of troops that will remain hidden and will not defend your castle from enemy attacks. Particularly useful when trying to prepare an ambush.",
         upgrade : [
+            {
+                level : 0,
+                generate : 0
+            },
             {
                 "level": 1,
                 "gold": 30,

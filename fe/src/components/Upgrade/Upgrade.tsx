@@ -13,6 +13,7 @@ import Button from "components/Button";
 
 interface IUpgrade {
     name: string,
+    description : string,
     gold: number,
     iron: number,
     wood: number,
@@ -31,6 +32,7 @@ const resourcesName = ['Gold Mine', 'Iron Mine', 'Lumberjacks', 'Farms']
 const Upgrade: FC = function () {
     const {
         name,
+        description,
         gold,
         iron,
         wood,
@@ -79,6 +81,7 @@ const Upgrade: FC = function () {
             <Modal show={!!name} onClose={() => dispatch(actionChangeUpgrade({ name: null }))}>
                 <div className="upgrade">
                     <div className="title">Upgrade {name}</div>
+                    <div className="description">{description}</div>
                     <div className="content">
                         <div className="costs">
                             <div className="cost">

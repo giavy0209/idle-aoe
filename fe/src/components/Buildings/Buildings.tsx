@@ -12,6 +12,7 @@ const Buildings: FC = () => {
             <ModalFixed onClose={() => dispatch(actionChangeShowBuilding(false))} show={show}>
                 <div className="army list-modal-fixed">
                     <div onClick={() => dispatch(actionChangeBuildingType('army'))} className="title highlight">Army Building</div>
+                    <div onClick={() => dispatch(actionChangeBuildingType('other'))} className="title highlight">Other Building</div>
                 </div>
             </ModalFixed>
         </>

@@ -4,8 +4,10 @@ import barrack from 'assets/images/barrack.webp'
 import archer from 'assets/images/archer.webp'
 import stable from 'assets/images/stable.webp'
 import workshop from 'assets/images/workshop.webp'
+import market from 'assets/images/market.webp'
+import shelter from 'assets/images/shelter.webp'
+import tower from 'assets/images/tower.webp'
 import { asyncGetUpgrade } from "store/actions";
-import Modal from "components/Modal";
 import { actionChangeBuildingType,actionChangeUnitType } from "store/actions";
 import ModalFixed from "components/ModalFixed";
 const _buildings = [
@@ -37,6 +39,27 @@ const _buildings = [
         type : 'army',
         dispatchAction : () => actionChangeUnitType('siege')
     },
+    {
+        name: "Market",
+        img: market,
+        generateText: 'Increase cargo',
+        type : 'other',
+        // dispatchAction : () => actionChangeUnitType('siege')
+    },
+    {
+        name: "Shelter",
+        img: shelter,
+        generateText: 'Increase capacity',
+        type : 'other',
+        // dispatchAction : () => actionChangeUnitType('siege')
+    },
+    {
+        name: "Tower",
+        img: tower,
+        generateText: 'Increase capacity',
+        type : 'other',
+        // dispatchAction : () => actionChangeUnitType('siege')
+    },
 ]
 const Building: FC = () => {
     const dispatch = useDispatch()
@@ -50,9 +73,11 @@ const Building: FC = () => {
             return o.type === buildingType
         })
         return __buildings.map(o => {
+            const findStateBuilding = stateBuilding.find(_o => _o.building.name === o.name)
             return {
                 ...o,
-                generate: stateBuilding.find(_o => _o.building.name === o.name).value,
+                generate: findStateBuilding.value,
+                description : findStateBuilding.building.description
             }
         })
     }, [stateBuilding,buildingType])
