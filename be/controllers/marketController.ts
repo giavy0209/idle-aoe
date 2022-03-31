@@ -168,7 +168,7 @@ class marketController {
             if (Object.prototype.hasOwnProperty.call(market.receive, key)) {
                 const value = market.receive[key];
                 const userResource = userReceiveResources.find(o => {
-                    console.log(o.type.name.toLowerCase() , key.toLocaleLowerCase() , o.value , value);
+                    console.log(o.type.name.toLowerCase() === key.toLocaleLowerCase() , o.value >= value);
                     
                     return (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value)
                 })
