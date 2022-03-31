@@ -33,7 +33,7 @@ class marketController {
         if(totalOffer !== totalReceive) return res.send({status : 100})
 
         const user = await Users.findById(_id)   
-        if(!user || !user.clan) return res.send({status : 100})
+        if(!user || !user.clan) return res.send({status : 102})
 
         const marketBuilding = (await Buildings.aggregate([
             {
