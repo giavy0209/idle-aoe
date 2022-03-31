@@ -180,7 +180,9 @@ class marketController {
         }
 
         if(!isEnoughRes) return res.send({status : 101})
-
+        changeResourceData.forEach(data => {
+            CHANGE_RESOURCE.push(data)
+        })
         const movingTime = 15 * 60 * 1000 / userReceive.world.speed
 
         await Marchings.create({
