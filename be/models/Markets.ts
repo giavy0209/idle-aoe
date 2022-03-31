@@ -21,6 +21,6 @@ const MarketSchema = new Schema<IMarket>({
     timestamps : true
 })
 
-const Markets = model('markets' , MarketSchema)
+const Markets = model<IMarket>('markets' , MarketSchema)
 
 export default Markets

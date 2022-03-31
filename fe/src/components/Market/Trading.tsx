@@ -6,6 +6,7 @@ import food from 'assets/images/food.webp'
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Button from "components/Button";
+import callAPI from "callAPI";
 const _resources: {
     name: string,
     img: any,
@@ -117,14 +118,23 @@ const Trading: FC = () => {
         }
     }
 
-    const handleTrade = useCallback(() => {
+    const handleTrade = useCallback(async () => {
         if (isEqual) {
-
+            const res = await callAPI.post('/market' , Data)
+            if(res.status === 1) {
+                toast('Make offer successfully')
+            }
+            if(res.status === 101) {
+                toast('You are leak of cargo')
+            }
+            if(res.status === 102) {
+                toast('You are not join any clan')
+            }
         } else {
             toast('You have to trade 1:1')
         }
 
-    }, [isEqual])
+    }, [isEqual,Data])
 
     return (
         <>

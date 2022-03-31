@@ -4,7 +4,8 @@ interface IOffer {
     gold ? : number,
     iron ? : number,
     wood ? : number,
-    food ? : number
+    food ? : number,
+    [key : string] : any
 }
 
 export default interface IMarket {
