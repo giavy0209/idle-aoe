@@ -172,6 +172,8 @@ class marketController {
                     
                     return (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value)
                 })
+                console.log({userResource});
+                
                 if (!userResource) {
                     isEnoughRes = false
                     break
