@@ -102,6 +102,7 @@ class marketController {
         for (const key in offer) {
             if (Object.prototype.hasOwnProperty.call(offer, key)) {
                 const value = offer[key];
+                if(!value) continue
                 const userResource = userResources.find(o => (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value))
                 if (!userResource) {
                     isEnoughRes = false
@@ -109,8 +110,7 @@ class marketController {
                 }
                 changeResourceData.push({
                     resource: userResource._id,
-                    newValue: value,
-                    type: 'move-to-market'
+                    newValue: -value,
                 })
             }
         }
@@ -174,8 +174,7 @@ class marketController {
                 }
                 changeResourceData.push({
                     resource: userResource._id,
-                    newValue: value,
-                    type: 'move-to-market'
+                    newValue: -value,
                 })
             }
         }
