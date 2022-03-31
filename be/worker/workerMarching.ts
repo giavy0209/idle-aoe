@@ -604,7 +604,10 @@ async function handleMarchingTrade(marching: Document<unknown, any, IMarching> &
 async function handleMarchingNotArrive() {
     const marchingsNotArrive = await Marchings.find({ arriveTime: { $lte: Date.now() }, status: 0 })
         .populate({
-            path: "units.unit trade",
+            path : 'trade'
+        })
+        .populate({
+            path: "units.unit",
             populate: {
                 path: "building"
             }
