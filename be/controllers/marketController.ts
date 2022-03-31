@@ -162,20 +162,12 @@ class marketController {
         let isEnoughRes = true
 
         const changeResourceData = []
-        console.log(market.receive);
         
         for (const key in market.receive) {
             if (Object.prototype.hasOwnProperty.call(market.receive, key)) {
-                console.log({key});
-                
                 const value = market.receive[key];
-                const userResource = userReceiveResources.find(o => {
-                    console.log(o.type.name.toLowerCase() === key.toLocaleLowerCase() , o.value >= value);
-                    
-                    return (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value)
-                })
-                console.log({userResource});
-                
+                if(!value) continue
+                const userResource = userReceiveResources.find(o => (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value))
                 if (!userResource) {
                     isEnoughRes = false
                     break
