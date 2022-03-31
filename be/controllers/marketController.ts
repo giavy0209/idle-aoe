@@ -3,6 +3,7 @@ import { Battles, Buildings, Marchings, Markets, Resources, Users } from 'models
 import { IRequest } from "interfaces";
 import { Types } from "mongoose";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
+import { changeMarketOffer } from "wsServices";
 class marketController {
     static async get(req: IRequest, res: Response) {
         const {_id} = req
@@ -129,7 +130,7 @@ class marketController {
             endAt: Date.now() + 12 * 60 * 60 * 1000, //end after 12h
         })
         res.send({ status: 1 })
-
+        changeMarketOffer(_id)
     }
 }
 
