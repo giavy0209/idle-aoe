@@ -157,7 +157,7 @@ class marketController {
         const userOffer = await Users.findById(market.user)
         const userReceive = await Users.findById(_id)
         .populate('world')
-        if(!userOffer || !userReceive || userOffer.clan !== userReceive.clan) return res.send({status : 100,msg : 'not found clan'})
+        if(!userOffer || !userReceive || userOffer.clan.toString() !== userReceive.clan.toString()) return res.send({status : 100,msg : 'not found clan'})
 
         const movingTime = 15 * 60 * 1000 * userReceive.world.speed
 
