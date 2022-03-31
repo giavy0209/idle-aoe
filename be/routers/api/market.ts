@@ -7,4 +7,5 @@ const router = Router()
 router.route('/market')
     .get(isAuth ,controller.get)
     .post(isAuth, controller.post)
+    
 export default router

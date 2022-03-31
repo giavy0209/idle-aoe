@@ -2,6 +2,7 @@ import callAPI from "callAPI"
 import storage from "helpers/storage"
 import { asyncGetActivity } from "./battle"
 import { asyncGetBuildings } from "./building"
+import { asyncGetMarketOffer } from "./market"
 import { asyncGetResources } from "./resources"
 import { asyncGetTranningQueue, asyncGetUnits } from "./unit"
 import { asyncGetUser } from "./user"
@@ -15,6 +16,7 @@ export const asyncInit = () => async dispatch => {
         dispatch(asyncGetUnits())
         dispatch(asyncGetTranningQueue())
         dispatch(asyncGetActivity())
+        dispatch(asyncGetMarketOffer())
     }
     if(status === 0) {
         storage.clearToken()

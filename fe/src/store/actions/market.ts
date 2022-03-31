@@ -1,4 +1,13 @@
 import callAPI from "callAPI"
+export const CHANGE_SHOW_MARKET_OFFER = 'CHANGE_SHOW_MARKET_OFFER'
+
+export const actionChangeShowMarketOffer = function(showMarketOffer) {
+    return {
+        type : CHANGE_SHOW_MARKET_OFFER,
+        payload : {showMarketOffer}
+    }
+}
+
 export const CHANGE_MARKET_OFFER = 'CHANGE_MARKET_OFFER'
 
 export const actionChangeMarketOffer = function(marketOffer) {

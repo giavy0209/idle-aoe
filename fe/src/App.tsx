@@ -17,6 +17,7 @@ import { Loading, Login, Resources } from "components";
 import FixedComponents from "FixedComponents";
 import AbsoluteComponents from "AbsoluteComponents";
 import MainComponent from "assets/MainComponent";
+import { actionChangeMarketOffer } from "store/actions/market";
 function App() {
   const dispatch = useDispatch()
   const refApp = useRef<any>(null)
@@ -68,12 +69,18 @@ function App() {
     }
     socket.on('marching', changeActivity)
 
+    const changeMarketOffer = ({ data }) => {
+      dispatch(actionChangeMarketOffer(data))
+    }
+    socket.on('market-offer', changeMarketOffer)
+
     return () => {
       socket.removeListener('user', changeUser)
       socket.removeListener('resources', changeResource)
       socket.removeListener('building', changeBuilding)
       socket.removeListener('trainning-queue', changeTrainningQueue)
       socket.removeListener('units', changeUnits)
+      socket.removeListener('market-offer', changeMarketOffer)
     }
   }, [dispatch])
 

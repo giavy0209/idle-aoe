@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Button from "components/Button";
 import callAPI from "callAPI";
-import { asyncGetMarketOffer } from "store/actions/market";
+import { actionChangeShowMarketOffer, asyncGetMarketOffer } from "store/actions/market";
 const _resources: {
     name: string,
     img: any,
@@ -35,20 +35,21 @@ interface IData {
         gold?: number,
         iron?: number,
         wood?: number,
-        food?:number
+        food?: number
     },
     receive: {
         gold?: number,
         iron?: number,
         wood?: number,
-        food?:number
+        food?: number
     },
 }
 const Trading: FC = () => {
     const dispatch = useDispatch()
     const stateResources = useSelector((state: any) => state.resources)
-    const user = useSelector((state: any) => state.user)
     const market = useSelector((state: any) => state.buildings?.find(o => o.building.name === 'Market'))
+    const marchingsMarket = useSelector((state: any) => state.activity?.filter(o => (o.type === 3 || o.type === 4)))
+    const marketOffers = useSelector((state: any) => state.marketOffer)
 
     const [Data, setData] = useState<IData>({ offer: {}, receive: {} })
 
@@ -79,6 +80,18 @@ const Trading: FC = () => {
             totalReceive
         }
     }, [Data])
+
+    const marketCargo = useMemo(() => {
+        if (!market || !marchingsMarket || !marketOffers) return 0
+        let cargo = market.value
+        marchingsMarket.forEach(o => {
+            Object.entries(o.cargo).forEach((_cargo: [string, any]) => cargo -= _cargo[1])
+        })
+        marketOffers.forEach(o => {
+            Object.entries(o.offer).forEach((_offer: [string, any]) => cargo -= _offer[1])
+        })
+        return cargo
+    }, [market, marchingsMarket, marketOffers])
 
     const resources: any[] = useMemo(() => {
         if (!stateResources) return []
@@ -123,26 +136,25 @@ const Trading: FC = () => {
 
     const handleTrade = useCallback(async () => {
         if (isEqual) {
-            const res = await callAPI.post('/market' , Data)
-            if(res.status === 1) {
+            const res = await callAPI.post('/market', Data)
+            if (res.status === 1) {
                 toast('Make offer successfully')
             }
-            if(res.status === 101) {
+            if (res.status === 101) {
                 toast('You are leak of cargo')
             }
-            if(res.status === 102) {
+            if (res.status === 102) {
                 toast('You are not join any clan')
             }
         } else {
             toast('You have to trade 1:1')
         }
-
-    }, [isEqual,Data])
+    }, [isEqual, Data])
 
     return (
         <>
             <div className="trading">
-                <Button text="Your offer" onClick={()=> dispatch(asyncGetMarketOffer()) } />
+                <Button text="Your offer" onClick={() => dispatch(actionChangeShowMarketOffer(true))} />
                 <div className="create-offer">
                     <div className="offer">
                         <div className="title">Offer</div>
@@ -173,7 +185,7 @@ const Trading: FC = () => {
                         <div className="total">Total : {totalReceive}</div>
                     </div>
                 </div>
-                <div className="cargo">Cargo : {cargoUsed}/{market.value}</div>
+                <div className="cargo">Cargo : {cargoUsed}/{marketCargo}</div>
                 <Button text="Trade" onClick={handleTrade} />
             </div>
         </>
