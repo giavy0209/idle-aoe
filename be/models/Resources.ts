@@ -11,9 +11,4 @@ const ResourceSchema = new Schema<IResource>({
 })
 
 const Resources = model<IResource>('resources' , ResourceSchema)
-Resources.updateMany({} , {inMarket : 0})
-.then(res => {
-    console.log(res);
-    
-})
 export default Resources

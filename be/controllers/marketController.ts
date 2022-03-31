@@ -1,7 +1,8 @@
 import { Response } from "express";
-import { Battles, Buildings, Marchings, Markets, Users } from 'models'
+import { Battles, Buildings, Marchings, Markets, Resources, Users } from 'models'
 import { IRequest } from "interfaces";
 import { Types } from "mongoose";
+import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 class marketController {
     static async get(req: IRequest, res: Response) {
 
@@ -89,6 +90,33 @@ class marketController {
 
         if (totalOffer > marketCargo) return res.send({ status: 101 })
 
+        const userResources = await Resources.find({user : _id})
+        .populate('type')
+
+        let isEnoughRes = true
+
+        const changeResourceData = []
+
+        for (const key in offer) {
+            if (Object.prototype.hasOwnProperty.call(offer, key)) {
+                const value = offer[key];
+                const userResource = userResources.find(o => (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value) )
+                if(!userResource) {
+                    isEnoughRes = false
+                    break
+                }
+                changeResourceData.push({
+                    resource : userResource._id,
+                    newValue : value,
+                    type : 'move-to-market'
+                })
+            }
+        }
+
+        if(!isEnoughRes) return res.send({status : 100 , msg : 'not enough'})
+        changeResourceData.forEach(data => {
+            CHANGE_RESOURCE.push(data)
+        })
         await Markets.create({
             user: _id,
             clan: user.clan,
@@ -98,6 +126,7 @@ class marketController {
             endAt: Date.now() + 12 * 60 * 60 * 1000, //end after 12h
         })
         res.send({ status: 1 })
+
     }
 }
 

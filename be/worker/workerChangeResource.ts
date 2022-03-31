@@ -7,6 +7,7 @@ interface IChangeResource {
     resource: Types.ObjectId | string,
     newValue: number,
     lastUpdate?: number | Date,
+    type ? : string,
 }
 
 export const CHANGE_RESOURCE: IChangeResource[] = []
@@ -18,13 +19,31 @@ async function workerChangeResource() {
             await waitfor(1000)
             continue
         }
-        const { resource, newValue, lastUpdate } = data;
+        const { resource, newValue, lastUpdate ,type} = data;
         const findResource = await Resources.findById(resource)
         if (!findResource) continue
-        findResource.value += newValue
-        if (lastUpdate) {
-            findResource.lastUpdate = lastUpdate
+
+        if(!type) {
+            findResource.value += newValue
+            if (lastUpdate) {
+                findResource.lastUpdate = lastUpdate
+            }
         }
+
+        if(type === 'move-to-market') {
+            findResource.value -= newValue
+            findResource.inMarket += newValue
+        }
+
+        if(type === 'remove-market') {
+            findResource.inMarket -= newValue
+        }
+
+        if(type === 'move-to-storage') {
+            findResource.value += newValue
+            findResource.inMarket -= newValue
+        }
+        
         await findResource.save()
         changeResources(findResource.user.toString())
         CHANGE_RESOURCE.splice(0, 1)
