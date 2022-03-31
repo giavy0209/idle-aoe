@@ -176,7 +176,7 @@ class marketController {
         res.send({status : 1})
         changeMarching(_id)
         changeMarching(userOffer._id.toString())
-        changeMarketOffer(userOffer._id.toString)
+        changeMarketOffer(userOffer._id.toString())
     }
 
 }
