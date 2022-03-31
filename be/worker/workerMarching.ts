@@ -589,6 +589,10 @@ async function handleMarchingTrade(marching: Document<unknown, any, IMarching> &
                 newValue : resourceOffer
             })
         }
+        const resourceReceive = marching.trade.receive[name]
+        if(resourceReceive > 0) {
+            marchingCargo[name] = resourceReceive
+        }
     })
     marching.cargo = {...marchingCargo}
     marching.status = 1
