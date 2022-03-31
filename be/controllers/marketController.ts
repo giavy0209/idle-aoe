@@ -172,6 +172,9 @@ class marketController {
             homeTime : Date.now() + movingTime * 2
         })
 
+        market.status = 1
+        await market.save()
+
         res.send({status : 1})
         changeMarching(_id)
         changeMarching(userOffer._id.toString())
