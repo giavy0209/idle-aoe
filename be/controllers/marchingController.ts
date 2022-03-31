@@ -89,7 +89,7 @@ class marchingController {
         const {marching} = req.body
         if(!marching || !isValidObjectId(marching)) return res.send({status : 100})
 
-        const findMarching = await Marchings.findOne({_id : marching , status : 0})
+        const findMarching = await Marchings.findOne({_id : marching , status : 0 , type : {$in : [1,2,4,5]}})
         if(!findMarching) return res.send({status : 100})
         if(new Date(findMarching.arriveTime).getTime() - Date.now() < 30000 ) return res.send({status : 101})
         const movingTime = Date.now() - new Date(findMarching.startTime).getTime()

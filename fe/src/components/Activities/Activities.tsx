@@ -57,14 +57,22 @@ const Activities: FC = () => {
                             activity?.map(o => <div onClick={() => dispatch(actionChangeModalActivity(o))} key={o._id} className="activity">
                                 <div className="from">{o.user.username}</div>
                                 <div style={{ '--progress': `${o.progress}%` } as CSSProperties} className={`time ${o.status === 0 ? 'moving' : 'comehome'}`}>
-                                    <span>{secondsToTime(o.timeLeft)} ({o.type === 1 ? 'Attack' : 'Spy'} )</span>
+                                    <span>{secondsToTime(o.timeLeft)} ({
+                                        o.type === 1 ? 
+                                        'Attack' : 
+                                        o.type === 2 ?
+                                        'Spy' :
+                                        o.type === 3 ?
+                                        'Trade' : 
+                                        'Caravan'
+                                    } )</span>
                                 </div>
                                 <div className="target">{o.target.username}</div>
                             </div>)
                         }
                     </div>
-                    :
-                    <p className="no-active">No action</p>
+                        :
+                        <p className="no-active">No action</p>
                 }
             </div>
 

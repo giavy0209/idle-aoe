@@ -6,10 +6,10 @@ import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 import { changeMarching, changeMarketOffer } from "wsServices";
 class marketController {
     static async get(req: IRequest, res: Response) {
-        const {_id} = req
-        const data = await Markets.find({user : _id, status : 0})
-        .sort({_id : -1})
-        res.send({status : 1 , data})
+        const { _id } = req
+        const data = await Markets.find({ user: _id, status: 0 })
+            .sort({ _id: -1 })
+        res.send({ status: 1, data })
     }
 
     static async post(req: IRequest, res: Response) {
@@ -94,8 +94,8 @@ class marketController {
 
         if (totalOffer > marketCargo) return res.send({ status: 101 })
 
-        const userResources = await Resources.find({user : _id})
-        .populate('type')
+        const userResources = await Resources.find({ user: _id })
+            .populate('type')
 
         let isEnoughRes = true
 
@@ -104,20 +104,20 @@ class marketController {
         for (const key in offer) {
             if (Object.prototype.hasOwnProperty.call(offer, key)) {
                 const value = offer[key];
-                const userResource = userResources.find(o => (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value) )
-                if(!userResource) {
+                const userResource = userResources.find(o => (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value))
+                if (!userResource) {
                     isEnoughRes = false
                     break
                 }
                 changeResourceData.push({
-                    resource : userResource._id,
-                    newValue : value,
-                    type : 'move-to-market'
+                    resource: userResource._id,
+                    newValue: value,
+                    type: 'move-to-market'
                 })
             }
         }
 
-        if(!isEnoughRes) return res.send({status : 100 , msg : 'not enough'})
+        if (!isEnoughRes) return res.send({ status: 100, msg: 'not enough' })
         changeResourceData.forEach(data => {
             CHANGE_RESOURCE.push(data)
         })
@@ -134,48 +134,72 @@ class marketController {
     }
 
     static async getClan(req: IRequest, res: Response) {
-        const {_id} = req
+        const { _id } = req
         const user = await Users.findById(_id)
-        if(!user || !user.clan) return res.send({status : 100})
+        if (!user || !user.clan) return res.send({ status: 100 })
 
-        const data = await Markets.find({clan : user.clan , user : {$ne : _id}, status : 0 })
-        .populate('user')
-        .sort({_id : -1})
+        const data = await Markets.find({ clan: user.clan, user: { $ne: _id }, status: 0 })
+            .populate('user')
+            .sort({ _id: -1 })
 
-        res.send({status : 1 , data})
+        res.send({ status: 1, data })
     }
 
 
     static async putClan(req: IRequest, res: Response) {
-        const {_id} = req
+        const { _id } = req
         const id = req.params.id
-        if(!isValidObjectId(id)) return res.send({status : 100 , msg : 'not valid id'})
+        if (!isValidObjectId(id)) return res.send({ status: 100, msg: 'not valid id' })
 
-        const market = await Markets.findOne({_id : id , status : 0})
-        if(!market) return res.send({status : 100})
+        const market = await Markets.findOne({ _id: id, status: 0 })
+        if (!market) return res.send({ status: 100 })
 
         const userOffer = await Users.findById(market.user)
         const userReceive = await Users.findById(_id)
-        .populate('world')
-        if(!userOffer || !userReceive || userOffer.clan.toString() !== userReceive.clan.toString()) return res.send({status : 100,msg : 'not found clan'})
+            .populate('world')
+        if (!userOffer || !userReceive || userOffer.clan.toString() !== userReceive.clan.toString()) return res.send({ status: 100, msg: 'not found clan' })
+        
+        const userReceiveResources = await Resources.find({user : _id})
+        let isEnoughRes = true
+
+        const changeResourceData = []
+
+        for (const key in market.receive) {
+            if (Object.prototype.hasOwnProperty.call(market.receive, key)) {
+                const value = market.receive[key];
+                const userResource = userReceiveResources.find(o => (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value))
+                if (!userResource) {
+                    isEnoughRes = false
+                    break
+                }
+                changeResourceData.push({
+                    resource: userResource._id,
+                    newValue: value,
+                    type: 'move-to-market'
+                })
+            }
+        }
+
+        if(!isEnoughRes) return res.send({status : 101})
 
         const movingTime = 15 * 60 * 1000 / userReceive.world.speed
-        
-        await Marchings.create({
-            user : userOffer._id,
-            target : userReceive._id,
-            cargo : market.offer,
-            type : 3,
-            unitSpeed : 15,
-            movingSpeed : 1,
-            arriveTime : Date.now() + movingTime,
-            homeTime : Date.now() + movingTime * 2
-        })
 
+        await Marchings.create({
+            user: userOffer._id,
+            target: userReceive._id,
+            cargo: market.offer,
+            type: 3,
+            unitSpeed: 15,
+            movingSpeed: 1,
+            arriveTime: Date.now() + movingTime,
+            homeTime: Date.now() + movingTime * 2
+        })
         market.status = 1
         await market.save()
 
-        res.send({status : 1})
+        res.send({ status: 1 })
+
+
         changeMarching(_id)
         changeMarching(userOffer._id.toString())
         changeMarketOffer(userOffer._id.toString())

@@ -70,7 +70,7 @@ const Activity: FC = () => {
                         }
                     </div>
                     {
-                        activity?.status === 0 && <div onClick={getMarchingBack} className="back">Return</div>
+                        activity?.status === 0 && [1,2].includes(activity.type) && <div onClick={getMarchingBack} className="back">Return</div>
                     }
                 </div>
             </Modal>
