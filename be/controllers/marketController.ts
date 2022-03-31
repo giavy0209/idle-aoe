@@ -30,7 +30,7 @@ class marketController {
             }
         }
 
-        if(totalOffer !== totalReceive) return res.send({status : 100})
+        if(totalOffer !== totalReceive) return res.send({status : 100, msg : 'not equal'})
 
         const user = await Users.findById(_id)   
         if(!user || !user.clan) return res.send({status : 102})
@@ -61,7 +61,7 @@ class marketController {
             }
         ]))[0]
 
-        if(!marketBuilding) return res.send({status : 100})
+        if(!marketBuilding) return res.send({status : 100 , msg : 'not found market'})
 
         const marchings = await Marchings.find({user : _id , type : {$in : [3,4]} , status : {$ne : 2}})
 
