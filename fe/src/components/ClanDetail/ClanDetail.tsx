@@ -9,6 +9,7 @@ import { FC, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { actionChangeClanDetail, actionChangeShowCreateClan, asyncGetClanDetail, asyncGetClanRequest } from "store/actions/clan";
+import { asyncGetClanMarket } from "store/actions/market";
 
 const ClanDetail: FC = () => {
     const dispatch = useDispatch()
@@ -51,7 +52,7 @@ const ClanDetail: FC = () => {
                             }
                             <div className="action">
 
-                                <div className="title highlight">Clan Market</div>
+                                <div onClick={()=>dispatch(asyncGetClanMarket())} className="title highlight">Clan Market</div>
                                 <div className="title highlight">Leave</div>
                             </div>
                             <div className="title">{clanDetail.name}</div>

@@ -8,6 +8,7 @@ import wood from 'assets/images/wood.webp'
 import food from 'assets/images/food.webp'
 import Button from "components/Button";
 import convertDateAgo from "helpers/convertDateAgo";
+import callAPI from "callAPI";
 
 const _resources: {
     gold: string,
@@ -26,12 +27,15 @@ const ClanMarket: FC = () => {
     const dispatch = useDispatch()
     const clanMarket = useSelector((state: any) => state.clanMarket)
 
+    const acceptOffer = async id => {
+        const res = await callAPI.put(`/market/clan/${id}` , {})
+    }
     return (
         <>
             <Modal show={clanMarket} onClose={() => dispatch(actionChangeClanMarket(null))} >
 
                 {clanMarket && <div className="market-offer">
-                    <div className="title">Your offer</div>
+                    <div className="title">Clan Market</div>
                     <div className="head">
                         <div>Offer</div>
                         <div>Receive</div>
@@ -61,6 +65,7 @@ const ClanMarket: FC = () => {
                                     }
                                 </div>
                                 <div className="time">{o.user.username}</div>
+                                <Button text="Trade" onClick={()=>acceptOffer(o._id)} />
                             </div>)
                         }
                     </div>

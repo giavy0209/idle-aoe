@@ -39,4 +39,6 @@ export {default as Clan} from './Clan'
 export {default as CreateClan} from './CreateClan'
 export {default as ClanDetail} from './ClanDetail'
 export {default as ClanRequest} from './ClanRequest'
+export {default as ClanMarket} from './ClanMarket'
+
 export {default as MarketOffer} from './MarketOffer'

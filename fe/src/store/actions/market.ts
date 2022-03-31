@@ -32,6 +32,6 @@ export const actionChangeClanMarket = function(clanMarket) {
 }
 
 export const asyncGetClanMarket = (userId ? : string) => async dispatch => {
-    const {data} = await callAPI.get(`/market`)
+    const {data} = await callAPI.get(`/market/clan`)
     dispatch(actionChangeClanMarket(data))
 }

@@ -149,7 +149,7 @@ class marketController {
     static async putClan(req: IRequest, res: Response) {
         const {_id} = req
         const id = req.params.id
-        if(!isValidObjectId(id)) return res.send({status : 100})
+        if(!isValidObjectId(id)) return res.send({status : 100 , msg : 'not valid id'})
 
         const market = await Markets.findById(id)
         if(!market) return res.send({status : 100})
@@ -157,7 +157,7 @@ class marketController {
         const userOffer = await Users.findById(market.user)
         const userReceive = await Users.findById(_id)
         .populate('world')
-        if(!userOffer || !userReceive || userOffer.clan !== userReceive.clan) return res.send({status : 100})
+        if(!userOffer || !userReceive || userOffer.clan !== userReceive.clan) return res.send({status : 100,msg : 'not found clan'})
 
         const movingTime = 15 * 60 * 1000 * userReceive.world.speed
 
