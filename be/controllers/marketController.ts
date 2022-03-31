@@ -98,9 +98,7 @@ class marketController {
             .populate('type')
 
         let isEnoughRes = true
-
         const changeResourceData = []
-
         for (const key in offer) {
             if (Object.prototype.hasOwnProperty.call(offer, key)) {
                 const value = offer[key];
@@ -168,7 +166,11 @@ class marketController {
         for (const key in market.receive) {
             if (Object.prototype.hasOwnProperty.call(market.receive, key)) {
                 const value = market.receive[key];
-                const userResource = userReceiveResources.find(o => (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value))
+                const userResource = userReceiveResources.find(o => {
+                    console.log(o.type.name.toLowerCase , key.toLocaleLowerCase() , o.value , value);
+                    
+                    return (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value)
+                })
                 if (!userResource) {
                     isEnoughRes = false
                     break

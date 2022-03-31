@@ -1,7 +1,7 @@
 import Modal from "components/Modal";
 import { FC, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeClanMarket, actionChangeShowMarketOffer } from "store/actions/market";
+import { actionChangeClanMarket, actionChangeShowMarketOffer, asyncGetClanMarket } from "store/actions/market";
 import goldore from 'assets/images/goldore.webp'
 import ironore from 'assets/images/ironore.webp'
 import wood from 'assets/images/wood.webp'
@@ -9,6 +9,7 @@ import food from 'assets/images/food.webp'
 import Button from "components/Button";
 import convertDateAgo from "helpers/convertDateAgo";
 import callAPI from "callAPI";
+import { toast } from "react-toastify";
 
 const _resources: {
     gold: string,
@@ -29,6 +30,13 @@ const ClanMarket: FC = () => {
 
     const acceptOffer = async id => {
         const res = await callAPI.put(`/market/clan/${id}` , {})
+        if(res.status === 1) {
+            dispatch(asyncGetClanMarket())
+            toast('Trader is hit the road, check in Activities')
+        }
+        if(res.status === 101) {
+            toast('Not enough resource')
+        }
     }
     return (
         <>
