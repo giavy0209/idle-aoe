@@ -1,7 +1,6 @@
 import { faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ScrollBackground from "components/ScrollBackground";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 interface IModalFixed {
     onClose?(): any,

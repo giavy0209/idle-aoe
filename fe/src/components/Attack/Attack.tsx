@@ -4,7 +4,8 @@ import secondsToTime from "helpers/secondsToTime";
 import { FC, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { actionChangeEnemy, actionChangeLoading, actionChangeShowAttack } from "store/actions";
+import { actionChangeEnemy, actionChangeShowAttack } from "store/actions/battle";
+import { actionChangeLoading } from "store/actions/state";
 
 const options: number[] = []
 

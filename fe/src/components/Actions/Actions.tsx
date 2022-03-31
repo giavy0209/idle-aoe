@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { asyncGetBattlleReport, asyncGetClan, asyncGetClanDetail, asyncGetEnemy } from "store/actions";
 import {Button} from 'components'
+import { asyncGetBattlleReport, asyncGetEnemy } from "store/actions/battle";
+import { asyncGetClan, asyncGetClanDetail } from "store/actions/clan";
 const Actions : FC = () => {
     const dispatch = useDispatch()
     const user = useSelector((state : any) => state.user)

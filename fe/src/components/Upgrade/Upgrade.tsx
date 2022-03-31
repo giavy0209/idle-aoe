@@ -1,6 +1,5 @@
 import { FC, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeLoading, actionChangeUpgrade } from "store/actions";
 import goldore from 'assets/images/goldore.webp'
 import ironore from 'assets/images/ironore.webp'
 import woodimg from 'assets/images/wood.webp'
@@ -10,6 +9,8 @@ import callAPI from "callAPI";
 import { toast } from "react-toastify";
 import Modal from "components/Modal";
 import Button from "components/Button";
+import { actionChangeLoading } from "store/actions/state";
+import { actionChangeUpgrade } from "store/actions/building";
 
 interface IUpgrade {
     name: string,

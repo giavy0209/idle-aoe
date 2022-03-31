@@ -26,8 +26,8 @@ export const actionChangeUpgrade = function(upgrade) {
 
 export const asyncGetUpgrade = (building) => async dispatch => {
     const {data, status} = await callAPI.get(`/upgrade?building=${building.name}`)
-    if(status === 101) toast('Your building is max level')
-    dispatch(actionChangeUpgrade({
+    if(status === 101) return toast('Your building is max level')
+    return dispatch(actionChangeUpgrade({
         ...building,
         ...data,
     }))

@@ -1,0 +1,63 @@
+.market {
+    .title {
+        text-align: center;
+    }
+    .tabs {
+        display: flex;
+        column-gap: 20px;
+        .tab {
+            width: 50%;
+            text-align: center;
+            padding: 10px;
+            background-color: transparent;
+            cursor: pointer;
+            transition: .3s;
+            &.active {
+                background-color: #d96218;
+                color: #fff;
+                font-weight: 600;
+            }
+        }
+    }
+    .trading {
+        margin-top: 10px;
+        .create-offer{
+            display: flex;
+            column-gap: 20px;
+
+            .offer, .receive {
+                width: 50%;
+                .row {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .img{
+                        width: 60px;
+                    }
+                    .input {
+                        width: calc(100% - 100px);
+                        input {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+            @media only screen and (max-width : 768px) {
+                column-gap: 0;
+                flex-wrap: wrap;
+                .offer, .receive {
+                    width: 100%;
+                    .row {
+                        .input {
+                            width: calc(100% - 70px);
+                        }
+                    }
+                }
+            }
+        }
+        .cargo {
+            text-align: center;
+            margin-top: 10px;
+        }
+    }
+}

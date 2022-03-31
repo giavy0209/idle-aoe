@@ -10,27 +10,24 @@ const TrainningQueue: FC = () => {
     const trainningQueue = useSelector((state: any) => state.trainningQueue)
     const [TimeLeft, setTimeLeft] = useState(0)
     const [Total, setTotal] = useState(0)
-    
+    const [Now, setNow] = useState(Date.now())
     useEffect(() => {
-        let timeout
-        if (TimeLeft > 0) {
-            timeout = setTimeout(() => {
-                setTimeLeft(Math.round(TimeLeft - 1))
-            }, 1000);
-        }
+        const timer = setTimeout(() => {
+            setNow(Date.now())
+        }, 1000);
         return () => {
-            clearTimeout(timeout)
+            clearTimeout(timer)
         }
-    }, [TimeLeft])
+    }, [Now])
 
     useEffect(() => {
         if (trainningQueue) {
             setTotal(trainningQueue.total)
-            setTimeLeft(Math.round((new Date(trainningQueue.finishAt).getTime() - Date.now()) / 1000))
+            setTimeLeft(Math.round((new Date(trainningQueue.finishAt).getTime() - Now) / 1000))
         }else {
             setTotal(0)
         }
-    }, [trainningQueue])
+    }, [trainningQueue,Now])
 
     const openConfirm = () => {
         setShowConfirm(true)

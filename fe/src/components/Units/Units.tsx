@@ -14,8 +14,9 @@ import HeavyCavalry from 'assets/images/heavy_cavalry.webp'
 import Ballistician from 'assets/images/ballistician.webp'
 import Catapult from 'assets/images/catapult.webp'
 import Trebuchet from 'assets/images/trebuchet.webp'
-import { actionChangeArmy, actionChangeUnitType, asyncGetTranning } from "store/actions";
 import ModalFixed from "components/ModalFixed";
+import { asyncGetTranning } from "store/actions/unit";
+import { actionChangeUnitType } from "store/actions/state";
 const _units = [
     {
         name: 'Pikeman',

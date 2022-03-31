@@ -8,8 +8,7 @@ import convertDateAgo from "helpers/convertDateAgo";
 import { FC, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { actionChangeClanDetail, actionChangeShowCreateClan ,asyncGetClanDetail} from "store/actions";
-import { asyncGetClanRequest } from "store/actions/clan";
+import { actionChangeClanDetail, actionChangeShowCreateClan, asyncGetClanDetail, asyncGetClanRequest } from "store/actions/clan";
 
 const ClanDetail: FC = () => {
     const dispatch = useDispatch()
@@ -19,7 +18,7 @@ const ClanDetail: FC = () => {
     const isOwner = useMemo(() => {
         if (!clanDetail) return false
         return clanDetail.owner._id === user._id
-    }, [clanDetail])
+    }, [clanDetail,user])
     const handleEditClan = () => {
         dispatch(actionChangeShowCreateClan({ show: true, type: 'edit', clan: clanDetail?._id }))
     }

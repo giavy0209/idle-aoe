@@ -3,7 +3,7 @@ import {Modal,Button} from "components";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { actionChangeClanRequest, asyncGetClanDetail, asyncGetClanRequest } from "store/actions";
+import { actionChangeClanRequest, asyncGetClanDetail, asyncGetClanRequest } from "store/actions/clan";
 
 const ClanRequest : FC = () => {
     const dispatch = useDispatch()

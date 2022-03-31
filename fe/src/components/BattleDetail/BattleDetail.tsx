@@ -1,7 +1,7 @@
 import Modal from "components/Modal";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeBattleDetail } from "store/actions";
+import { actionChangeBattleDetail } from "store/actions/battle";
 import DetailAttack from "./DetailAttack";
 import DetailSpy from "./DetailSpy";
 const BattleDetail: FC = () => {

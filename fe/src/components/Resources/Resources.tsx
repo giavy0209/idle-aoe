@@ -4,7 +4,7 @@ import wood from 'assets/images/wood.webp'
 import food from 'assets/images/food.webp'
 import { FC, useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { asyncGetUpgrade } from 'store/actions'
+import { asyncGetUpgrade } from 'store/actions/building'
 
 const _resources : {
     name : string,

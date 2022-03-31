@@ -4,7 +4,7 @@ import { Modal } from "components";
 import Button from "components/Button";
 import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeEnemy, actionChangeShowAttack, asyncGetEnemy } from "store/actions";
+import { actionChangeEnemy, actionChangeShowAttack, asyncGetEnemy } from "store/actions/battle";
 
 const Enemy: FC = () => {
     const renderTime = useRef(0)
@@ -18,12 +18,10 @@ const Enemy: FC = () => {
 
     useEffect(() => {
         if(renderTime.current > 0) {
-            console.log(Search);
-            
             dispatch(asyncGetEnemy(Search))
         }
         renderTime.current++
-    },[Search])
+    },[Search,dispatch])
 
     useEffect(() => {
         if(!enemy) {

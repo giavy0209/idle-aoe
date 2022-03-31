@@ -4,7 +4,7 @@ import Modal from "components/Modal";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { actionChangeClan, actionChangeShowCreateClan } from "store/actions";
+import { actionChangeClan, actionChangeShowCreateClan } from "store/actions/clan";
 
 const Clan : FC = () => {
     const dispatch = useDispatch()

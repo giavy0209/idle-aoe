@@ -1,6 +1,5 @@
 import { FC, useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeLoading, actionChangeTranning } from "store/actions";
 import goldore from 'assets/images/goldore.webp'
 import ironore from 'assets/images/ironore.webp'
 import woodimg from 'assets/images/wood.webp'
@@ -10,6 +9,8 @@ import callAPI from "callAPI";
 import { toast } from "react-toastify";
 import Modal from "components/Modal";
 import Button from "components/Button";
+import { actionChangeLoading } from "store/actions/state";
+import { actionChangeTranning } from "store/actions/unit";
 interface ITranning {
     name: string,
     gold: number,
@@ -58,6 +59,11 @@ const Tranning: FC = () => {
 
     const [Total, setTotal] = useState(1)
 
+    const onClose = useCallback(() => {
+        dispatch(actionChangeTranning({ name: null }))
+        setTotal(0)
+    },[dispatch])
+
     const handleTranning = useCallback(async () => {
         dispatch(actionChangeLoading(true))
         const res = await callAPI.post(`/trainning`, { unit: _id, total: Total })
@@ -73,7 +79,7 @@ const Tranning: FC = () => {
         dispatch(actionChangeLoading(false))
         onClose()
 
-    }, [Total, _id, dispatch])
+    }, [Total, _id, dispatch,onClose])
 
     const max = useMemo(() => {
         let maxes: any[] = []
@@ -121,10 +127,7 @@ const Tranning: FC = () => {
         return _resources
     },[resources])
     
-    const onClose = () => {
-        dispatch(actionChangeTranning({ name: null }))
-        setTotal(0)
-    }
+    
     return (
         <>
             <Modal show={!!name} onClose={onClose}>

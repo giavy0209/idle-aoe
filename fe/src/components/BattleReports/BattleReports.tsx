@@ -1,12 +1,12 @@
 import renderDate from "helpers/renderDate";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeBattleReport, actionChangeBattleDetail, asyncGetBattlleReport } from "store/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button, Pagination } from "components";
 import defeat from 'assets/images/defeat.webp'
 import victory from 'assets/images/victory.webp'
+import { actionChangeBattleDetail, actionChangeBattleReport, asyncGetBattlleReport } from "store/actions/battle";
 const BattleReports: FC = () => {
     const [ShowModal, setShowModal] = useState(false)
     const [CurrentPage, setCurrentPage] = useState(1)

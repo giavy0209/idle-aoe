@@ -1,5 +1,5 @@
 import {model, Schema, Types} from 'mongoose'
-import { IBuilding, IMarching } from '../interfaces'
+import { IMarching } from '../interfaces'
 
 const MarchingSchema = new Schema<IMarching>({
     units : [{
@@ -14,7 +14,7 @@ const MarchingSchema = new Schema<IMarching>({
     },
     user : {type : Schema.Types.ObjectId , ref : 'users'},
     target : {type : Schema.Types.ObjectId , ref : 'users'},
-    type : {type : Number}, //1 : attack , 2 : spy
+    type : {type : Number}, //1 : attack , 2 : spy , 3 : trade , 4 : caravan , 5 : patrol , 6...
     unitSpeed : {type : Number},
     movingSpeed : {type : Number},
     startTime : {type : Date , default : Date.now},

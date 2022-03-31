@@ -1,8 +1,7 @@
 import ModalFixed from "components/ModalFixed";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeShowBuilding } from "store/actions";
-import { actionChangeBuildingType } from "store/actions/state";
+import { actionChangeBuildingType, actionChangeShowBuilding } from "store/actions/state";
 
 const Buildings: FC = () => {
     const dispatch = useDispatch()

@@ -1,7 +1,7 @@
 import ModalFixed from "components/ModalFixed";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeArmy, actionChangeUnitType } from "store/actions";
+import { actionChangeArmy, actionChangeUnitType } from "store/actions/state";
 
 const Army: FC = () => {
     const dispatch = useDispatch()

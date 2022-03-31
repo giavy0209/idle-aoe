@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeModalActivity } from "store/actions";
 import goldore from 'assets/images/goldore.webp'
 import ironore from 'assets/images/ironore.webp'
 import wood from 'assets/images/wood.webp'
@@ -8,6 +7,7 @@ import food from 'assets/images/food.webp'
 import callAPI from "callAPI";
 import { toast } from "react-toastify";
 import Modal from "components/Modal";
+import { actionChangeModalActivity } from "store/actions/state";
 const resources: {
     name: string,
     img: any,

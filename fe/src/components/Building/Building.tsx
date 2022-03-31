@@ -7,9 +7,9 @@ import workshop from 'assets/images/workshop.webp'
 import market from 'assets/images/market.webp'
 import shelter from 'assets/images/shelter.webp'
 import tower from 'assets/images/tower.webp'
-import { asyncGetUpgrade } from "store/actions";
-import { actionChangeBuildingType,actionChangeUnitType ,actionChangeShowTower} from "store/actions";
 import ModalFixed from "components/ModalFixed";
+import { actionChangeBuildingType, actionChangeShowMarket, actionChangeShowTower, actionChangeUnitType } from "store/actions/state";
+import { asyncGetUpgrade } from "store/actions/building";
 const _buildings = [
     {
         name: "Barracks",
@@ -48,8 +48,8 @@ const _buildings = [
         img: market,
         generateText: 'Cargo',
         type : 'other',
-        unit : ''
-        // dispatchAction : () => actionChangeUnitType('siege')
+        unit : '',
+        dispatchAction : () => actionChangeShowMarket(true)
     },
     {
         name: "Shelter",

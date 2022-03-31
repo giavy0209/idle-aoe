@@ -52,6 +52,15 @@ export const actionChangeShowTower = function (showTower) {
     }
 }
 
+export const CHANGE_SHOW_MARKET = 'CHANGE_SHOW_MARKET'
+
+export const actionChangeShowMarket = function (showMarket) {
+    return {
+        type : CHANGE_SHOW_MARKET,
+        payload : {showMarket}
+    }
+}
+
 export const CHANGE_MODAL_ACTIVITY = 'CHANGE_MODAL_ACTIVITY'
 
 export const actionChangeModalActivity = function (modalActivity) {

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { actionChangeArmy, actionChangeShowBuilding } from "store/actions";
+import { actionChangeArmy, actionChangeShowBuilding } from "store/actions/state";
 
 const OpenModalFixed: FC = () => {
     const dispatch = useDispatch()

@@ -1,10 +1,10 @@
 import callAPI from "callAPI";
 import Button from "components/Button";
 import Modal from "components/Modal";
-import { FC, useMemo, useRef, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { actionChangeShowTower } from "store/actions";
+import { actionChangeShowTower } from "store/actions/state";
 
 interface IData {
     unit: string,

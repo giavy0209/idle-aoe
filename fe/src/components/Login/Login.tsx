@@ -7,7 +7,7 @@ import storage from "helpers/storage";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { actionChangeLoading} from "store/actions";
+import { actionChangeLoading } from "store/actions/state";
 
 const Login: FC = function () {
     const formRef = useRef<any>()
