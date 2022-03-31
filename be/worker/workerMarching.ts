@@ -1,5 +1,5 @@
 import { IBattleRound, IMarching } from "interfaces";
-import { BattleActions, BattleRounds, Battles, BuildingDatas, Buildings, Marchings, Resources, UnitDatas, Units, Users } from "models";
+import { BattleActions, BattleRounds, Battles, BuildingDatas, Buildings, Marchings, Markets, Resources, UnitDatas, Units, Users } from "models";
 import { Document, Schema, Types } from "mongoose";
 import { changeMarching, changeResources } from "wsServices";
 import { waitfor, getRndInteger } from "../utils";
@@ -660,6 +660,13 @@ async function handleMarchingNotHome() {
             }
         }
         await marching.save()
+        if(marching.type === 3) {
+            const market = await Markets.findById(marching.trade)
+            if(market) {
+                market.status = 2
+                await market.save()
+            }
+        }
         changeMarching(marching.user.toString())
     }
 }
