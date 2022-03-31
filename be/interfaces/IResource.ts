@@ -8,5 +8,6 @@ export default interface IResource  {
     type : IType,
     value : number,
     lastUpdate : number | Date,
-    building : Ibuilding
+    building : Ibuilding,
+    inMarket : number
 }
