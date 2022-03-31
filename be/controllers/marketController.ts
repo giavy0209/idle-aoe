@@ -137,7 +137,7 @@ class marketController {
         const {_id} = req
         const user = await Users.findById(_id)
         if(!user || !user.clan) return res.send({status : 100})
-        const data = await Markets.find({clan : user.clan})
+        const data = await Markets.find({clan : user.clan , user : {$ne : _id}})
         .sort({_id : -1})
 
         res.send({status : 1 , data})

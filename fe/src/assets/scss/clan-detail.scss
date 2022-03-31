@@ -1,11 +1,9 @@
 .clan-detail {
     position: relative;
     .owner-actions {
-        position: absolute;
-        top: 0;
-        right: 0;
         display: flex;
         column-gap: 10px;
+        justify-content: flex-end;
         > * {
             padding: 10px;
             border: 2px solid #000;
