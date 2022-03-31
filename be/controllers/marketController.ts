@@ -1,9 +1,9 @@
 import { Response } from "express";
 import { Battles, Buildings, Marchings, Markets, Resources, Users } from 'models'
 import { IRequest } from "interfaces";
-import { Types } from "mongoose";
+import { isValidObjectId, Types } from "mongoose";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
-import { changeMarketOffer } from "wsServices";
+import { changeMarching, changeMarketOffer } from "wsServices";
 class marketController {
     static async get(req: IRequest, res: Response) {
         const {_id} = req
@@ -132,6 +132,49 @@ class marketController {
         res.send({ status: 1 })
         changeMarketOffer(_id)
     }
+
+    static async getClan(req: IRequest, res: Response) {
+        const {_id} = req
+        const user = await Users.findById(_id)
+        if(!user || !user.clan) return res.send({status : 100})
+        const data = await Markets.find({clan : user.clan})
+        .sort({_id : -1})
+
+        res.send({status : 1 , data})
+    }
+
+
+    static async putClan(req: IRequest, res: Response) {
+        const {_id} = req
+        const id = req.params.id
+        if(!isValidObjectId(id)) return res.send({status : 100})
+
+        const market = await Markets.findById(id)
+        if(!market) return res.send({status : 100})
+
+        const userOffer = await Users.findById(market.user)
+        const userReceive = await Users.findById(_id)
+        .populate('world')
+        if(!userOffer || !userReceive || userOffer.clan !== userReceive.clan) return res.send({status : 100})
+
+        const movingTime = 15 * 60 * 1000 * userReceive.world.speed
+
+        await Marchings.create({
+            user : userOffer._id,
+            target : userReceive._id,
+            cargo : market.offer,
+            type : 3,
+            unitSpeed : 15,
+            movingSpeed : 1,
+            arriveTime : Date.now() + movingTime,
+            homeTime : Date.now() + movingTime * 2
+        })
+
+        res.send({status : 1})
+        changeMarching(_id)
+        changeMarching(userOffer._id.toString())
+    }
+
 }
 
 export default marketController

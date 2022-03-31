@@ -7,8 +7,19 @@ import { CHANGE_UNIT } from "../worker/workerChangeUnit";
 class marchingController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
-        const marching = await Marchings.find({user : _id , status : {$in : [0 , 1]}})
+        const marchingFrom = await Marchings.find({
+            user : _id , 
+            status : {$in : [0 , 1]}
+        })
         .populate('user target units.unit')
+
+        const marchingTo = await Marchings.find({
+            target : _id , 
+            status : {$in : [0]},
+            type : {$in : [3]}
+        })
+        .populate('user target units.unit')
+        const marching = [...marchingFrom, ...marchingTo]
         res.send({
             status : 1 ,
             data : marching

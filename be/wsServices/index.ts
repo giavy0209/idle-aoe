@@ -33,8 +33,19 @@ export async function changeUnit(_id: string) {
 }
 
 export async function changeMarching(_id: string) {
-    const data = await Marchings.find({ user: _id, status: { $in: [0, 1] } })
-        .populate('user target units.unit')
+    const marchingFrom = await Marchings.find({
+        user : _id , 
+        status : {$in : [0 , 1]}
+    })
+    .populate('user target units.unit')
+
+    const marchingTo = await Marchings.find({
+        target : _id , 
+        status : {$in : [0]},
+        type : {$in : [3]}
+    })
+    .populate('user target units.unit')
+    const data = [...marchingFrom, ...marchingTo]
     io.to(_id).emit('marching', { data })
 }
 

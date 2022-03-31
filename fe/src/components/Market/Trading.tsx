@@ -134,11 +134,20 @@ const Trading: FC = () => {
         }
     }
 
+    const reset = useCallback(() => {
+        document.querySelectorAll<HTMLInputElement>('.trading input')
+        .forEach((el) => {
+            el.value = '0'
+        })
+        setData({offer : {} , receive : {}})
+    },[])
+
     const handleTrade = useCallback(async () => {
         if (isEqual) {
             const res = await callAPI.post('/market', Data)
             if (res.status === 1) {
                 toast('Make offer successfully')
+                reset()
             }
             if (res.status === 101) {
                 toast('You are leak of cargo')
@@ -149,7 +158,7 @@ const Trading: FC = () => {
         } else {
             toast('You have to trade 1:1')
         }
-    }, [isEqual, Data])
+    }, [isEqual, Data,reset])
 
     return (
         <>
