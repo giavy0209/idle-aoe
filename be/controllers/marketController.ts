@@ -191,7 +191,8 @@ class marketController {
             unitSpeed: 15,
             movingSpeed: 1,
             arriveTime: Date.now() + movingTime,
-            homeTime: Date.now() + movingTime * 2
+            homeTime: Date.now() + movingTime * 2,
+            trade : market._id
         })
         market.status = 1
         await market.save()

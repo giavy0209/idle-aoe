@@ -12,6 +12,7 @@ const MarchingSchema = new Schema<IMarching>({
         wood : {type : Number , default : 0},
         food : {type : Number , default : 0}
     },
+    trade : {type : Schema.Types.ObjectId, ref : 'markets'},
     user : {type : Schema.Types.ObjectId , ref : 'users'},
     target : {type : Schema.Types.ObjectId , ref : 'users'},
     type : {type : Number}, //1 : attack , 2 : spy , 3 : trade , 4 : caravan , 5 : patrol , 6...

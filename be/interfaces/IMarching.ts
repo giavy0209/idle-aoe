@@ -1,9 +1,9 @@
 import { Types } from "mongoose";
-import { IUsers,IUnitData } from ".";
-import IUnit from "./IUnit";
+import { IUsers,IUnitData ,IMarket} from ".";
 
 interface Iunit extends Types.ObjectId, IUnitData {}
 interface Iuser extends Types.ObjectId , IUsers{}
+interface Imarket extends Types.ObjectId , IMarket{}
 
 interface IUnitsArray {
     unit : Iunit,
@@ -21,6 +21,7 @@ export default interface IMarching{
     cargo : ICargo,
     target : Iuser,
     user : Iuser,
+    trade : Imarket,
     unitSpeed : number,
     movingSpeed : number,
     startTime : Date | number,

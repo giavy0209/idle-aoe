@@ -565,11 +565,40 @@ async function handleMarchingSpy(marching: Document<unknown, any, IMarching> & I
     }
     await marching.save()
 }
-
+async function handleMarchingTrade(marching: Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }) {
+    const targetResource = await Resources.find({ user: marching.target })
+    const marchingCargo = {
+        gold : 0,
+        iron : 0,
+        wood : 0,
+        food : 0,
+    }
+    targetResource.forEach(resource => {
+        const name = resource.type.name.toLowerCase()
+        const resourceOffer = marching.trade.offer[name]
+        if(resourceOffer > 0) {
+            CHANGE_RESOURCE.push({
+                resource : resource._id,
+                newValue : resourceOffer
+            })
+        }
+        const resourceReceive = marching.trade.receive[name]
+        if(resourceReceive > 0) {
+            CHANGE_RESOURCE.push({
+                resource : resource._id,
+                newValue : -resourceReceive
+            })
+            marchingCargo[name] = resourceReceive
+        }
+    })
+    marching.cargo = {...marchingCargo}
+    marching.status = 1
+    await marching.save()
+}
 async function handleMarchingNotArrive() {
     const marchingsNotArrive = await Marchings.find({ arriveTime: { $lte: Date.now() }, status: 0 })
         .populate({
-            path: "units.unit",
+            path: "units.unit trade",
             populate: {
                 path: "building"
             }
@@ -582,6 +611,9 @@ async function handleMarchingNotArrive() {
         }
         if (marching.type === 2) {
             await handleMarchingSpy(marching)
+        }
+        if (marching.type === 3) {
+            await handleMarchingTrade(marching)
         }
         changeMarching(marching.user.toString())
     }
