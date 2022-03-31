@@ -3,10 +3,11 @@ import goldore from 'assets/images/goldore.webp'
 import ironore from 'assets/images/ironore.webp'
 import wood from 'assets/images/wood.webp'
 import food from 'assets/images/food.webp'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Button from "components/Button";
 import callAPI from "callAPI";
+import { asyncGetMarketOffer } from "store/actions/market";
 const _resources: {
     name: string,
     img: any,
@@ -44,7 +45,9 @@ interface IData {
     },
 }
 const Trading: FC = () => {
+    const dispatch = useDispatch()
     const stateResources = useSelector((state: any) => state.resources)
+    const user = useSelector((state: any) => state.user)
     const market = useSelector((state: any) => state.buildings?.find(o => o.building.name === 'Market'))
 
     const [Data, setData] = useState<IData>({ offer: {}, receive: {} })
@@ -139,6 +142,7 @@ const Trading: FC = () => {
     return (
         <>
             <div className="trading">
+                <Button text="Your offer" onClick={()=> dispatch(asyncGetMarketOffer()) } />
                 <div className="create-offer">
                     <div className="offer">
                         <div className="title">Offer</div>

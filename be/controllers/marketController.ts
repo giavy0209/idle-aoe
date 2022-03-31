@@ -5,7 +5,10 @@ import { Types } from "mongoose";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 class marketController {
     static async get(req: IRequest, res: Response) {
-
+        const {_id} = req
+        const data = await Markets.find({user : _id, status : 0})
+        .sort({_id : -1})
+        res.send({status : 1 , data})
     }
 
     static async post(req: IRequest, res: Response) {
