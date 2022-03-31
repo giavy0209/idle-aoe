@@ -160,7 +160,7 @@ class marketController {
         if(!userOffer || !userReceive || userOffer.clan.toString() !== userReceive.clan.toString()) return res.send({status : 100,msg : 'not found clan'})
 
         const movingTime = 15 * 60 * 1000 * userReceive.world.speed
-        console.log(movingTime);
+        console.log(movingTime,userReceive.world);
         
         await Marchings.create({
             user : userOffer._id,
