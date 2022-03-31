@@ -567,7 +567,7 @@ async function handleMarchingSpy(marching: Document<unknown, any, IMarching> & I
 }
 async function handleMarchingTrade(marching: Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }) {
     const targetResource = await Resources.find({ user: marching.target })
-    const marchingCargo = {
+    const marchingCargo : {[key : string] : any} = {
         gold : 0,
         iron : 0,
         wood : 0,
