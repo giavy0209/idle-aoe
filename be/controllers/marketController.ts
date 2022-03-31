@@ -160,6 +160,7 @@ class marketController {
         if (!userOffer || !userReceive || userOffer.clan.toString() !== userReceive.clan.toString()) return res.send({ status: 100, msg: 'not found clan' })
         
         const userReceiveResources = await Resources.find({user : _id})
+        .populate('type')
         let isEnoughRes = true
 
         const changeResourceData = []
