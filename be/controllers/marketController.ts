@@ -138,7 +138,7 @@ class marketController {
         const user = await Users.findById(_id)
         if(!user || !user.clan) return res.send({status : 100})
 
-        const data = await Markets.find({clan : user.clan , user : {$ne : _id}})
+        const data = await Markets.find({clan : user.clan , user : {$ne : _id}, status : 0 })
         .populate('user')
         .sort({_id : -1})
 
@@ -151,7 +151,7 @@ class marketController {
         const id = req.params.id
         if(!isValidObjectId(id)) return res.send({status : 100 , msg : 'not valid id'})
 
-        const market = await Markets.findById(id)
+        const market = await Markets.findOne({_id : id , status : 0})
         if(!market) return res.send({status : 100})
 
         const userOffer = await Users.findById(market.user)
