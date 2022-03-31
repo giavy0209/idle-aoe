@@ -49,6 +49,11 @@ const ClanDetail: FC = () => {
                                     </div>
                                 </div>
                             }
+                            <div className="action">
+
+                                <div className="title highlight">Clan Market</div>
+                                <div className="title highlight">Leave</div>
+                            </div>
                             <div className="title">{clanDetail.name}</div>
                             <div className="description">{clanDetail.description}</div>
                             <div className="exp">EXP : {clanDetail.exp}</div>

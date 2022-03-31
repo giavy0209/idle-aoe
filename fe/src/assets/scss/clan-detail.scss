@@ -12,6 +12,17 @@
             @include pxToRem(24);
         }
     }
+    .action {
+        display: flex;
+        column-gap: 10px;
+        justify-content: flex-end;
+        margin-top: 10px;
+        .title {
+            background-color: transparent;
+            padding: 10px;
+            cursor: pointer;
+        }
+    }
     .title {
         text-align: center;
         font-weight: 600;

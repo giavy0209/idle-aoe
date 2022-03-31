@@ -21,3 +21,17 @@ export const asyncGetMarketOffer = (userId ? : string) => async dispatch => {
     const {data} = await callAPI.get(`/market`)
     dispatch(actionChangeMarketOffer(data))
 }
+
+export const CHANGE_CLAN_MARKET = 'CHANGE_CLAN_MARKET'
+
+export const actionChangeClanMarket = function(clanMarket) {
+    return {
+        type : CHANGE_CLAN_MARKET,
+        payload : {clanMarket}
+    }
+}
+
+export const asyncGetClanMarket = (userId ? : string) => async dispatch => {
+    const {data} = await callAPI.get(`/market`)
+    dispatch(actionChangeClanMarket(data))
+}
