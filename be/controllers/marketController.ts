@@ -242,7 +242,7 @@ class marketController {
             if (!resource) return res.send({ status: 100 })
             changeResourceData.push({
                 resource: resource._id.toString(),
-                newValue: _data.value
+                newValue: -_data.value
             })
             const resourceName = resource.type.name.toLowerCase()
             marchingCargo[resourceName] = _data.value
