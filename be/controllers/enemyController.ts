@@ -9,14 +9,20 @@ class enemyController {
 
         const user = await Users.findById(_id)
         if(!user) return res.send({status : 100})
+
+        const query : {
+            [key : string] : any
+        }= {
+            _id : {$ne : new Types.ObjectId(_id)},
+            world : user.world,
+            username : {$regex : new RegExp(`${search}` , 'i')}
+        }
+        if(user.clan) {
+            query.clan = {$ne : user.clan}
+        }
         const data = await Users.aggregate([
             {
-                $match: {
-                    _id: { $nin: [new Types.ObjectId(_id)]},
-                    clan : {$nin : [user.clan]},
-                    world : user.world,
-                    username : {$regex : new RegExp(`${search}` , 'i')}
-                }
+                $match: query
             },
             {
                 $sample: { size: 10 }
