@@ -5,9 +5,12 @@ import { Types } from "mongoose";
 import { changeUser } from "wsServices";
 class clanController {
     static async get(req: IRequest, res: Response) {
+        const {_id} = req
+        const user = await Users.findById(_id)
+        if(!user) return res.send({status :100})
         const { page, name } = req.query
         const skip = Number(page) - 1 * 10 || 0
-        const query: { name?: any } = {}
+        const query: { name?: any,world : amy } = {world : user.world}
         if (name) {
             query.name = name
         }
