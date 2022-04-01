@@ -83,7 +83,9 @@ class clanController {
             for (const key in market.offer) {
                 if (Object.prototype.hasOwnProperty.call(market.offer, key)) {
                     const value = market.offer[key];
-                    recevieResource[key] += value
+                    if(value) {
+                      recevieResource[key] += value
+                    }
                 }
             }
         }
