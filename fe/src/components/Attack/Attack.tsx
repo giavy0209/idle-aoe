@@ -112,7 +112,6 @@ const Attack: FC = () => {
                 ...unit,
             })
             const input: any = document.querySelector(`.row input[data-name="${unit.unit.name}"]`)
-            console.log(`.row input[data-name="${unit.unit.name}"]`);
 
             if (input) {
                 input.value = unit.total

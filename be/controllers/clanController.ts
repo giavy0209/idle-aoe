@@ -91,7 +91,6 @@ class clanController {
         }
 
         res.send({ status: 1 })
-        console.log(recevieResource);
 
         const userResource = await Resources.find({ user: _id })
             .populate('type')
@@ -253,6 +252,48 @@ class clanController {
         clan.members = await Users.countDocuments({ clan: clan._id })
         await clan.save()
         res.send({ status: 1 })
+
+        const markets = await Markets.find({ user: userId, status: 0 })
+
+        const recevieResource: {
+            gold: number,
+            iron: number,
+            wood: number,
+            food: number,
+            [key: string]: any
+        } = {
+            gold: 0,
+            iron: 0,
+            wood: 0,
+            food: 0
+        }
+
+        for (let index = 0; index < markets.length; index++) {
+            const market = markets[index];
+            market.status = 2
+            await market.save()
+            for (const key in market.offer) {
+                if (Object.prototype.hasOwnProperty.call(market.offer, key)) {
+                    const value = market.offer[key];
+                    if(value) {
+                      recevieResource[key] += value
+                    }
+                }
+            }
+        }
+
+        const userResource = await Resources.find({ user: userId })
+        .populate('type')
+
+        userResource.forEach(resource => {
+            const resourceName = resource.type.name.toLowerCase()
+            const value = recevieResource[resourceName]
+            CHANGE_RESOURCE.push({
+                resource: resource._id,
+                newValue: value
+            })
+        })
+
         changeUser(userId)
     }
 }

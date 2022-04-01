@@ -102,8 +102,6 @@ const Tower: FC = () => {
         })
         document.querySelectorAll<HTMLInputElement>('.tower input[type="number"]')
         .forEach((input)  => {
-            console.log(input);
-            
             input.value = '0'
         })
     }
