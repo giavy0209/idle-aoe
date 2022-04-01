@@ -40,7 +40,7 @@ class clanController {
 
         if (user.clan) return res.send({ status: 100 })
 
-        const isHave = await Clans.findOne({ name })
+        const isHave = await Clans.findOne({ name , world : user.world})
         if (isHave) return res.send({ status: 102 })
         const clan = await Clans.create({
             name,
