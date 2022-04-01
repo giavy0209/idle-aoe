@@ -1,9 +1,11 @@
 import { Types } from "mongoose";
-import { IUsers } from ".";
+import { IUsers,IWorlds } from ".";
 
 interface Iuser extends Types.ObjectId , IUsers{}
+interface Iworld extends Types.ObjectId , IWorlds{}
 export default interface IClan {
     owner : Iuser,
+    world : Iworld
     exp : number,
     members : number,
     name : string,
