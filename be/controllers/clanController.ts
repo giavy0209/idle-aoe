@@ -10,19 +10,33 @@ class clanController {
         if(!user) return res.send({status :100})
         const { page, name } = req.query
         const skip = Number(page) - 1 * 10 || 0
-        const query: { name?: any,world : any } = {world : user.world}
+        const query: { name?: any } = {}
         if (name) {
             query.name = name
         }
-        const data = await Clans.find(query)
-            .limit(10)
-            .skip(skip)
-            .sort({ exp: -1 })
-            .populate('owner')
+        const data = await Clans.aggregate([
+            {
+                $match : query
+            },
+            {
+                $lookup : {
+                    from : 'users',
+                    localField : 'owner',
+                    foreignField : '_id',
+                    as : 'owner'
+                }
+            },
+            {
+                $match : {"owner.world" :user.world }
+            },
+            {
+                $limit : 10
+            },
+        ])
 
-        const total = await Clans.countDocuments(query)
+        // const total = await Clans.countDocuments(query)
 
-        res.send({ status: 1, data, total })
+        res.send({ status: 1, })
     }
     static async post(req: IRequest, res: Response) {
         const { _id } = req
