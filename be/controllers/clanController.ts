@@ -91,6 +91,7 @@ class clanController {
         res.send({status : 1})
 
         const userResource = await Resources.find({user : _id})
+        .populate('type')
         userResource.forEach(resource => {
             const resourceName = resource.type.name.toLowerCase()
             const value = recevieResource[resourceName]
