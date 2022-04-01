@@ -102,7 +102,7 @@ class marketController {
         for (const key in offer) {
             if (Object.prototype.hasOwnProperty.call(offer, key)) {
                 const value = offer[key];
-                if(!value) continue
+                if (!value) continue
                 const userResource = userResources.find(o => (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value))
                 if (!userResource) {
                     isEnoughRes = false
@@ -156,17 +156,17 @@ class marketController {
         const userReceive = await Users.findById(_id)
             .populate('world')
         if (!userOffer || !userReceive || userOffer.clan.toString() !== userReceive.clan.toString()) return res.send({ status: 100, msg: 'not found clan' })
-        
-        const userReceiveResources = await Resources.find({user : _id})
-        .populate('type')
+
+        const userReceiveResources = await Resources.find({ user: _id })
+            .populate('type')
         let isEnoughRes = true
 
         const changeResourceData = []
-        
+
         for (const key in market.receive) {
             if (Object.prototype.hasOwnProperty.call(market.receive, key)) {
                 const value = market.receive[key];
-                if(!value) continue
+                if (!value) continue
                 const userResource = userReceiveResources.find(o => (o.type.name.toLowerCase() === key.toLocaleLowerCase() && o.value >= value))
                 if (!userResource) {
                     isEnoughRes = false
@@ -179,7 +179,7 @@ class marketController {
             }
         }
 
-        if(!isEnoughRes) return res.send({status : 101})
+        if (!isEnoughRes) return res.send({ status: 101 })
         changeResourceData.forEach(data => {
             CHANGE_RESOURCE.push(data)
         })
@@ -194,7 +194,7 @@ class marketController {
             movingSpeed: 1,
             arriveTime: Date.now() + movingTime,
             homeTime: Date.now() + movingTime * 2,
-            trade : market._id
+            trade: market._id
         })
         market.status = 1
         await market.save()
@@ -205,6 +205,112 @@ class marketController {
         changeMarching(_id)
         changeMarching(userOffer._id.toString())
         changeMarketOffer(userOffer._id.toString())
+    }
+
+    static async postCaravan(req: IRequest, res: Response) {
+        const { _id } = req
+        const { data, speed } = req.body
+        if (speed < 10 || speed > 600) return res.send({ status: 101 })
+        if (!data?.[0]?._id || data.length > 4) return res.send({ status: 100 })
+
+        const changeResourceData: {
+            resource: string,
+            newValue: number
+        }[] = []
+
+        const marchingCargo = {
+            gold: 0,
+            iron: 0,
+            wood: 0,
+            food: 0
+        }
+
+        let totalCargo = 0
+
+        for (let index = 0; index < data.length; index++) {
+            const _data = data[index];
+            if (!isValidObjectId(_id) || !_data.value) return res.send({ status: 100 })
+
+            const resource = await Resources.findOne({ _id: _data._id, user: _id, value: { $gte: _data.value } })
+                .populate('type')
+            if (!resource) return res.send({ status: 100 })
+            changeResourceData.push({
+                resource: resource._id.toString(),
+                newValue: _data.value
+            })
+            const resourceName = resource.type.name.toLowerCase()
+            marchingCargo[resourceName] = _data.value
+            totalCargo += _data.value
+        }
+
+        const marketBuilding = (await Buildings.aggregate([
+            {
+                $match: {
+                    user: new Types.ObjectId(_id)
+                }
+            },
+            {
+                $lookup: {
+                    from: 'building_datas',
+                    localField: 'building',
+                    foreignField: '_id',
+                    as: 'building'
+                }
+            },
+            {
+                $unwind: {
+                    path: '$building'
+                }
+            },
+            {
+                $match: {
+                    "building.name": 'Market'
+                }
+            }
+        ]))[0]
+
+        if (!marketBuilding) return res.send({ status: 100, msg: 'not found market' })
+
+        const marchings = await Marchings.find({ user: _id, type: { $in: [3, 4] }, status: { $ne: 2 } })
+
+        let marketCargo = marketBuilding.value
+
+        marchings.forEach(marching => {
+            for (const key in marching.cargo) {
+                if (Object.prototype.hasOwnProperty.call(marching.cargo, key)) {
+                    const value = marching.cargo[key];
+                    marketCargo -= value
+                }
+            }
+        })
+
+        const markets = await Markets.find({ user: _id, status: { $ne: 2 } })
+
+        markets.forEach(market => {
+            for (const key in market.offer) {
+                if (Object.prototype.hasOwnProperty.call(market.offer, key)) {
+                    const value = market.offer[key];
+                    marketCargo -= value
+                }
+            }
+        })
+
+        if(marketCargo < totalCargo) return res.send({status : 100})
+
+        const movingTime = speed * 60 * 1000
+        await Marchings.create({
+            user: _id,
+            cargo: marchingCargo,
+            arriveTime: Date.now() + movingTime,
+            homeTime: Date.now() + movingTime * 2,
+            type: 4,
+            movingSpeed: 1,
+            unitSpeed: speed
+        })
+
+        res.send({ status: 1 })
+        changeResourceData.forEach(data => CHANGE_RESOURCE.push(data))
+        changeMarching(_id)
     }
 
 }

@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import {Button} from 'components'
 import { asyncGetBattlleReport, asyncGetEnemy } from "store/actions/battle";
 import { asyncGetClan, asyncGetClanDetail } from "store/actions/clan";
+import { actionChangeShowMarket, actionChangeShowTower } from "store/actions/state";
 const Actions : FC = () => {
     const dispatch = useDispatch()
     const user = useSelector((state : any) => state.user)
-    const openModelSendArmy = () => {
+    const openModalSendArmy = () => {
         dispatch(asyncGetEnemy())
     }
-    const openModelBattleReport = () => {
+    const openModalBattleReport = () => {
         dispatch(asyncGetBattlleReport())
     }
     const openModalClan = () => {
@@ -19,12 +20,22 @@ const Actions : FC = () => {
             dispatch(asyncGetClan())
         }
     }
+    const openModalMarket = () => {
+        dispatch(actionChangeShowMarket(true))
+    }
+
+    const openModalTower = () => {
+        dispatch(actionChangeShowTower(true))
+    }
     return (
         <>
         <div className="actions">
-            <Button onClick={openModelSendArmy} text="Send Army"/>
-            <Button onClick={openModelBattleReport} text="Battle Report"/>
+            <Button onClick={openModalSendArmy} text="Send Army"/>
+            <Button onClick={openModalBattleReport} text="Battle Report"/>
             <Button onClick={openModalClan} text="Clan"/>
+            <Button onClick={openModalMarket} text="Market"/>
+            <Button onClick={openModalTower} text="Tower"/>
+
         </div>
         </>
     )

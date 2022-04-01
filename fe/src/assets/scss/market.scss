@@ -60,4 +60,23 @@
             margin-top: 10px;
         }
     }
+    .caravan {
+        .select-resource {
+            display: flex;
+            align-items: center;
+            .img {
+                width: 60px;
+            }
+            .input {
+                width: calc(100% - 70px);
+            }
+        }
+        .input {
+            margin-top: 10px;
+        }
+        .cargo {
+            text-align: center;
+            margin-top: 10px;
+        }
+    }
 }

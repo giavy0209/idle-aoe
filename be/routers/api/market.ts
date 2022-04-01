@@ -13,4 +13,7 @@ router.route('/market/clan')
 
 router.route('/market/clan/:id')
     .put(isAuth, controller.putClan)
+
+router.route('/market/caravan')
+    .post(isAuth , controller.postCaravan)
 export default router

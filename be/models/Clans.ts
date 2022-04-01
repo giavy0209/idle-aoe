@@ -15,12 +15,4 @@ const ClanSchema = new Schema<IClan>({
 })
 
 const Clans = model<IClan>('clans' , ClanSchema)
-Clans.find({})
-.populate('owner')
-.exec((err , data) => {
-    data.forEach(el => {
-        el.world = el.owner.world
-        el.save()
-    })
-})
 export default Clans
