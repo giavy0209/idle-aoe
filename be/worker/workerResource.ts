@@ -30,6 +30,9 @@ export default async function workerResource () {
                 bonus = (worldEXP - userEXP) / worldEXP * bonusSpeed
             }
 
+            console.log({bonus,userEXP , worldEXP});
+            
+
             const now = Date.now()
             const diffTime = (now - new Date(resource.lastUpdate).getTime()) / 1000
             const percentDiffTimePerHour = diffTime / secInHour
