@@ -122,6 +122,12 @@ const Login: FC = function () {
                         <p>Example your resource's building level 0 generate 100 per hour and world speed is 10, you will get 1000 per hour</p>
                         <p>Example you need to wait 900 seconds to training 1 Catapult, world speed is 10 so you only have to wait 90 seconds</p>
                     </div>
+                    <div className="title">What is world test?</div>
+                    <div className="content">
+                        <p>You can test your army in world test</p>
+                        <p>This world will have no event and can be reset any time</p>
+                        <p>This world only for test</p>
+                    </div>
                     <div className="title">Which world should I choose?</div>
                     <div className="content">
                         <p>Yah If you read this line, I think you are new player on this game. You should spend a few minute on test world to see what we have</p>

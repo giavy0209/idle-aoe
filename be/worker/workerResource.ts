@@ -3,6 +3,7 @@ import { waitfor } from "../utils";
 import { CHANGE_RESOURCE } from "./workerChangeResource";
 
 const secInHour = 3600
+const bonusSpeed = 5
 
 export default async function workerResource () {
     let lastRun = Date.now()
@@ -19,10 +20,20 @@ export default async function workerResource () {
         })
         for (let index = 0; index < resources.length; index++) {
             const resource = resources[index];
+
+            const userEXP = resource.user.exp
+            const worldEXP = resource.user.world.averageEXP
+
+            let bonus = 1
+
+            if(userEXP && worldEXP && userEXP > worldEXP) {
+                bonus = (worldEXP - userEXP) / worldEXP * bonusSpeed
+            }
+
             const now = Date.now()
             const diffTime = (now - new Date(resource.lastUpdate).getTime()) / 1000
             const percentDiffTimePerHour = diffTime / secInHour
-            const generate = resource.building.value * resource.user.world.speed
+            const generate = resource.building.value * resource.user.world.speed * bonus
             const valueAfterDiff = generate * percentDiffTimePerHour
             CHANGE_RESOURCE.push({
                 resource : resource._id,
