@@ -67,7 +67,7 @@ const Activities: FC = () => {
                                         'Caravan'
                                     } )</span>
                                 </div>
-                                <div className="target">{o.target.username}</div>
+                                <div className="target">{o.target?.username}</div>
                             </div>)
                         }
                     </div>

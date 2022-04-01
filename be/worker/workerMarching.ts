@@ -622,6 +622,10 @@ async function handleMarchingNotArrive() {
             await handleMarchingTrade(marching)
             changeMarching(marching.target.toString())
         }
+        if(marching.type === 4) {
+            marching.status = 1
+            await marching.save()
+        }
         changeMarching(marching.user.toString())
     }
 }
