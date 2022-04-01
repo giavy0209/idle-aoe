@@ -39,10 +39,11 @@
         left: 0;
         overflow-y: scroll;
         display: flex;
-        align-items: center;
         > * {
             width: 100%;
             padding: 20px;
+            justify-content: center;
+            align-items: center;
         }
     
     }
