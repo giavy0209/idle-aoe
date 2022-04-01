@@ -36,7 +36,7 @@ class clanController {
 
         // const total = await Clans.countDocuments(query)
 
-        res.send({ status: 1, })
+        res.send({ status: 1, data })
     }
     static async post(req: IRequest, res: Response) {
         const { _id } = req
