@@ -60,7 +60,7 @@ const ClanDetail: FC = () => {
                             <div className="action">
 
                                 <div onClick={()=>dispatch(asyncGetClanMarket())} className="title highlight">Clan Market</div>
-                                <div onClick={()=>setShowConfirmLeave(true)} className="title highlight">Leave</div>
+                                {!isOwner && <div onClick={()=>setShowConfirmLeave(true)} className="title highlight">Leave</div>}
                             </div>
                             <div className="title">{clanDetail.name}</div>
                             <div className="description">{clanDetail.description}</div>
