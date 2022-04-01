@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 const MainComponent: FC = () => {
   const [ShowModal, setShowModal] = useState(false)
   const user = useSelector((state: any) => state.user)
+  const worldBonus = useSelector((state : any) => state.worldBonus)
   const handleLogout = () => {
     storage.clearToken()
     window.location.reload()
@@ -16,6 +17,7 @@ const MainComponent: FC = () => {
         <>
             <div id="fixed-height">
                 <header>
+                    <div id="exp">Bonus: x{worldBonus}</div>
                     <div id="exp">{user?.exp} EXP</div>
                     <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
                     <div onClick={handleLogout} className="logout">LOGOUT</div>
