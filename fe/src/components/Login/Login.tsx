@@ -124,7 +124,7 @@ const Login: FC = function () {
                     <div className="title">Why worlds have end date?</div>
                     <div className="content">
                         <p>After a few month play, you will upgrade your building at maxium level</p>
-                        <p>You also have alot of resource, a great army</p>
+                        <p>You also have a lot of resource, a great army</p>
                         <p>New player join to that world can't hurt you</p>
                         <p>So we need to reset that world, top player will get some bonus on next round</p>
                         <p>Top clan's owner (on development) also will get some bonus on next round</p>
@@ -138,7 +138,7 @@ const Login: FC = function () {
                     </div>
                     <div className="title">So all the time I spend on it will be for nothing?</div>
                     <div className="content">
-                        <p>At I said above, top player will get some bouns for next round. but it's not too much to unbalance.</p>
+                        <p>At I said above, top player will get some bonus for next round. but it's not too much to unbalance.</p>
                         <p>And other player will get nothing. Yes you will lost all time you have been spent</p>
                         <p>But I hope you have good time with this game, with your clanmate</p>
                         <p>And you will have more experience after each round, this is also advantage with new player</p>
