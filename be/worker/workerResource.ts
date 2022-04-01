@@ -26,7 +26,7 @@ export default async function workerResource () {
 
             let bonus = 1
 
-            if(userEXP && worldEXP && userEXP > worldEXP) {
+            if(userEXP && worldEXP && userEXP < worldEXP) {
                 bonus = (worldEXP - userEXP) / worldEXP * bonusSpeed
             }
 
