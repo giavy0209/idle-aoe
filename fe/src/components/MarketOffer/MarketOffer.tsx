@@ -40,7 +40,7 @@ const MarketOffer: FC = () => {
                     </div>
                     <div className="offers">
                         {
-                            marketOffer.map(o => <div className="offer">
+                            marketOffer.map(o => <div key={o._id} className="offer">
                                 <div>
                                     {
                                         Object.entries(o.offer).map((_offer : [string,any]) => <div key={_offer[0] + 'offer' + o._id} className="list-resource">

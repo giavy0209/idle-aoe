@@ -7,6 +7,7 @@ const router = Router()
 router.route('/clan')
     .get(isAuth ,controller.get)
     .post(isAuth , controller.post)
+    .delete(isAuth ,  controller.delete)
 
 router.route('/clan/join/:id')
     .get(isAuth , controller.getJoin)

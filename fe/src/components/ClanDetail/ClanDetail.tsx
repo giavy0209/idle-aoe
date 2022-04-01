@@ -14,6 +14,7 @@ import { asyncGetClanMarket } from "store/actions/market";
 const ClanDetail: FC = () => {
     const dispatch = useDispatch()
     const [ShowConfirm , setShowConfirm] = useState<any>(null)
+    const [ShowConfirmLeave , setShowConfirmLeave] = useState<any>(null)
     const clanDetail = useSelector((state: any) => state.clanDetail)
     const user = useSelector((state: any) => state.user)
     const isOwner = useMemo(() => {
@@ -34,6 +35,11 @@ const ClanDetail: FC = () => {
         }
         setShowConfirm(null)
     }
+    const handleLeave = async () => {
+        await callAPI.delete('/clan')
+        toast('You are leave clan')
+        dispatch(actionChangeClanDetail(null))
+    }
     return (
         <>
             <Modal onClose={() => dispatch(actionChangeClanDetail(null))} show={clanDetail}  >
@@ -53,7 +59,7 @@ const ClanDetail: FC = () => {
                             <div className="action">
 
                                 <div onClick={()=>dispatch(asyncGetClanMarket())} className="title highlight">Clan Market</div>
-                                <div className="title highlight">Leave</div>
+                                <div onClick={()=>setShowConfirmLeave(true)} className="title highlight">Leave</div>
                             </div>
                             <div className="title">{clanDetail.name}</div>
                             <div className="description">{clanDetail.description}</div>
@@ -81,6 +87,7 @@ const ClanDetail: FC = () => {
                     </>
                 }
             </Modal>
+            <Confirm show={ShowConfirmLeave} onOk={handleLeave} onCancel={() => setShowConfirmLeave(false)} title="Are you sure?" message="You are going to leave this clan" />
             <Confirm onOk={removeMember} onCancel={() => setShowConfirm(null)} show={!!ShowConfirm} title="Are you sure?" message="This member will be remove from your clan" />
         </>
     )
