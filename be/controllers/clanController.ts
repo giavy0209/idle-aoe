@@ -6,12 +6,12 @@ import { changeUser } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 class clanController {
     static async get(req: IRequest, res: Response) {
-        const {_id} = req
+        const { _id } = req
         const user = await Users.findById(_id)
-        if(!user) return res.send({status :100})
+        if (!user) return res.send({ status: 100 })
         const { page, name } = req.query
         const skip = Number(page) - 1 * 10 || 0
-        const query: { name?: any,world : any } = {world : user.world}
+        const query: { name?: any, world: any } = { world: user.world }
         if (name) {
             query.name = name
         }
@@ -41,7 +41,7 @@ class clanController {
 
         if (user.clan) return res.send({ status: 100 })
 
-        const isHave = await Clans.findOne({ name , world : user.world})
+        const isHave = await Clans.findOne({ name, world: user.world })
         if (isHave) return res.send({ status: 102 })
         const clan = await Clans.create({
             name,
@@ -58,18 +58,18 @@ class clanController {
     }
 
     static async delete(req: IRequest, res: Response) {
-        const {_id} = req
-        await Users.updateOne({_id : new Types.ObjectId(_id)} , {$unset : {clan : 1}})
+        const { _id } = req
+        await Users.updateOne({ _id: new Types.ObjectId(_id) }, { $unset: { clan: 1 } })
 
-        const markets = await Markets.find({user : _id , status : 0})
+        const markets = await Markets.find({ user: _id, status: 0 })
 
-        const recevieResource : {
+        const recevieResource: {
             gold: number,
             iron: number,
             wood: number,
             food: number,
-            [key : string] : any
-        }= {
+            [key: string]: any
+        } = {
             gold: 0,
             iron: 0,
             wood: 0,
@@ -85,19 +85,20 @@ class clanController {
                     const value = market.offer[key];
                     recevieResource[key] += value
                 }
-            }            
+            }
         }
 
-        res.send({status : 1})
+        res.send({ status: 1 })
+        console.log(recevieResource);
 
-        const userResource = await Resources.find({user : _id})
-        .populate('type')
+        const userResource = await Resources.find({ user: _id })
+            .populate('type')
         userResource.forEach(resource => {
             const resourceName = resource.type.name.toLowerCase()
             const value = recevieResource[resourceName]
             CHANGE_RESOURCE.push({
-                resource : resource._id,
-                newValue : value
+                resource: resource._id,
+                newValue: value
             })
         })
         changeUser(_id)
@@ -146,7 +147,7 @@ class clanController {
         const clan = await Clans.findById(request.clan)
         if (!clan || clan.owner.toString() !== owner._id.toString()) return res.send({ status: 100 })
 
-        if(clan.members > 30) return res.send({status : 101})
+        if (clan.members > 30) return res.send({ status: 101 })
 
         if (!request) return res.send({ status: 100 })
 
@@ -156,7 +157,7 @@ class clanController {
         user.clan = clan._id
         await user.save()
 
-        clan.members = await Users.countDocuments({clan : clan._id})
+        clan.members = await Users.countDocuments({ clan: clan._id })
         await clan.save()
         await ClanRequests.deleteMany({ user: request.user })
 
@@ -178,7 +179,7 @@ class clanController {
         if (!clan || clan.owner.toString() !== owner._id.toString()) return res.send({ status: 100 })
 
         await request.delete()
-        res.send({status : 1})
+        res.send({ status: 1 })
     }
 
     static async getDetail(req: IRequest, res: Response) {
@@ -214,7 +215,7 @@ class clanController {
         if (!clanDetail.length) return res.send({ status: 100 })
         return res.send({ status: 1, data: clanDetail[0] })
     }
-    
+
     static async patchDetail(req: IRequest, res: Response) {
         const { _id } = req
         const clanID = req.params.id
@@ -239,17 +240,17 @@ class clanController {
         const { _id } = req
         const userId = req.params.id
         const owner = await Users.findById(_id)
-        if(!owner) return res.send({status : 100})
+        if (!owner) return res.send({ status: 100 })
         const clan = await Clans.findById(owner.clan)
         if (!clan || clan.owner.toString() !== owner._id.toString()) return res.send({ status: 100 })
 
         const user = await Users.findById(userId)
-        if(!user) return res.send({status : 100})
+        if (!user) return res.send({ status: 100 })
 
-        await Users.updateOne({_id : user._id}, {$unset : {clan : 1}} )
-        clan.members = await Users.countDocuments({clan : clan._id})
+        await Users.updateOne({ _id: user._id }, { $unset: { clan: 1 } })
+        clan.members = await Users.countDocuments({ clan: clan._id })
         await clan.save()
-        res.send({status : 1})
+        res.send({ status: 1 })
         changeUser(userId)
     }
 }

@@ -39,6 +39,7 @@ const ClanDetail: FC = () => {
         await callAPI.delete('/clan')
         toast('You left clan')
         dispatch(actionChangeClanDetail(null))
+        setShowConfirmLeave(false)
     }
     return (
         <>
