@@ -49,6 +49,7 @@ class clanController {
             website,
             minPopulation,
             owner: _id,
+            world : user.world
         })
         user.clan = clan._id
         await user.save()
