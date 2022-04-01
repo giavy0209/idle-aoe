@@ -218,7 +218,13 @@ class marketController {
             newValue: number
         }[] = []
 
-        const marchingCargo = {
+        const marchingCargo : {
+            gold: number,
+            iron: number,
+            wood: number,
+            food: number,
+            [key : string] : any
+        }= {
             gold: 0,
             iron: 0,
             wood: 0,
