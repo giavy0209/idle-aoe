@@ -36,7 +36,6 @@ const CreateClan: FC = () => {
         }
         if (showCreateClan?.type === 'edit') {
             const res = await callAPI.patch(`/clan/${showCreateClan?.clan}`, submitData)
-            console.log(res.status === 1);
             
             if (res.status === 1) {
                 toast('Edit clan successfully')

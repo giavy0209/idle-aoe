@@ -50,7 +50,6 @@ class unitController {
                     moveTower : true
                 })
             }
-            console.log(findUnit , inTower,userTower);
             if(inTower > userTower.value) return res.send({status : 101})
         }
         changeUnitData.forEach(unitData => {

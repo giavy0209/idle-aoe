@@ -27,7 +27,6 @@ const resources: {
     ]
 const DetailAttack: FC = () => {
     const battleDetail = useSelector((state: any) => state.battleDetail)
-    console.log(battleDetail);
 
     return (
         <>

@@ -110,8 +110,6 @@ const Caravan :FC = () => {
         if (value <min) value = min
         if (value > max) value = Math.floor(max)
         setSpeed(value)
-        console.log(value);
-        
     }
 
     const handleSendCaravan = async () => {
