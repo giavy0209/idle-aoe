@@ -11,4 +11,5 @@ export default interface IBuilding{
     isUpgrade : boolean,
     value : number,
     finishAt : number | Date
+    castle : Types.ObjectId
 }

@@ -38,6 +38,7 @@ const Caravan :FC = () => {
     const market = useSelector((state: any) => state.buildings?.find(o => o.building.name === 'Market'))
     const marchingsMarket = useSelector((state: any) => state.activity?.filter(o => (o.type === 3 || o.type === 4)))
     const marketOffers = useSelector((state: any) => state.marketOffer)
+    const currentCastle = useSelector((state : any) => state.currentCastle)
 
     const [Data, setData] = useState<IData[]>([])
     const [Speed, setSpeed] = useState(10)
@@ -116,7 +117,7 @@ const Caravan :FC = () => {
         if(cargoUsed > marketCargo) {
             return toast('Not enough cargo')
         }
-        const res = await callAPI.post('/market/caravan' , {data : Data , speed : Speed})
+        const res = await callAPI.post('/market/caravan' , {data : Data , speed : Speed, castle : currentCastle?._id})
         if(res.status === 1) {
             toast('Send Caravan successfully')
         }

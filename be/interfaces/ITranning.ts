@@ -15,5 +15,6 @@ export default interface ITranning {
     userBuilding : IUserBuilding,
     lastUpdate : Date | number,
     finishAt : Date | number,
-    time : number
+    time : number,
+    castle : Types.ObjectId
 }

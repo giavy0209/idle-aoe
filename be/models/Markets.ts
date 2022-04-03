@@ -3,6 +3,7 @@ import { IMarket } from 'interfaces'
 const MarketSchema = new Schema<IMarket>({
     user : {type : Schema.Types.ObjectId, ref : 'users'},
     clan : {type : Schema.Types.ObjectId, ref : 'clans'},
+    castle : {type : Schema.Types.ObjectId, ref : 'castles'},
     offer : {
         gold : {type : Number},
         iron : {type : Number},

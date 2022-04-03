@@ -1,5 +1,5 @@
 import { IBattleRound, IMarching } from "interfaces";
-import { BattleActions, BattleRounds, Battles, BuildingDatas, Buildings, Marchings, Markets, Resources, UnitDatas, Units, Users } from "models";
+import { BattleActions, BattleRounds, Battles, BuildingDatas, Buildings, Castles, Marchings, Markets, Resources, UnitDatas, Units, Users } from "models";
 import { Document, Schema, Types } from "mongoose";
 import { changeMarching, changeResources } from "wsServices";
 import { waitfor, getRndInteger } from "../utils";
@@ -9,7 +9,7 @@ import { CHANGE_UNIT } from "./workerChangeUnit";
 async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
     _id: Types.ObjectId;
 }) {
-    const targetResource = await Resources.find({ user: marching.target })
+    const targetResource = await Resources.find({ user: marching.target, castle: marching.targetCastle })
         .populate('type')
         .sort({ value: 1 })
 
@@ -17,7 +17,7 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
 
     const shelter = await BuildingDatas.findOne({ name: 'Shelter' })
     if (shelter) {
-        const targetShelter = await Buildings.findOne({ user: marching.target, building: shelter._id })
+        const targetShelter = await Buildings.findOne({ user: marching.target, castle: marching.targetCastle, building: shelter._id })
 
         if (targetShelter) {
             let shelterValue = targetShelter.value
@@ -64,12 +64,13 @@ async function steal(marching: Document<unknown, any, IMarching> & IMarching & {
     await marching.save()
 }
 
-async function findDefenderUnits(target: Types.ObjectId) {
+async function findDefenderUnits(target: Types.ObjectId, targetCastle: Types.ObjectId) {
     return await Units.aggregate([
         {
             $match: {
                 user: target,
-                total: { $gt: 0 }
+                total: { $gt: 0 },
+                castle: targetCastle,
             }
         },
         {
@@ -339,7 +340,7 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
     _id: Types.ObjectId;
 }) {
 
-    const defenderUnitsWithOrder = await findDefenderUnits(marching.target)
+    const defenderUnitsWithOrder = await findDefenderUnits(marching.target, marching.targetCastle)
     const cloneDefenderUnitWithOrder = JSON.parse(JSON.stringify(defenderUnitsWithOrder))
 
     const attackerUnitsWithOrder = findAttackerUnits(marching)
@@ -353,7 +354,9 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
 
     const battle = new Battles({
         attacker: marching.user,
+        attackerCastle: marching.fromCastle,
         defender: marching.target,
+        defenderCastle: marching.targetCastle,
         marching: marching._id,
         rounds: [],
         attackerUnits: marching.units,
@@ -465,7 +468,7 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
             const unit = units[index];
             const baseUnit = baseUnits[index]
             const changeValue = unit.total - baseUnit.total
-            const userUnit = await Units.findOne({ user: marching.target, unit: unit.unit._id })
+            const userUnit = await Units.findOne({ user: marching.target, castle: marching.targetCastle, unit: unit.unit._id })
             if (!userUnit) continue
 
             CHANGE_UNIT.push({
@@ -499,12 +502,16 @@ async function spy(target: Types.ObjectId) {
 async function handleMarchingAttack(marching: Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }) {
     const target = await Users.findById(marching.target)
     if (!target) return
-    const targetUnit = await Units.find({ user: target._id, total: { $gt: 0 } })
+    const targetCastle = await Castles.findById(marching.targetCastle)
+    if (!targetCastle) return
+    const targetUnit = await Units.find({ user: target._id, castle: targetCastle._id, total: { $gt: 0 } })
     if (targetUnit.length === 0) {
         await steal(marching)
         await Battles.create({
             attacker: marching.user,
+            attackerCastle: marching.fromCastle,
             defender: marching.target,
+            defenderCastle: marching.targetCastle,
             marching: marching._id,
             attackerUnits: marching.units,
             defenderUnits: [],
@@ -518,12 +525,14 @@ async function handleMarchingAttack(marching: Document<unknown, any, IMarching> 
 
 async function handleMarchingSpy(marching: Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }) {
     const quickWalker = await UnitDatas.findOne({ name: 'Quickwalker' })
-    const quickWalkerTarget = await Units.findOne({ user: marching.target, unit: quickWalker?._id, total: { $gt: 0 } })
+    const quickWalkerTarget = await Units.findOne({ user: marching.target, castle: marching.targetCastle, unit: quickWalker?._id, total: { $gt: 0 } })
     if (!quickWalkerTarget || quickWalkerTarget.total < marching.units[0].total) {
         const { resource, units, buildings } = await spy(marching.target)
         await Battles.create({
             attacker: marching.user,
+            attackerCastle: marching.fromCastle,
             defender: marching.target,
+            defenderCastle: marching.targetCastle,
             marching: marching._id,
             winner: marching.user,
             spy: {
@@ -548,7 +557,9 @@ async function handleMarchingSpy(marching: Document<unknown, any, IMarching> & I
             })
             await Battles.create({
                 attacker: marching.user,
+                attackerCastle: marching.fromCastle,
                 defender: marching.target,
+                defenderCastle: marching.targetCastle,
                 marching: marching._id,
                 winner: marching.target,
                 spy: {
@@ -566,42 +577,42 @@ async function handleMarchingSpy(marching: Document<unknown, any, IMarching> & I
     await marching.save()
 }
 async function handleMarchingTrade(marching: Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }) {
-    const targetResource = await Resources.find({ user: marching.target })
-    .populate('type')
-    const marchingCargo : {
-        gold : number,
-        iron : number,
-        wood : number,
-        food : number,
-        [key : string] : any
+    const targetResource = await Resources.find({ user: marching.target , castle : marching.targetCastle})
+        .populate('type')
+    const marchingCargo: {
+        gold: number,
+        iron: number,
+        wood: number,
+        food: number,
+        [key: string]: any
     } = {
-        gold : 0,
-        iron : 0,
-        wood : 0,
-        food : 0,
+        gold: 0,
+        iron: 0,
+        wood: 0,
+        food: 0,
     }
     targetResource.forEach(resource => {
         const name = resource.type.name.toLowerCase()
         const resourceOffer = marching.trade.offer[name]
-        if(resourceOffer > 0) {
+        if (resourceOffer > 0) {
             CHANGE_RESOURCE.push({
-                resource : resource._id,
-                newValue : resourceOffer
+                resource: resource._id,
+                newValue: resourceOffer
             })
         }
         const resourceReceive = marching.trade.receive[name]
-        if(resourceReceive > 0) {
+        if (resourceReceive > 0) {
             marchingCargo[name] = resourceReceive
         }
     })
-    marching.cargo = {...marchingCargo}
+    marching.cargo = { ...marchingCargo }
     marching.status = 1
     await marching.save()
 }
 async function handleMarchingNotArrive() {
     const marchingsNotArrive = await Marchings.find({ arriveTime: { $lte: Date.now() }, status: 0 })
         .populate({
-            path : 'trade'
+            path: 'trade'
         })
         .populate({
             path: "units.unit",
@@ -622,7 +633,7 @@ async function handleMarchingNotArrive() {
             await handleMarchingTrade(marching)
             changeMarching(marching.target.toString())
         }
-        if(marching.type === 4) {
+        if (marching.type === 4) {
             marching.status = 1
             await marching.save()
         }
@@ -636,7 +647,7 @@ async function handleMarchingNotHome() {
     for (let index = 0; index < marchingNotHome.length; index++) {
         const marching = marchingNotHome[index];
         const cargo = marching.cargo
-        const resources = await Resources.find({ user: marching.user })
+        const resources = await Resources.find({ user: marching.user , castle : marching.fromCastle })
             .populate('type')
 
         resources.forEach(resource => {
@@ -654,7 +665,7 @@ async function handleMarchingNotHome() {
         const units = marching.units
         for (let index = 0; index < units.length; index++) {
             const unit = units[index];
-            const userUnit = await Units.findOne({ user: marching.user, unit: unit.unit })
+            const userUnit = await Units.findOne({ user: marching.user, unit: unit.unit ,castle : marching.fromCastle })
             if (!userUnit) continue
             if (unit.total) {
                 CHANGE_UNIT.push({
@@ -664,9 +675,9 @@ async function handleMarchingNotHome() {
             }
         }
         await marching.save()
-        if(marching.type === 3) {
+        if (marching.type === 3) {
             const market = await Markets.findById(marching.trade)
-            if(market) {
+            if (market) {
                 market.status = 2
                 await market.save()
             }

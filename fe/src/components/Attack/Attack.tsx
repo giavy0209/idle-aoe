@@ -16,6 +16,7 @@ const Attack: FC = () => {
     const _units = useSelector((state: any) => state.units)
     const showAttack = useSelector((state: any) => state.showAttack)
     const worldSpeed = useSelector((state: any) => state.user?.world.speed)
+    const currentCastle = useSelector((state: any) => state.currentCastle)
     const dispatch = useDispatch()
     const [Units, setUnits] = useState<any[]>([])
     const [AttackSpeed, setAttackSpeed] = useState<number>(1)
@@ -95,7 +96,8 @@ const Attack: FC = () => {
         const res = await callAPI.post(`/marching?type=${showAttack.type}`, {
             units: Units,
             movingSpeed: AttackSpeed,
-            target: showAttack._id
+            target: showAttack._id,
+            fromCastle : currentCastle?._id
         })
         dispatch(actionChangeLoading(false))
         if (res.status === 101) toast('You are not select any unit', { type: 'error' })

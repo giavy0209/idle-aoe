@@ -1,9 +1,10 @@
-import { Activity, Attack, BattleDetail, BattleReports, Clan, ClanDetail, ClanMarket, ClanRequest, CreateClan, Enemy, Market, MarketOffer, Tower, Tranning, Upgrade } from "components";
+import { Activity, Attack, BattleDetail, BattleReports, Castles, Clan, ClanDetail, ClanMarket, ClanRequest, CreateClan, Enemy, Market, MarketOffer, Tower, Tranning, Upgrade } from "components";
 import { FC } from "react";
 
 const AbsoluteComponents: FC = () => {
     return (
         <>
+            <Castles />
             <Activity />
             <Tower />
 

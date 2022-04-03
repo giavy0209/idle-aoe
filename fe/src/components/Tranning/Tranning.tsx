@@ -57,6 +57,7 @@ const Tranning: FC = () => {
 
     const worldSpeed = useSelector((state: any) => state.user?.world.speed)
 
+    const currentCastle = useSelector((state: any) => state.currentCastle)
     const [Total, setTotal] = useState(1)
 
     const onClose = useCallback(() => {
@@ -66,7 +67,8 @@ const Tranning: FC = () => {
 
     const handleTranning = useCallback(async () => {
         dispatch(actionChangeLoading(true))
-        const res = await callAPI.post(`/trainning`, { unit: _id, total: Total })
+        if(!currentCastle) return toast('Castle not found')
+        const res = await callAPI.post(`/trainning`, { unit: _id, total: Total ,castle : currentCastle._id})
         if (res.status === 1) {
             toast('Add 1 unit to trainning queue')
         }
@@ -78,8 +80,8 @@ const Tranning: FC = () => {
         }
         dispatch(actionChangeLoading(false))
         onClose()
-
-    }, [Total, _id, dispatch,onClose])
+        return
+    }, [Total, _id,currentCastle, dispatch,onClose])
 
     const max = useMemo(() => {
         let maxes: any[] = []

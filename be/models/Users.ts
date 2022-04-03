@@ -1,5 +1,9 @@
 import {model, Schema, Types} from 'mongoose'
 import { IUsers } from 'interfaces'
+import Castles from './Castles'
+import Resources from './Resources'
+import Buildings from './Buildings'
+import Units from './Units'
 
 const UserSchema = new Schema<IUsers>({
     username : {type : String, required : true},
@@ -17,5 +21,4 @@ const UserSchema = new Schema<IUsers>({
 })
 
 const Users = model<IUsers>('users' , UserSchema)
-
 export default Users

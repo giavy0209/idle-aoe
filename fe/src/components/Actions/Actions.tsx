@@ -4,15 +4,22 @@ import {Button} from 'components'
 import { asyncGetBattlleReport, asyncGetEnemy } from "store/actions/battle";
 import { asyncGetClan, asyncGetClanDetail } from "store/actions/clan";
 import { actionChangeShowMarket, actionChangeShowTower } from "store/actions/state";
+import { asyncGetCastles } from "store/actions/user";
 const Actions : FC = () => {
     const dispatch = useDispatch()
     const user = useSelector((state : any) => state.user)
     const openModalSendArmy = () => {
         dispatch(asyncGetEnemy())
     }
+
+    const openModalCastles = () => {
+        dispatch(asyncGetCastles())
+    }
+
     const openModalBattleReport = () => {
         dispatch(asyncGetBattlleReport())
     }
+
     const openModalClan = () => {
         if(user?.clan) {
             dispatch(asyncGetClanDetail(user.clan._id))
@@ -30,6 +37,7 @@ const Actions : FC = () => {
     return (
         <>
         <div className="actions">
+            {/* <Button onClick={openModalCastles} text="Castles"/> */}
             <Button onClick={openModalSendArmy} text="Send Army"/>
             <Button onClick={openModalBattleReport} text="Battle Report"/>
             <Button onClick={openModalClan} text="Clan"/>

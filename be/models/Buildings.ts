@@ -9,6 +9,7 @@ const BuildingSchema = new Schema<IBuilding>({
     resource : {type : Schema.Types.ObjectId , ref : 'resources'},
     isUpgrade : {type : Boolean, default : false},
     finishAt : {type : Date},
+    castle : {type : Schema.Types.ObjectId , ref : 'castle'}
 })
 
 const Buildings = model<IBuilding>('buildings' , BuildingSchema)

@@ -16,4 +16,5 @@ export default interface IMarket {
     createdAt : Date | number,
     endAt : Date | number,
     status : number
+    castle : Types.ObjectId
 }

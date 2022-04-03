@@ -9,7 +9,7 @@ export const actionChangeResources = function(resources) {
     }
 }
 
-export const asyncGetResources = () => async dispatch => {
-    const res = await callAPI.get('/resources')
+export const asyncGetResources = (castle? : string) => async dispatch => {
+    const res = await callAPI.get(`/resources${castle ? '?castle=' + castle : ''}`)
     dispatch(actionChangeResources(res.data))
 }

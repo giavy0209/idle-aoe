@@ -6,6 +6,7 @@ const UnitSchema = new Schema<IUnit>({
     unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
     total : {type : Number, default : 0},
     inTower : {type : Number, default : 0},
+    castle : {type : Schema.Types.ObjectId , ref : 'castles'}
 })
 
 const Units = model<IUnit>('units' , UnitSchema)

@@ -27,7 +27,9 @@ interface ISpy {
 }
 export default interface IBattle {
     attacker: Iuser,
+    attackerCastle : Types.ObjectId,
     defender: Iuser,
+    defenderCastle : Types.ObjectId,
     winner : Iuser,
     marching: Document<unknown, any, IBattleRound> & IBattleRound & {
         _id: Types.ObjectId;

@@ -12,6 +12,8 @@ const Enemy: FC = () => {
     const [ShowModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
     const enemy = useSelector((state: any) => state.enemy)
+    
+
     const openModelAttack = (enemy, type) => {
         dispatch(actionChangeShowAttack({ _id: enemy._id, username: enemy.username, type }))
     }
@@ -40,7 +42,7 @@ const Enemy: FC = () => {
                     </div>
                     {
                         enemy?.map(o => <div key={o._id} className="enemy">
-                            <span>Player {o.username}</span>
+                            <span>{o.user.username}-Castle {o.name}</span>
                             <div className="actions">
                                 <Button onClick={() => openModelAttack(o, 1)} text="Attack" />
                                 <Button onClick={() => openModelAttack(o, 2)} text="Spy" />

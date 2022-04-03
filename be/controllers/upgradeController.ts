@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { BuildingDatas, Buildings, Resources, Users, Worlds } from 'models'
+import { BuildingDatas, Buildings, Castles, Resources, Users, Worlds } from 'models'
 import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources, changeUser } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
@@ -23,8 +23,11 @@ class upgradeController {
     }
     static async post(req: IRequest, res: Response) {
         const { _id } = req
-        const { building } = req.query
-        const userBuilding = await Buildings.findById(building)
+        const { building} = req.query
+        const {castle} = req.body
+        const findCastle = await Castles.findById(castle)
+        if (!findCastle) return res.send({ status: 100 })
+        const userBuilding = await Buildings.findOne({_id : building, castle : findCastle._id})
             .populate('user')
         if (!userBuilding) return res.send({ status: 100 })
 
@@ -38,11 +41,11 @@ class upgradeController {
         const findUpgrade = buildingData.upgrade.find(o => o.level === buildingLevel)
         if (!findUpgrade) return res.send({ status: 101 })
 
-        const isUpgrading = await Buildings.findOne({ user: _id, isUpgrade: true })
+        const isUpgrading = await Buildings.findOne({ user: _id, isUpgrade: true , castle : findCastle._id})
             .populate('user')
         if (isUpgrading) return res.send({ status: 103 })
 
-        const userResource = await Resources.find({ user: _id })
+        const userResource = await Resources.find({ user: _id , castle : findCastle._id})
             .populate('type')
         let isEnoughResource = true
 

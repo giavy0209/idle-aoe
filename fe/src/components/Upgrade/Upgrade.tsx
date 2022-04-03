@@ -48,11 +48,14 @@ const Upgrade: FC = function () {
     }: IUpgrade = useSelector((state: any) => state?.upgrade || {})
     const worldSpeed = useSelector((state: any) => state.user?.world.speed)
     const resources = useSelector((state: any) => state.resources)
+    const currentCastle = useSelector((state: any) => state.currentCastle)
     
     const dispatch = useDispatch()
     const handleUpgrade = useCallback(async () => {
+        console.log(currentCastle);
+        
         dispatch(actionChangeLoading(true))
-        const res = await callAPI.post(`/upgrade?building=${_id}`, {})
+        const res = await callAPI.post(`/upgrade?building=${_id}`, {castle : currentCastle?._id})
         dispatch(actionChangeLoading(false))
         if (res.status === 102) toast('Not enough resources', { type: 'error' })
         if (res.status === 103) toast('There is a building upgrading', { type: 'error' })
@@ -60,7 +63,7 @@ const Upgrade: FC = function () {
             toast('Building is upgraded')
         }
         dispatch(actionChangeUpgrade({}))
-    }, [_id, dispatch])
+    }, [_id, dispatch,currentCastle])
 
     const mapedResources = useMemo(() => {
         const _resources: { [key: string]: any } = {

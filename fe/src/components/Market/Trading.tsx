@@ -50,6 +50,7 @@ const Trading: FC = () => {
     const market = useSelector((state: any) => state.buildings?.find(o => o.building.name === 'Market'))
     const marchingsMarket = useSelector((state: any) => state.activity?.filter(o => (o.type === 3 || o.type === 4)))
     const marketOffers = useSelector((state: any) => state.marketOffer)
+    const currentCastle = useSelector((state : any) => state.currentCastle)
 
     const [Data, setData] = useState<IData>({ offer: {}, receive: {} })
 
@@ -144,7 +145,7 @@ const Trading: FC = () => {
 
     const handleTrade = useCallback(async () => {
         if (isEqual) {
-            const res = await callAPI.post('/market', Data)
+            const res = await callAPI.post('/market', {...Data , castle : currentCastle?._id})
             if (res.status === 1) {
                 toast('Make offer successfully')
                 reset()
@@ -158,7 +159,7 @@ const Trading: FC = () => {
         } else {
             toast('You have to trade 1:1')
         }
-    }, [isEqual, Data,reset])
+    }, [isEqual, Data,reset,currentCastle])
 
     return (
         <>

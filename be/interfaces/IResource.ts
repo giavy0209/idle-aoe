@@ -10,4 +10,5 @@ export default interface IResource  {
     lastUpdate : number | Date,
     building : Ibuilding,
     inMarket : number
+    castle : Types.ObjectId
 }

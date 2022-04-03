@@ -10,8 +10,8 @@ export const actionChangeBuildings = function(buildings) {
     }
 }
 
-export const asyncGetBuildings = () => async dispatch => {
-    const res = await callAPI.get('/buildings')
+export const asyncGetBuildings = (castle? : string) => async dispatch => {
+    const res = await callAPI.get(`/buildings${castle ? '?castle=' + castle : ''}`)
     dispatch(actionChangeBuildings(res.data))
 }
 

@@ -1,5 +1,5 @@
 import {Response} from "express";
-import {BuildingDatas, Buildings, Resources, Trainnings, UnitDatas, Units, Users} from 'models'
+import {BuildingDatas, Buildings, Castles, Resources, Trainnings, UnitDatas, Units, Users} from 'models'
 import { IRequest, IResourceData } from "interfaces";
 import { changeBuilding, changeResources, changeTrainningQueue, changeUser } from "wsServices";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
@@ -20,7 +20,7 @@ class trainningController {
     }
     static async post (req : IRequest, res : Response) {
         const {_id} = req
-        let {unit , total} = req.body
+        let {unit , total, castle} = req.body
         total = Number(total)
         if(!total) return res.send({status : 100})
         const isTranning = await Trainnings.findOne({user : _id})
@@ -66,6 +66,7 @@ class trainningController {
         await Trainnings.create({
             user: _id,
             unit,
+            castle,
             userUnit : userUnit?._id ,
             building : unitData.building,
             userBuilding : building?._id,
@@ -95,7 +96,11 @@ class trainningController {
     }
     static async getTrainningQueue (req : IRequest , res : Response) {
         const {_id} = req
-        const data = await Trainnings.findOne({user : _id})
+        const {castle} = req.query
+        let findCastle
+        if(castle) findCastle = await Castles.findById(castle)
+        findCastle = await Castles.findOne({user : _id})
+        const data = await Trainnings.findOne({user : _id , castle : findCastle?._id})
         .populate('unit')
         res.send({status : 1, data})
     }

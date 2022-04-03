@@ -27,9 +27,10 @@ const _resources: {
 const ClanMarket: FC = () => {
     const dispatch = useDispatch()
     const clanMarket = useSelector((state: any) => state.clanMarket)
+    const currentCastle = useSelector((state : any) => state.currentCastle)
 
     const acceptOffer = async id => {
-        const res = await callAPI.put(`/market/clan/${id}` , {})
+        const res = await callAPI.put(`/market/clan/${id}` , {castle : currentCastle?._id})
         if(res.status === 1) {
             dispatch(asyncGetClanMarket())
             toast('Trader is hit the road, check in Activities')

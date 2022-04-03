@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { ClanRequests, Clans, Markets, Resources, Users } from 'models'
+import { Castles, ClanRequests, Clans, Markets, Resources, Users } from 'models'
 import { IRequest } from "interfaces";
 import { Types } from "mongoose";
 import { changeUser } from "wsServices";
@@ -61,7 +61,7 @@ class clanController {
     static async delete(req: IRequest, res: Response) {
         const { _id } = req
         await Users.updateOne({ _id: new Types.ObjectId(_id) }, { $unset: { clan: 1 } })
-
+        await Castles.updateMany({user : new Types.ObjectId(_id)} , { $unset: { clan: 1 } })
         const markets = await Markets.find({ user: _id, status: 0 })
 
         const recevieResource: {
@@ -250,6 +250,7 @@ class clanController {
         if (!user) return res.send({ status: 100 })
 
         await Users.updateOne({ _id: user._id }, { $unset: { clan: 1 } })
+        await Castles.updateMany({user : user._id} , { $unset: { clan: 1 } })
         clan.members = await Users.countDocuments({ clan: clan._id })
         await clan.save()
         res.send({ status: 1 })

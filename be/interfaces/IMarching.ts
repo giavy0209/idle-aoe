@@ -29,4 +29,6 @@ export default interface IMarching{
     homeTime : Date | number,
     type : number,
     status : number
+    fromCastle : Types.ObjectId,
+    targetCastle : Types.ObjectId
 }

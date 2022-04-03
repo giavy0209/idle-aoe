@@ -1,11 +1,15 @@
 import {Response} from "express";
-import {BuildingDatas, Buildings, Units} from 'models'
+import {BuildingDatas, Buildings, Castles, Units} from 'models'
 import { IRequest } from "interfaces";
 import { CHANGE_UNIT } from "../worker/workerChangeUnit";
 class unitController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
-        const data = await Units.find({user : _id})
+        const {castle} = req.query
+        let findCastle
+        if(castle) findCastle = await Castles.findById(castle)
+        findCastle = await Castles.findOne({user : _id})
+        const data = await Units.find({user : _id , castle : findCastle?._id})
         .populate('unit user')
         res.send({status : 1 , data})
     }

@@ -9,8 +9,8 @@ export const actionChangeUnits = function(units) {
     }
 }
 
-export const asyncGetUnits = () => async dispatch => {
-    const res = await callAPI.get('/units')
+export const asyncGetUnits = (castle? : string) => async dispatch => {
+    const res = await callAPI.get(`/units${castle ? '?castle=' + castle : ''}`)
     dispatch(actionChangeUnits(res.data))
 }
 
@@ -36,7 +36,7 @@ export const actionChangeTranningQueue = function(trainningQueue) {
     }
 }
 
-export const asyncGetTranningQueue = () => async dispatch => {
-    const {data} = await callAPI.get(`/trainning-queue`)
+export const asyncGetTranningQueue = (castle? : string) => async dispatch => {
+    const {data} = await callAPI.get(`/trainning-queue${castle ? '?castle=' + castle : ''}`)
     dispatch(actionChangeTranningQueue(data))
 }

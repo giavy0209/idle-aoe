@@ -8,6 +8,8 @@ export {default as ScrollBackground} from './ScrollBackground'
 export {default as Modal} from './Modal'
 export {default as ModalFixed} from './ModalFixed'
 
+export {default as Castles} from './Castles'
+
 export {default as Resources} from './Resources'
 export {default as Actions} from './Actions'
 export {default as OpenModalFixed} from './OpenModalFixed'

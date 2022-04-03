@@ -30,3 +30,36 @@ export const asyncGetUser = () => async dispatch => {
     dispatch(actionChangeWorldBonus(bonus))
     dispatch(actionChangeUser(res.data))
 }
+
+export const CHANGE_CURRENT_CASTLES = 'CHANGE_CURRENT_CASTLES'
+
+export const actionChangeCurrentCastle = function (currentCastle) {
+    console.log(currentCastle);
+    
+    return {
+        type : CHANGE_CURRENT_CASTLES,
+        payload : {currentCastle}
+    }
+}
+
+export const asyncGetCurrentCastle = () => async dispatch => {
+    const res = await callAPI.get('/castle')
+    dispatch(actionChangeCurrentCastle(res.data))
+}
+
+export const CHANGE_CASTLES = 'CHANGE_CASTLES'
+
+export const actionChangeCastles = function (castles) {
+    return {
+        type : CHANGE_CASTLES,
+        payload : {castles}
+    }
+}
+
+export const asyncGetCastles = () => async dispatch => {
+    const res = await callAPI.get('/castles')
+    dispatch(actionChangeCastles(res.data))
+}
+
+
+

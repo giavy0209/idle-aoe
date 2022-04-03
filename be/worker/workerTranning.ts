@@ -29,7 +29,7 @@ export default async function workerTranning() {
             trainning.time = Date.now() + time * 1000 * trainning.total
             await trainning.save()
 
-            const unit = await Units.findOne({ user: trainning.user, unit: trainning.unit })
+            const unit = await Units.findOne({ user: trainning.user, unit: trainning.unit , castle : trainning.castle })
             if (!unit) continue
 
             CHANGE_UNIT.push({

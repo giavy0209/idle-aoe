@@ -1,5 +1,5 @@
 import {Request,Response} from "express";
-import {BuildingDatas, Buildings, ResourceDatas, Resources, Users,Units,UnitDatas, Worlds} from 'models'
+import {BuildingDatas, Buildings, ResourceDatas, Resources, Users,Units,UnitDatas, Worlds, Castles} from 'models'
 import {compareSync, hashSync} from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import { isValidObjectId } from "mongoose";
@@ -43,6 +43,11 @@ class authController {
             world
         })
 
+        const castle = await Castles.create({
+            user : user._id,
+            world : world,
+        })
+
         const buildings = await BuildingDatas.find({})
         for (let index = 0; index < buildings.length; index++) {
             const building = buildings[index];
@@ -51,12 +56,14 @@ class authController {
                 user : user._id,
                 value : building.upgrade[0].generate,
                 resource : building.resource,
+                castle : castle._id,
             })
             if(building.resource) {
                 await Resources.create({
                     user : user._id,
                     type : building.resource,
-                    building : userBuilding._id
+                    building : userBuilding._id,
+                    castle : castle._id,
                 })
             }
         }
@@ -67,6 +74,7 @@ class authController {
             await Units.create({
                 user : user._id,
                 unit : unit._id,
+                castle : castle._id,
             })
         }
 

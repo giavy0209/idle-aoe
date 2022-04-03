@@ -1,5 +1,5 @@
 import {Response} from "express";
-import { Marchings, Units, Users} from 'models'
+import { Castles, Marchings, Units, Users} from 'models'
 import { IRequest } from "interfaces";
 import { isValidObjectId } from "mongoose";
 import { changeMarching } from "../wsServices";
@@ -7,18 +7,24 @@ import { CHANGE_UNIT } from "../worker/workerChangeUnit";
 class marchingController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
+        const {castle} = req.query
+        let findCastle
+        if(castle) findCastle = await Castles.findById(castle)
+        findCastle = await Castles.findOne({user : _id})
         const marchingFrom = await Marchings.find({
             user : _id , 
-            status : {$in : [0 , 1]}
+            status : {$in : [0 , 1]},
+            fromCastle : findCastle?._id
         })
-        .populate('user target units.unit')
+        .populate('user target units.unit fromCastle targetCastle')
 
         const marchingTo = await Marchings.find({
             target : _id , 
             status : {$in : [0]},
-            type : {$in : [3]}
+            type : {$in : [3]},
+            targetCastle : findCastle?._id
         })
-        .populate('user target units.unit')
+        .populate('user target units.unit fromCastle targetCastle')
         const marching = [...marchingFrom, ...marchingTo]
         res.send({
             status : 1 ,
@@ -30,7 +36,7 @@ class marchingController {
         let {type} = req.query
         let _type = Number(type)
         if (!_type) return res.send({status : 100})
-        let {units , movingSpeed,target} = req.body
+        let {units , movingSpeed,target,fromCastle} = req.body
 
         const user = await Users.findById(_id)
         .populate('world')
@@ -41,7 +47,7 @@ class marchingController {
 
         for (let index = 0; index < units.length; index++) {
             const _unit = units[index];
-            const userUnit = await Units.findById(_unit._id)
+            const userUnit = await Units.findOne({_id : _unit._id , castle : fromCastle})
             if(!userUnit) return res.send({status : 100})
             if(userUnit.total < _unit.total) {
                 return res.send({status : 100})
@@ -54,7 +60,7 @@ class marchingController {
 
         if(!units.length) return res.send({status : 101})
         
-        const findTarget = await Users.findById(target)
+        const findTarget = await Castles.findById(target)
         if(!findTarget) return res.send({status : 100})
 
         let unitSpeed = 0
@@ -68,12 +74,14 @@ class marchingController {
         await Marchings.create({
             unitSpeed ,
             units,
-            target,
+            target : findTarget.user,
             user :_id,
             type : _type,
             movingSpeed,
             arriveTime,
             homeTime,
+            fromCastle,
+            targetCastle : target,
         })
         for (let index = 0; index < units.length; index++) {
             const _unit = units[index];

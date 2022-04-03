@@ -6,5 +6,6 @@ export default interface IUnit {
     user : Iuser,
     unit : Iunit,
     total : number,
-    inTower : number
+    inTower : number,
+    castle : Types.ObjectId,
 }

@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { Battles, Buildings, Marchings, Markets, Resources, Users } from 'models'
+import { Battles, Buildings, Castles, Marchings, Markets, Resources, Users } from 'models'
 import { IRequest } from "interfaces";
 import { isValidObjectId, Types } from "mongoose";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
@@ -7,16 +7,24 @@ import { changeMarching, changeMarketOffer } from "wsServices";
 class marketController {
     static async get(req: IRequest, res: Response) {
         const { _id } = req
-        const data = await Markets.find({ user: _id, status: 0 })
+        const {castle} = req.query
+        let findCastle
+        if(castle) findCastle = await Castles.findById(castle)
+        findCastle = await Castles.findOne({user : _id})
+        const data = await Markets.find({ user: _id, status: 0 , castle : findCastle?._id })
             .sort({ _id: -1 })
         res.send({ status: 1, data })
     }
 
     static async post(req: IRequest, res: Response) {
         const { _id } = req
-        const { offer, receive } = req.body
+        const { offer, receive , castle} = req.body
 
-        if ((!offer || !receive)) return res.send({ status: 100 })
+
+        if ((!offer || !receive || !castle || !isValidObjectId(castle))) return res.send({ status: 100 })
+
+        const findCastle = await castle.findById(castle)
+        if(findCastle) return res.send({status : 100})
 
         let totalOffer = 0
         let totalReceive = 0
@@ -43,7 +51,8 @@ class marketController {
         const marketBuilding = (await Buildings.aggregate([
             {
                 $match: {
-                    user: new Types.ObjectId(_id)
+                    user: new Types.ObjectId(_id),
+                    castle : new Types.ObjectId(castle._id)
                 }
             },
             {
@@ -68,7 +77,7 @@ class marketController {
 
         if (!marketBuilding) return res.send({ status: 100, msg: 'not found market' })
 
-        const marchings = await Marchings.find({ user: _id, type: { $in: [3, 4] }, status: { $ne: 2 } })
+        const marchings = await Marchings.find({ user: _id, fromCastle : findCastle._id, type: { $in: [3, 4] }, status: { $ne: 2 } })
 
         let marketCargo = marketBuilding.value
 
@@ -81,7 +90,7 @@ class marketController {
             }
         })
 
-        const markets = await Markets.find({ user: _id, status: { $ne: 2 } })
+        const markets = await Markets.find({ user: _id, castle : findCastle._id, status: { $ne: 2 } })
 
         markets.forEach(market => {
             for (const key in market.offer) {
@@ -94,7 +103,7 @@ class marketController {
 
         if (totalOffer > marketCargo) return res.send({ status: 101 })
 
-        const userResources = await Resources.find({ user: _id })
+        const userResources = await Resources.find({ user: _id , castle : findCastle._id})
             .populate('type')
 
         let isEnoughRes = true
@@ -124,6 +133,7 @@ class marketController {
             clan: user.clan,
             offer: offer,
             receive: receive,
+            castle : findCastle._id,
             status: 0,
             endAt: Date.now() + 12 * 60 * 60 * 1000, //end after 12h
         })
@@ -147,9 +157,12 @@ class marketController {
     static async putClan(req: IRequest, res: Response) {
         const { _id } = req
         const id = req.params.id
-        if (!isValidObjectId(id)) return res.send({ status: 100, msg: 'not valid id' })
-
-        const market = await Markets.findOne({ _id: id, status: 0 })
+        const {castle} = req.body
+        
+        if (!isValidObjectId(id) || !castle || !isValidObjectId(castle)) return res.send({ status: 100, msg: 'not valid id' })
+        const findCastle = await Castles.findById(castle)
+        if(!findCastle) return res.send({ status: 100, msg: 'not find castle' })
+        const market = await Markets.findOne({ _id: id, status: 0})
         if (!market) return res.send({ status: 100 })
 
         const userOffer = await Users.findById(market.user)
@@ -157,7 +170,7 @@ class marketController {
             .populate('world')
         if (!userOffer || !userReceive || userOffer.clan.toString() !== userReceive.clan.toString()) return res.send({ status: 100, msg: 'not found clan' })
 
-        const userReceiveResources = await Resources.find({ user: _id })
+        const userReceiveResources = await Resources.find({ user: _id , castle : findCastle._id})
             .populate('type')
         let isEnoughRes = true
 
@@ -194,7 +207,9 @@ class marketController {
             movingSpeed: 1,
             arriveTime: Date.now() + movingTime,
             homeTime: Date.now() + movingTime * 2,
-            trade: market._id
+            trade: market._id,
+            fromCastle : market.castle,
+            targetCastle : findCastle._id
         })
         market.status = 1
         await market.save()
@@ -209,9 +224,12 @@ class marketController {
 
     static async postCaravan(req: IRequest, res: Response) {
         const { _id } = req
-        const { data, speed } = req.body
-        if (speed < 10 || speed > 600) return res.send({ status: 101 })
+        const { data, speed , castle } = req.body
+        if (speed < 10 || speed > 600 || !castle || !isValidObjectId(castle)) return res.send({ status: 101 })
         if (!data?.[0]?._id || data.length > 4) return res.send({ status: 100 })
+
+        const findCastle = await Castles.findById(castle)
+        if(!findCastle) return res.send({ status: 100 }) 
 
         const changeResourceData: {
             resource: string,
@@ -252,7 +270,8 @@ class marketController {
         const marketBuilding = (await Buildings.aggregate([
             {
                 $match: {
-                    user: new Types.ObjectId(_id)
+                    user: new Types.ObjectId(_id),
+                    castle : findCastle._id
                 }
             },
             {
@@ -277,7 +296,7 @@ class marketController {
 
         if (!marketBuilding) return res.send({ status: 100, msg: 'not found market' })
 
-        const marchings = await Marchings.find({ user: _id, type: { $in: [3, 4] }, status: { $ne: 2 } })
+        const marchings = await Marchings.find({ user: _id,fromCastle : findCastle._id ,type: { $in: [3, 4] }, status: { $ne: 2 } })
 
         let marketCargo = marketBuilding.value
 
@@ -290,7 +309,7 @@ class marketController {
             }
         })
 
-        const markets = await Markets.find({ user: _id, status: { $ne: 2 } })
+        const markets = await Markets.find({ user: _id, castle : findCastle._id,status: { $ne: 2 } })
 
         markets.forEach(market => {
             for (const key in market.offer) {
@@ -311,7 +330,8 @@ class marketController {
             homeTime: Date.now() + movingTime * 2,
             type: 4,
             movingSpeed: 1,
-            unitSpeed: speed
+            unitSpeed: speed,
+            fromCastle : findCastle._id
         })
 
         res.send({ status: 1 })
