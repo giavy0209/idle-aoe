@@ -7,5 +7,6 @@ export default interface ICastle{
     world : Types.ObjectId,
     clan : Types.ObjectId,
     name : string,
-    isCapital : boolean
+    isCapital : boolean,
+    lastUpdate : Date | number
 }

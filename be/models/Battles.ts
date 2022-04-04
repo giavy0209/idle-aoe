@@ -44,6 +44,8 @@ const BattleSchema = new Schema<IBattle>({
     }],
     attackerExp : {type : Number},
     defenderExp : {type : Number},
+    loyalReduce : {type : Number, default : 0},
+    loyalLeft : {type : Number},
 })
 
 const Battles = model<IBattle>('battles', BattleSchema)

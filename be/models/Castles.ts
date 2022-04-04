@@ -8,9 +8,11 @@ const CastleSchema = new Schema<ICastle>({
     world : {type : Schema.Types.ObjectId , ref : 'worlds'},
     clan : {type : Schema.Types.ObjectId, ref : 'clans'},
     name : {type : String, default : 'Capital'},
-    isCapital : {type : Boolean, default : true}
+    isCapital : {type : Boolean, default : true},
+    lastUpdate : {type : Date, default : Date.now}
 })
 
 const Castles = model<ICastle>('castles' , CastleSchema)
-
+Castles.updateMany({}, {lastUpdate : Date.now()})
+.then(console.log)
 export default Castles

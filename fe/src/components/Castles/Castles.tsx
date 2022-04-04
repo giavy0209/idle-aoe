@@ -15,6 +15,8 @@ const Castles : FC = () => {
                     {
                         castles.map(o => <div className="castle" key={o._id}>
                             <div className="name">{o.name} {o._id === currentCastle._id ? '(Current)' : ''} </div>
+                            <p>Loyal : {o.loyal}</p>
+                            <p>Population : {o.population}</p>
                         </div> )
                     }
                 </div>}

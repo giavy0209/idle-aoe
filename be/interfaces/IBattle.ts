@@ -43,5 +43,7 @@ export default interface IBattle {
     defenderDead : IUnitData[],
     attackerExp : number,
     defenderExp : number
-    spy : ISpy
+    spy : ISpy,
+    loyalReduce : number,
+    loyalLeft : number
 }
