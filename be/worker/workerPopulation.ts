@@ -29,6 +29,7 @@ export default async function workerResource () {
                 })
 
                 castle.population = totalPopulation
+                await castle.save()
                 totalUserPopulation += totalPopulation
                 console.log(totalPopulation);
                 
