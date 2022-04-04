@@ -23,7 +23,7 @@ class trainningController {
         let {unit , total, castle} = req.body
         total = Number(total)
         if(!total) return res.send({status : 100})
-        const isTranning = await Trainnings.findOne({user : _id})
+        const isTranning = await Trainnings.findOne({user : _id , castle})
         if(isTranning) return res.send({status : 101})
 
         const user = await Users.findById(_id)
