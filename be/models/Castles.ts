@@ -13,7 +13,4 @@ const CastleSchema = new Schema<ICastle>({
 
 const Castles = model<ICastle>('castles' , CastleSchema)
 
-Castles.updateMany({} ,{ isCapital : true})
-.then(console.log)
-
 export default Castles
