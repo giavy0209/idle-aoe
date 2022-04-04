@@ -13,6 +13,4 @@ const CastleSchema = new Schema<ICastle>({
 })
 
 const Castles = model<ICastle>('castles' , CastleSchema)
-Castles.updateMany({}, {lastUpdate : Date.now()})
-.then(console.log)
 export default Castles
