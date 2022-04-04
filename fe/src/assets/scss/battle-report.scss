@@ -19,6 +19,16 @@
             .to {
                 text-align: right;
             }
+            @media only screen and (max-width : 768px) {
+                flex-wrap: wrap;
+                > * {
+                    width: 100%;
+                    text-align: center;
+                }
+                .to {
+                    text-align: center;
+                }
+            }
         }
         .type {
             font-weight: 600;

@@ -28,8 +28,8 @@ const BattleReports: FC = () => {
                             battleReports?.map(o => <div key={o._id} className="battle-report">
                                 <div className="time">Start At {renderDate({ date: o.marching.arriveTime })}</div>
                                 <div className="from-to">
-                                    <div className="from">From : {o.attacker.username}</div>
-                                    <div className="to">Target : {o.defender.username}</div>
+                                    <div className="from">From : {o.attacker.username}({o.attackerCastle.name})</div>
+                                    <div className="to">Target : {o.defender.username}({o.defenderCastle.name})</div>
                                 </div>
                                 <div className="type">{
                                     o.marching.type === 1 ? 

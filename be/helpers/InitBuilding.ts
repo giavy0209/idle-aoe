@@ -2460,6 +2460,49 @@ const buildings = [
                 "time": 3600
             }
         ]
+    },
+    {
+        name : "Order",
+        order: 4,
+        description : "This is where the Noblemen are trained. When a Nobleman is included in attack campaign, and if the attack is successful, they can win the loyalty of some of the defeated player's subjects. If the castle belongs to an inactive player and the Nobleman brings the total loyalty beneath zero, the entire castle becomes your possession. The Order can also recruit the special units of each nation, which can be very helpful if used correctly. That makes the Order one of the most important buildings in the castle.",
+        upgrade : [
+            {
+                "level": 1,
+                "gold": 55000,
+                "iron": 26400,
+                "wood": 38500,
+                "food": 55000,
+                "generate": 5,
+                "time": 8640
+            },
+            {
+                "level": 2,
+                "gold": 88000,
+                "iron": 44000,
+                "wood": 60500,
+                "food": 88000,
+                "generate": 7,
+                "time": 13680
+            },
+            {
+                "level": 3,
+                "gold": 220000,
+                "iron": 110000,
+                "wood": 99000,
+                "food": 165000,
+                "generate": 9,
+                "time": 19440
+            },
+            {
+                "level": 4,
+                "gold": 400000,
+                "iron": 270000,
+                "wood": 210000,
+                "food": 340000,
+                "generate": 11,
+                "time": 25920
+            }
+        ]
     }
 ]
 
@@ -2776,6 +2819,29 @@ const units = [
             "archer": 200,
             "stable": 200,
             "workshop": 200
+        }
+    },
+    {
+        "name": "Nobleman",
+        "time": 25920,
+        "speed": 120,
+        "cargo": 100,
+        "life": 2000,
+        "range": 1,
+        description: 'The Nobleman is not meant to fight, even if he can his main purpose is to conquer the enemy’s castle by reducing its loyalty. When the Attacker is the winner of the battle, each of his survived Noblemen reduces the castle’s loyalty between 300 and 600, but not more than 2000 loyalty per battle. The Nobleman is extremely expensive and takes-up a huge amount of population, but without them you can’t conquer a castle. Make sure to place your Noblemen behind other units, so they have the best chance to survive.',
+        building: 'Order',
+        population: 100,
+        "resource": {
+            "gold": 25000,
+            "iron": 25000,
+            "wood": 25000,
+            "food": 25000,
+        },
+        "strength": {
+            "barrack": 2000,
+            "archer": 2000,
+            "stable": 2000,
+            "workshop": 2000
         }
     }
 ]
