@@ -2467,6 +2467,10 @@ const buildings = [
         description : "This is where the Noblemen are trained. When a Nobleman is included in attack campaign, and if the attack is successful, they can win the loyalty of some of the defeated player's subjects. If the castle belongs to an inactive player and the Nobleman brings the total loyalty beneath zero, the entire castle becomes your possession. The Order can also recruit the special units of each nation, which can be very helpful if used correctly. That makes the Order one of the most important buildings in the castle.",
         upgrade : [
             {
+                level : 0,
+                generate : 0
+            },
+            {
                 "level": 1,
                 "gold": 55000,
                 "iron": 26400,

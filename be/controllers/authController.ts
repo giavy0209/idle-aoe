@@ -92,21 +92,34 @@ class authController {
     }
 
     static async create() {
-        const users = await Users.find({})
+        const castles = await Castles.find({})
         const buildingDatas = await BuildingDatas.find({})
-        for (let index = 0; index < users.length; index++) {
-            const user = users[index];
+        const unitDatas = await UnitDatas.find({})
+        for (let index = 0; index < castles.length; index++) {
+            const castle = castles[index];
             for (let j = 0; j < buildingDatas.length; j++) {
                 const buildingData = buildingDatas[j];
-                const building = await Buildings.findOne({building : buildingData._id, user : user._id})
+                const building = await Buildings.findOne({building : buildingData._id, castle : castle._id , user : castle.user})
                 if(!building) {
                     await Buildings.create({
                         building : buildingData._id,
-                        user : user._id,
+                        castle : castle._id,
+                        user : castle.user,
                         value : buildingData.upgrade[0].generate,
                     })
                 }
-                
+            }
+            for (let j = 0; j < unitDatas.length; j++) {
+                const unitData = unitDatas[j];
+                const unit = await Units.findOne({unit : unitData._id, castle : castle._id , user : castle.user})
+                if(!unit) {
+                    await Units.create({
+                        unit : unitData._id,
+                        castle : castle._id,
+                        user : castle.user,
+                        
+                    })
+                }
             }
         }
     }
