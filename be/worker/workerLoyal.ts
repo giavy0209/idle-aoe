@@ -13,6 +13,7 @@ export default async function workerLoyal() {
         for (let index = 0; index < castles.length; index++) {
             const castle = castles[index];
             const order = await Buildings.findOne({castle : castle._id, building : orderBuilding._id})
+            if(!order) continue
             const now = Date.now()
             const diffTime = now - new Date(castle.lastUpdate).getTime()
             const increaseLoyalPerHour = order.level * 100 + 100

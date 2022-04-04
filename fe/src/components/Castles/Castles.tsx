@@ -1,5 +1,7 @@
+import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "components/Modal";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionChangeCastles } from "store/actions/user";
 
@@ -7,10 +9,13 @@ const Castles : FC = () => {
     const dispatch = useDispatch()
     const castles = useSelector((state : any) => state.castles)
     const currentCastle = useSelector((state : any) => state.currentCastle)
+
+    const [ShowModal, setShowModal] = useState(false)
     return(
         <>
             <Modal show={!!castles} onClose={(() => dispatch(actionChangeCastles(null)))} >
                 {castles && <div className="castles">
+                    <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
                     <div className="title">Your castles</div>
                     {
                         castles.map(o => <div className="castle" key={o._id}>
@@ -20,6 +25,9 @@ const Castles : FC = () => {
                         </div> )
                     }
                 </div>}
+            </Modal>
+            <Modal onClose={() => setShowModal(false)} show={ShowModal}>
+                
             </Modal>
         </>
     )
