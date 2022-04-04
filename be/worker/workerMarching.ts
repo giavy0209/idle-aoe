@@ -348,6 +348,7 @@ async function reduceLoyal(marching: Document<unknown, any, IMarching> & IMarchi
     const targetCastle = await Castles.findById(marching._id)
     if(!targetCastle) return {loyalReduce : 0 , loyalLeft : 10000}
     targetCastle.loyal -= totalLoyalReduce
+    targetCastle.lastUpdate = Date.now()
     if(targetCastle.loyal <= 0 && !targetCastle.isCapital) {
         const attackerCapital = await Castles.findOne({user : marching.user, isCapital : true})
         const buildingOrder = await BuildingDatas.findOne({name : 'Order'})
