@@ -7,9 +7,13 @@ const CastleSchema = new Schema<ICastle>({
     population : {type : Number, default : 0},
     world : {type : Schema.Types.ObjectId , ref : 'worlds'},
     clan : {type : Schema.Types.ObjectId, ref : 'clans'},
-    name : {type : String, default : 'Capital'}
+    name : {type : String, default : 'Capital'},
+    isCapital : {type : Boolean, default : true}
 })
 
 const Castles = model<ICastle>('castles' , CastleSchema)
+
+Castles.updateMany({} ,{ isCapital : true})
+.then(console.log)
 
 export default Castles

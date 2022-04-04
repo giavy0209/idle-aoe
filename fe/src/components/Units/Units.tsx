@@ -14,6 +14,8 @@ import HeavyCavalry from 'assets/images/heavy_cavalry.webp'
 import Ballistician from 'assets/images/ballistician.webp'
 import Catapult from 'assets/images/catapult.webp'
 import Trebuchet from 'assets/images/trebuchet.webp'
+import Nobleman from 'assets/images/nobleman.webp'
+
 import ModalFixed from "components/ModalFixed";
 import { asyncGetTranning } from "store/actions/unit";
 import { actionChangeUnitType } from "store/actions/state";
@@ -82,6 +84,11 @@ const _units = [
         name: 'Trebuchet',
         img: Trebuchet,
         type: "siege"
+    },
+    {
+        name: 'Nobleman',
+        img: Nobleman,
+        type: "unique"
     },
 ]
 const Units: FC = () => {

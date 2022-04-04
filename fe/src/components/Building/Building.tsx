@@ -7,6 +7,7 @@ import workshop from 'assets/images/workshop.webp'
 import market from 'assets/images/market.webp'
 import shelter from 'assets/images/shelter.webp'
 import tower from 'assets/images/tower.webp'
+import order from 'assets/images/order.webp'
 import ModalFixed from "components/ModalFixed";
 import { actionChangeBuildingType, actionChangeShowMarket, actionChangeShowTower, actionChangeUnitType } from "store/actions/state";
 import { asyncGetUpgrade } from "store/actions/building";
@@ -57,7 +58,6 @@ const _buildings = [
         generateText: 'Capacity',
         type : 'other',
         unit : ''
-        // dispatchAction : () => actionChangeUnitType('siege')
     },
     {
         name: "Tower",
@@ -66,6 +66,14 @@ const _buildings = [
         type : 'other',
         unit : '',
         dispatchAction : () => actionChangeShowTower(true)
+    },
+    {
+        name: "Order",
+        img: order,
+        generateText: 'Increase max castle',
+        type : 'order',
+        unit : '',
+        dispatchAction : () => actionChangeUnitType('unique')
     },
 ]
 const Building: FC = () => {

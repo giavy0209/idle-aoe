@@ -37,7 +37,7 @@ const Actions : FC = () => {
     return (
         <>
         <div className="actions">
-            {/* <Button onClick={openModalCastles} text="Castles"/> */}
+            <Button onClick={openModalCastles} text="Castles"/>
             <Button onClick={openModalSendArmy} text="Send Army"/>
             <Button onClick={openModalBattleReport} text="Battle Report"/>
             <Button onClick={openModalClan} text="Clan"/>

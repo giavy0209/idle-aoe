@@ -2468,7 +2468,7 @@ const buildings = [
         upgrade : [
             {
                 level : 0,
-                generate : 0
+                generate : 1
             },
             {
                 "level": 1,
