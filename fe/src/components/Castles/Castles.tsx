@@ -27,7 +27,20 @@ const Castles : FC = () => {
                 </div>}
             </Modal>
             <Modal onClose={() => setShowModal(false)} show={ShowModal}>
-                
+                <div className="question">
+                    <div className="title">Loyal</div>
+                    <div className="content">
+                        <p>Each castle have their own Loyal, max = 10000</p>
+                        <p>Loyal can be reduce by sending Nobleman on attack</p>
+                        <p>If your Loyal = 0, you will lost your castle, but you can't lost your Capital</p>
+                        <p>If your castle's Loyal bellow 5000, your castle's resource gain will be reduce 50%</p>
+                        <p>If your castle's Loyal bellow 2000, your castle's resource gain will be reduce 80%</p>
+                        <p>If you have more than 1 castle, you can change Capital to lowest Royal castle to prevent conquered</p>
+                        <p>If you have more than 1 castle, you can change castle to manager building,army,...</p>
+                        <p>You can attack another non-capital castle with Nobleman to conquered it</p>
+                        <p>You can attack Ghost Castle to conquered too. Ghost Castle have an extremely strong army. Becarefull</p>
+                    </div>
+                </div>
             </Modal>
         </>
     )
