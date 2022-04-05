@@ -43,7 +43,7 @@ class trainningController {
             }
         }
 
-        const userResource = await Resources.find({user : _id})
+        const userResource = await Resources.find({user : _id, castle})
         .populate('type')
         if(!userResource) return res.send({status : 100})
         let isEnoughResource = true
