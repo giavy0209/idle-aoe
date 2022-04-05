@@ -339,7 +339,7 @@ async function unitHitByUnit(
 async function reduceLoyal(marching: Document<unknown, any, IMarching> & IMarching & {_id: Types.ObjectId;}) : Promise<{loyalReduce : number, loyalLeft : number}> {
     const noblemanUnit = await UnitDatas.findOne({name : 'Nobleman'})
     if(!noblemanUnit) return {loyalReduce : 0 , loyalLeft : 10000}
-    const noblemanLeft = marching.units.find(o => o.unit._id === noblemanUnit._id)
+    const noblemanLeft = marching.units.find(o => o.unit._id.toString() === noblemanUnit._id.toString())
     console.log(marching.units);
     
     console.log({noblemanLeft});
