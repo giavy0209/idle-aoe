@@ -11,5 +11,5 @@ router.route('/castle')
     .get(isAuth, controller.getOne)
 
 router.route('/castle/ghost')
-    .get(isAuth, controller.getOne)
+    .get(isAuth, controller.getGhost)
 export default router

@@ -4,7 +4,7 @@ import Button from "components/Button";
 import Modal from "components/Modal";
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeCastles } from "store/actions/user";
+import { actionChangeCastles, asyncGetGhostCastle } from "store/actions/user";
 
 const Castles : FC = () => {
     const dispatch = useDispatch()
@@ -14,7 +14,7 @@ const Castles : FC = () => {
     const [ShowModal, setShowModal] = useState(false)
 
     const getGhost = () => {
-        
+        dispatch(asyncGetGhostCastle())
     }
     return(
         <>

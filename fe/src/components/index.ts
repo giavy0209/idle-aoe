@@ -9,6 +9,7 @@ export {default as Modal} from './Modal'
 export {default as ModalFixed} from './ModalFixed'
 
 export {default as Castles} from './Castles'
+export {default as GhostCastle} from './GhostCastle'
 
 export {default as Resources} from './Resources'
 export {default as Actions} from './Actions'
