@@ -554,7 +554,7 @@ async function handleMarchingSpy(marching: Document<unknown, any, IMarching> & I
     const quickWalker = await UnitDatas.findOne({ name: 'Quickwalker' })
     const quickWalkerTarget = await Units.findOne({ user: marching.target, castle: marching.targetCastle, unit: quickWalker?._id, total: { $gt: 0 } })
     if (!quickWalkerTarget || quickWalkerTarget.total < marching.units[0].total) {
-        const { resource, units, buildings } = await spy(marching.target,castle : marching.targetCastle)
+        const { resource, units, buildings } = await spy(marching.target, marching.targetCastle)
         await Battles.create({
             attacker: marching.user,
             attackerCastle: marching.fromCastle,
