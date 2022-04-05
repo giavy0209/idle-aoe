@@ -1,5 +1,6 @@
 import callAPI from "callAPI"
 import { toast } from "react-toastify"
+import store from "store"
 
 export const CHANGE_BUILDING = 'CHANGE_BUILDING'
 
@@ -25,7 +26,11 @@ export const actionChangeUpgrade = function(upgrade) {
 }
 
 export const asyncGetUpgrade = (building) => async dispatch => {
-    const {data, status} = await callAPI.get(`/upgrade?building=${building.name}`)
+    const state = store.getState() as any
+    
+    const currentCastle = state.currentCastle
+    
+    const {data, status} = await callAPI.get(`/upgrade?building=${building.name}&castle=${currentCastle._id}`)
     if(status === 101) return toast('Your building is max level')
     return dispatch(actionChangeUpgrade({
         ...building,

@@ -58,7 +58,7 @@ function App() {
     socket.on('building', changeBuilding)
 
     const changeTrainningQueue = ({ data }) => {
-      dispatch(actionChangeTranningQueue(filterCastle(data, currentCastle)))
+      dispatch(actionChangeTranningQueue(filterCastle(data, currentCastle)[0]))
     }
     socket.on('trainning-queue', changeTrainningQueue)
 

@@ -20,7 +20,7 @@ export async function changeBuilding(_id: string) {
 }
 
 export async function changeTrainningQueue(_id: string) {
-    const data = await Trainnings.findOne({ user: _id })
+    const data = await Trainnings.find({ user: _id })
         .populate('unit')
     io.to(_id).emit('trainning-queue', { data })
 }
