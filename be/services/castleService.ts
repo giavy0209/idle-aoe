@@ -39,12 +39,15 @@ interface ICreate {
             }
         }
         const units = await UnitDatas.find({})
+        let totalUnits = 0
+        if(isGhost) totalUnits = 20000
         for (let index = 0; index < units.length; index++) {
             const unit = units[index];
             await Units.create({
                 user: findUser._id,
                 unit: unit._id,
                 castle: castle._id,
+                total : totalUnits
             })
         }
         return castle
