@@ -340,12 +340,17 @@ async function reduceLoyal(marching: Document<unknown, any, IMarching> & IMarchi
     const noblemanUnit = await UnitDatas.findOne({name : 'Nobleman'})
     if(!noblemanUnit) return {loyalReduce : 0 , loyalLeft : 10000}
     const noblemanLeft = marching.units.find(o => o.unit._id === noblemanUnit._id)
+    console.log({noblemanLeft});
+    
     if(!noblemanLeft) return {loyalReduce : 0 , loyalLeft : 10000}
     const totalNobleman = noblemanLeft.total
+    console.log({totalNobleman});
+    
     if(totalNobleman <=0 ) return {loyalReduce : 0 , loyalLeft : 10000}
     const loyalReducePerOne = Math.floor(Math.random() * (300 - 150 + 1) ) + 150;
     const totalLoyalReduce = loyalReducePerOne * totalNobleman
     const targetCastle = await Castles.findById(marching._id)
+    console.log({loyalReducePerOne,totalLoyalReduce});
     if(!targetCastle) return {loyalReduce : 0 , loyalLeft : 10000}
     targetCastle.loyal -= totalLoyalReduce
     targetCastle.lastUpdate = Date.now()
