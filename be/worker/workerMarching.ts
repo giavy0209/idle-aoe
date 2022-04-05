@@ -545,6 +545,7 @@ async function handleMarchingAttack(marching: Document<unknown, any, IMarching> 
     const targetUnit = await Units.find({ user: target._id, castle: targetCastle._id, total: { $gt: 0 } })
     if (targetUnit.length === 0) {
         await steal(marching)
+        await reduceLoyal(marching)
         await Battles.create({
             attacker: marching.user,
             attackerCastle: marching.fromCastle,
