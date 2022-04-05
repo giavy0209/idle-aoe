@@ -120,10 +120,13 @@ const DetailAttack: FC = () => {
                     {
                         battleDetail.loyalReduce > 0 ? <>
                         <p>Nobleman alive in the battle reduce {battleDetail.loyalReduce} Loyal</p>
-                        <p>{battleDetail.defender.username}'s {battleDetail.defenderCastle.name} have only {battleDetail.loyalLeft} </p>
+                        <p>{battleDetail.defender.username}'s {battleDetail.defenderCastle.name} have only {Math.ceil(battleDetail.loyalLeft)} </p>
                         </>
                         :
                         null
+                    }
+                    {
+                        battleDetail.isConquered && <p>{battleDetail.attacker.username} conquered {battleDetail.defender.username}'s castle</p>
                     }
                 </div>
                 <div className="stolen">
