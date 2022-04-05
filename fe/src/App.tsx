@@ -18,6 +18,7 @@ import FixedComponents from "FixedComponents";
 import AbsoluteComponents from "AbsoluteComponents";
 import MainComponent from "assets/MainComponent";
 import { actionChangeMarketOffer } from "store/actions/market";
+import filterCastle from "helpers/filterCastle";
 function App() {
   const dispatch = useDispatch()
   const refApp = useRef<any>(null)
@@ -29,6 +30,8 @@ function App() {
       dispatch(asyncInit())
     }
   }, [dispatch])
+
+  const currentCastle = useSelector((state : any) => state.currentCastle )
 
   useEffect(() => {
     handleInit()
@@ -44,33 +47,33 @@ function App() {
     socket.on('user', changeUser)
 
     const changeResource = ({ data }) => {
-      dispatch(actionChangeResources(data))
+      dispatch(actionChangeResources(filterCastle(data, currentCastle)))
     }
 
     socket.on('resources', changeResource)
 
     const changeBuilding = ({ data }) => {
-      dispatch(actionChangeBuildings(data))
+      dispatch(actionChangeBuildings(filterCastle(data, currentCastle)))
     }
     socket.on('building', changeBuilding)
 
     const changeTrainningQueue = ({ data }) => {
-      dispatch(actionChangeTranningQueue(data))
+      dispatch(actionChangeTranningQueue(filterCastle(data, currentCastle)))
     }
     socket.on('trainning-queue', changeTrainningQueue)
 
     const changeUnits = ({ data }) => {
-      dispatch(actionChangeUnits(data))
+      dispatch(actionChangeUnits(filterCastle(data, currentCastle)))
     }
     socket.on('units', changeUnits)
 
     const changeActivity = ({ data }) => {
-      dispatch(actionChangeActivity(data))
+      dispatch(actionChangeActivity(filterCastle(data, currentCastle)))
     }
     socket.on('marching', changeActivity)
 
     const changeMarketOffer = ({ data }) => {
-      dispatch(actionChangeMarketOffer(data))
+      dispatch(actionChangeMarketOffer(filterCastle(data, currentCastle)))
     }
     socket.on('market-offer', changeMarketOffer)
 
@@ -82,7 +85,7 @@ function App() {
       socket.removeListener('units', changeUnits)
       socket.removeListener('market-offer', changeMarketOffer)
     }
-  }, [dispatch])
+  }, [dispatch,currentCastle])
 
 
 

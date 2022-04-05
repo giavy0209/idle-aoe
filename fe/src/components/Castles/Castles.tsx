@@ -11,7 +11,8 @@ const Castles : FC = () => {
     const dispatch = useDispatch()
     const castles = useSelector((state : any) => state.castles)
     const currentCastle = useSelector((state : any) => state.currentCastle)
-
+    console.log(currentCastle);
+    
     const [ShowModal, setShowModal] = useState(false)
 
     const getGhost = () => {

@@ -8,11 +8,11 @@ import { CHANGE_EXP } from "../worker/workerChangeEXP";
 class upgradeController {
     static async get(req: IRequest, res: Response) {
         const { _id } = req
-        const { building } = req.query
+        const { building , castle} = req.query
         const buildingData = await BuildingDatas.findOne({ name: building }).lean()
         if (!buildingData) return res.send({ status: 100 })
 
-        const userBuilding = await Buildings.findOne({ user: _id, building: buildingData._id }).lean()
+        const userBuilding = await Buildings.findOne({ user: _id, building: buildingData._id,castle }).lean()
         if (!userBuilding) return res.send({ status: 100 })
 
         const buildingLevel = userBuilding.level + 1
