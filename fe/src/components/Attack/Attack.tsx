@@ -134,6 +134,7 @@ const Attack: FC = () => {
         dispatch(actionChangeShowAttack(null))
         setUnits([...[]])
     }
+
     return (
         <>
             {showAttack && <div className="attack">
@@ -143,7 +144,7 @@ const Attack: FC = () => {
             <Modal onClose={onClose} show={!!showAttack}>
                 <div className="attack">
                     <div className="list-units">
-                        <div className="title">{showAttack?.type === 1 ? 'Attack' : 'Spy'} {showAttack?.username}</div>
+                        <div className="title">{showAttack?.type === 1 ? 'Attack' : 'Spy'} {showAttack?.user.username}({showAttack?.name})</div>
                         {units?.length ? <div className="select">
                             <div onClick={handleSelectAll} className="all">Select all</div>
                             <div onClick={handleSelectNone} className="none">Unselect all</div>

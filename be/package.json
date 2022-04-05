@@ -38,6 +38,7 @@
     "models": "models",
     "routers": "routers",
     "utils": "utils",
+    "services": "services",
     "wsServices": "wsServices",
     "worker": "worker"
   }

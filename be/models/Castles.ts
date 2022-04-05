@@ -9,8 +9,10 @@ const CastleSchema = new Schema<ICastle>({
     clan : {type : Schema.Types.ObjectId, ref : 'clans'},
     name : {type : String, default : 'Capital'},
     isCapital : {type : Boolean, default : true},
-    lastUpdate : {type : Date, default : Date.now}
+    lastUpdate : {type : Date, default : Date.now},
+    isGhost : {type : Boolean, default : false}
 })
 
 const Castles = model<ICastle>('castles' , CastleSchema)
+
 export default Castles

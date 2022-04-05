@@ -12,10 +12,9 @@ const Enemy: FC = () => {
     const [ShowModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
     const enemy = useSelector((state: any) => state.enemy)
-    
 
     const openModelAttack = (enemy, type) => {
-        dispatch(actionChangeShowAttack({ _id: enemy._id, username: enemy.username, type }))
+        dispatch(actionChangeShowAttack({ ...enemy, type }))
     }
 
     useEffect(() => {

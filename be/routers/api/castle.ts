@@ -9,4 +9,7 @@ router.route('/castles')
 
 router.route('/castle')
     .get(isAuth, controller.getOne)
+
+router.route('/castle/ghost')
+    .get(isAuth, controller.getOne)
 export default router

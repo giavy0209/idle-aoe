@@ -61,5 +61,19 @@ export const asyncGetCastles = () => async dispatch => {
     dispatch(actionChangeCastles(res.data))
 }
 
+export const CHANGE_GHOST_CASTLE = 'CHANGE_GHOST_CASTLE'
+
+export const actionChangeGhostCastle = function (ghostCastle) {
+    return {
+        type : CHANGE_GHOST_CASTLE,
+        payload : {ghostCastle}
+    }
+}
+
+export const asyncGetGhostCastle = () => async dispatch => {
+    const res = await callAPI.get('/castle/ghost')
+    dispatch(actionChangeGhostCastle(res.data))
+}
+
 
 

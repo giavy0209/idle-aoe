@@ -1,5 +1,6 @@
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "components/Button";
 import Modal from "components/Modal";
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +12,10 @@ const Castles : FC = () => {
     const currentCastle = useSelector((state : any) => state.currentCastle)
 
     const [ShowModal, setShowModal] = useState(false)
+
+    const getGhost = () => {
+        
+    }
     return(
         <>
             <Modal show={!!castles} onClose={(() => dispatch(actionChangeCastles(null)))} >
@@ -24,6 +29,7 @@ const Castles : FC = () => {
                             <p>Population : {o.population}</p>
                         </div> )
                     }
+                    <Button onClick={getGhost} text="Find Ghost Castle" />
                 </div>}
             </Modal>
             <Modal onClose={() => setShowModal(false)} show={ShowModal}>
@@ -39,6 +45,12 @@ const Castles : FC = () => {
                         <p>If you have more than 1 castle, you can change castle to manager building,army,...</p>
                         <p>You can attack another non-capital castle with Nobleman to conquered it</p>
                         <p>You can attack Ghost Castle to conquered too. Ghost Castle have an extremely strong army. Becarefull</p>
+                    </div>
+                    <div className="title">Ghost Castle</div>
+                    <div className="content">
+                        <p>Ghost castle is an abandoned castle</p>
+                        <p>It don't have owner but have extremely strong army. If you want to conquered it, you have defeat it's army first </p>
+                        <p>After all, you can send your Nobleman to conquered it.</p>
                     </div>
                 </div>
             </Modal>

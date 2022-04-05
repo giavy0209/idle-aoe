@@ -4,6 +4,7 @@ import { IRequest } from "interfaces";
 import { isValidObjectId, Types } from "mongoose";
 import { CHANGE_RESOURCE } from "../worker/workerChangeResource";
 import { changeMarching, changeMarketOffer } from "wsServices";
+import { marketService } from "services";
 class marketController {
     static async get(req: IRequest, res: Response) {
         const { _id } = req
@@ -48,58 +49,7 @@ class marketController {
         const user = await Users.findById(_id)
         if (!user || !user.clan) return res.send({ status: 102 })
 
-        const marketBuilding = (await Buildings.aggregate([
-            {
-                $match: {
-                    user: new Types.ObjectId(_id),
-                    castle : new Types.ObjectId(castle._id)
-                }
-            },
-            {
-                $lookup: {
-                    from: 'building_datas',
-                    localField: 'building',
-                    foreignField: '_id',
-                    as: 'building'
-                }
-            },
-            {
-                $unwind: {
-                    path: '$building'
-                }
-            },
-            {
-                $match: {
-                    "building.name": 'Market'
-                }
-            }
-        ]))[0]
-
-        if (!marketBuilding) return res.send({ status: 100, msg: 'not found market' })
-
-        const marchings = await Marchings.find({ user: _id, fromCastle : findCastle._id, type: { $in: [3, 4] }, status: { $ne: 2 } })
-
-        let marketCargo = marketBuilding.value
-
-        marchings.forEach(marching => {
-            for (const key in marching.cargo) {
-                if (Object.prototype.hasOwnProperty.call(marching.cargo, key)) {
-                    const value = marching.cargo[key];
-                    marketCargo -= value
-                }
-            }
-        })
-
-        const markets = await Markets.find({ user: _id, castle : findCastle._id, status: { $ne: 2 } })
-
-        markets.forEach(market => {
-            for (const key in market.offer) {
-                if (Object.prototype.hasOwnProperty.call(market.offer, key)) {
-                    const value = market.offer[key];
-                    marketCargo -= value
-                }
-            }
-        })
+        const marketCargo = await marketService.calcTotalCargo({user : user._id, castle : findCastle._id})
 
         if (totalOffer > marketCargo) return res.send({ status: 101 })
 
@@ -266,59 +216,8 @@ class marketController {
             marchingCargo[resourceName] = _data.value
             totalCargo += _data.value
         }
-
-        const marketBuilding = (await Buildings.aggregate([
-            {
-                $match: {
-                    user: new Types.ObjectId(_id),
-                    castle : findCastle._id
-                }
-            },
-            {
-                $lookup: {
-                    from: 'building_datas',
-                    localField: 'building',
-                    foreignField: '_id',
-                    as: 'building'
-                }
-            },
-            {
-                $unwind: {
-                    path: '$building'
-                }
-            },
-            {
-                $match: {
-                    "building.name": 'Market'
-                }
-            }
-        ]))[0]
-
-        if (!marketBuilding) return res.send({ status: 100, msg: 'not found market' })
-
-        const marchings = await Marchings.find({ user: _id,fromCastle : findCastle._id ,type: { $in: [3, 4] }, status: { $ne: 2 } })
-
-        let marketCargo = marketBuilding.value
-
-        marchings.forEach(marching => {
-            for (const key in marching.cargo) {
-                if (Object.prototype.hasOwnProperty.call(marching.cargo, key)) {
-                    const value = marching.cargo[key];
-                    marketCargo -= value
-                }
-            }
-        })
-
-        const markets = await Markets.find({ user: _id, castle : findCastle._id,status: { $ne: 2 } })
-
-        markets.forEach(market => {
-            for (const key in market.offer) {
-                if (Object.prototype.hasOwnProperty.call(market.offer, key)) {
-                    const value = market.offer[key];
-                    marketCargo -= value
-                }
-            }
-        })
+        
+        const marketCargo = await marketService.calcTotalCargo({user : _id, castle : findCastle._id})
 
         if(marketCargo < totalCargo) return res.send({status : 100})
 

@@ -1,127 +1,58 @@
-import {Request,Response} from "express";
-import {BuildingDatas, Buildings, ResourceDatas, Resources, Users,Units,UnitDatas, Worlds, Castles} from 'models'
-import {compareSync, hashSync} from 'bcrypt'
+import { Request, Response } from "express";
+import { BuildingDatas, Buildings, ResourceDatas, Resources, Users, Units, UnitDatas, Worlds, Castles } from 'models'
+import { compareSync, hashSync } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import { isValidObjectId } from "mongoose";
 import { IRequest } from "interfaces";
+import { castleService } from "services";
 class authController {
-    static async auth (req : Request , res : Response) {
-        let {username, password, world} = req.body
+    static async auth(req: Request, res: Response) {
+        let { username, password, world } = req.body
         username = username.trim()
         password = password.trim()
-        if(!isValidObjectId(world)) return res.send({status : 100})
-        if(!username || !password) return res.send({status : 100})
-        const user = await Users.findOne({username, world})
-        if(!user) return res.send({status : 101})
+        if (!isValidObjectId(world)) return res.send({ status: 100 })
+        if (!username || !password) return res.send({ status: 100 })
+        const user = await Users.findOne({ username, world })
+        if (!user) return res.send({ status: 101 })
         const compare = compareSync(password, user.password)
-        if(!compare) return res.send({status : 102})
-        const token = sign({_id : user._id} , global.Config.JWT)
+        if (!compare) return res.send({ status: 102 })
+        const token = sign({ _id: user._id }, global.Config.JWT)
         res.send({
-            status : 1,
+            status: 1,
             token
         })
         user.lastLogin = Date.now()
         await user.save()
     }
-    static async signup (req : Request | {[key : string] : any} , res : Response | null) {
-        let {username , password, world} = req.body
+    static async signup(req: Request, res: Response) {
+        let { username, password, world } = req.body
         username = username.trim()
         password = password.trim()
-        if(!isValidObjectId(world)) return res?.send({status : 100})
-        if(!username || !password) return res?.send({status : 100})
+        if (!isValidObjectId(world)) return res?.send({ status: 100 })
+        if (!username || !password) return res?.send({ status: 100 })
 
         const findWorld = await Worlds.findById(world)
-        if(!findWorld) return res?.send({status : 100})
+        if (!findWorld) return res?.send({ status: 100 })
 
-        const isExits = await Users.findOne({username , world})
-        if(isExits) return res?.send({status : 100})
+        const isExits = await Users.findOne({ username, world })
+        if (isExits) return res?.send({ status: 100 })
 
         const hash_password = hashSync(password, 5);
         const user = await Users.create({
-            username , 
-            password : hash_password,
+            username,
+            password: hash_password,
             world
         })
 
-        const castle = await Castles.create({
-            user : user._id,
-            world : world,
-        })
-
-        const buildings = await BuildingDatas.find({})
-        for (let index = 0; index < buildings.length; index++) {
-            const building = buildings[index];
-            const userBuilding = await Buildings.create({
-                building : building._id,
-                user : user._id,
-                value : building.upgrade[0].generate,
-                resource : building.resource,
-                castle : castle._id,
-            })
-            if(building.resource) {
-                await Resources.create({
-                    user : user._id,
-                    type : building.resource,
-                    building : userBuilding._id,
-                    castle : castle._id,
-                })
-            }
-        }
-
-        const units = await UnitDatas.find({})
-        for (let index = 0; index < units.length; index++) {
-            const unit = units[index];
-            await Units.create({
-                user : user._id,
-                unit : unit._id,
-                castle : castle._id,
-            })
-        }
-
-        if(res) {
-            res.send({status : 1})
-        
-        }
+        await castleService.create({ user: user._id, isCapital: true, isGhost: false, name: 'Capital' })
+        res.send({ status: 1 })
     }
 
-    static async isValidJWT(req : IRequest, res : Response) {
-        const {_id} = req
+    static async isValidJWT(req: IRequest, res: Response) {
+        const { _id } = req
         const user = await Users.findById(_id)
-        if(!user) return res.send({status : 0})
-        res.send({status : 1})
-    }
-
-    static async create() {
-        const castles = await Castles.find({})
-        const buildingDatas = await BuildingDatas.find({})
-        const unitDatas = await UnitDatas.find({})
-        for (let index = 0; index < castles.length; index++) {
-            const castle = castles[index];
-            for (let j = 0; j < buildingDatas.length; j++) {
-                const buildingData = buildingDatas[j];
-                const building = await Buildings.findOne({building : buildingData._id, castle : castle._id , user : castle.user})
-                if(!building) {
-                    await Buildings.create({
-                        building : buildingData._id,
-                        castle : castle._id,
-                        user : castle.user,
-                        value : buildingData.upgrade[0].generate,
-                    })
-                }
-            }
-            for (let j = 0; j < unitDatas.length; j++) {
-                const unitData = unitDatas[j];
-                const unit = await Units.findOne({unit : unitData._id, castle : castle._id , user : castle.user})
-                if(!unit) {
-                    await Units.create({
-                        unit : unitData._id,
-                        castle : castle._id,
-                        user : castle.user,
-                        
-                    })
-                }
-            }
-        }
+        if (!user) return res.send({ status: 0 })
+        res.send({ status: 1 })
     }
 }
 

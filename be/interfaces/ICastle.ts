@@ -8,5 +8,6 @@ export default interface ICastle{
     clan : Types.ObjectId,
     name : string,
     isCapital : boolean,
-    lastUpdate : Date | number
+    lastUpdate : Date | number,
+    isGhost : boolean
 }
