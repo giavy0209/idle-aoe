@@ -14,9 +14,9 @@ const MarchingSchema = new Schema<IMarching>({
     },
     trade : {type : Schema.Types.ObjectId, ref : 'markets'},
     user : {type : Schema.Types.ObjectId , ref : 'users'},
-    fromCastle : {type : Schema.Types.ObjectId , ref : 'castle'},
+    fromCastle : {type : Schema.Types.ObjectId , ref : 'castles'},
     target : {type : Schema.Types.ObjectId , ref : 'users'},
-    targetCastle : {type : Schema.Types.ObjectId , ref : 'castle'},
+    targetCastle : {type : Schema.Types.ObjectId , ref : 'castles'},
     type : {type : Number}, //1 : attack , 2 : spy , 3 : trade , 4 : caravan , 5 : patrol , 6...
     unitSpeed : {type : Number},
     movingSpeed : {type : Number},
