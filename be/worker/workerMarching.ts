@@ -439,6 +439,8 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
             if (defenderUnitLeft <= 0 && attackerUnitLeft > 0) {
                 battle.winner = marching.user
                 const {loyalLeft,loyalReduce} = await reduceLoyal(marching)
+                console.log({loyalLeft,loyalReduce});
+                
                 battle.loyalReduce = loyalReduce,
                 battle.loyalLeft = loyalLeft
             }
