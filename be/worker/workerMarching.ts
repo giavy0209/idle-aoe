@@ -351,7 +351,7 @@ async function reduceLoyal(marching: Document<unknown, any, IMarching> & IMarchi
     if(totalNobleman <=0 ) return {loyalReduce : 0 , loyalLeft : 10000}
     const loyalReducePerOne = Math.floor(Math.random() * (300 - 150 + 1) ) + 150;
     const totalLoyalReduce = loyalReducePerOne * totalNobleman
-    const targetCastle = await Castles.findById(marching._id)
+    const targetCastle = await Castles.findById(marching.targetCastle)
     console.log({loyalReducePerOne,totalLoyalReduce});
     if(!targetCastle) return {loyalReduce : 0 , loyalLeft : 10000}
     targetCastle.loyal -= totalLoyalReduce
