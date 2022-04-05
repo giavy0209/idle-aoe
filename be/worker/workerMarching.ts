@@ -180,14 +180,15 @@ const Hit = async function (
     unitDead: any[],
 ) {
     const randomHit = randomUnitToHit(canHit)
-
+    
     if (!randomHit) return
     let { strength } = unit
     strength = {
         barrack: strength.barrack,
         archer: strength.archer,
         stable: strength.stable,
-        workshop: strength.workshop
+        workshop: strength.workshop,
+        order : strength.barrack
     }
     let attackStrength = 0
     const unitType = randomHit.unit.building.name.toLowerCase()
@@ -207,7 +208,6 @@ const Hit = async function (
     const unitCanHitLeft = randomHit.total - (randomHit.dead || 0)
 
     const totalLife = randomHit.unit.life * unitCanHitLeft
-
 
     if (totalStrength < totalLife) {
         let totalDead = 0
@@ -455,7 +455,8 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
             index = 0
             await round.save()
             round = new BattleRounds({
-                name: `Round ${totalRound}`
+                name: `Round ${totalRound}`,
+                battle : battle._id
             })
         }
     }

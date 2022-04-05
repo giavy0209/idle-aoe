@@ -1,4 +1,5 @@
 import callAPI from "callAPI"
+import { asyncChangeCastle } from "./init"
 
 export const CHANGE_USER = 'CHANGE_USER'
 
@@ -44,6 +45,7 @@ export const actionChangeCurrentCastle = function (currentCastle) {
 
 export const asyncGetCurrentCastle = () => async dispatch => {
     const res = await callAPI.get('/castle')
+    dispatch(asyncChangeCastle(res.data._id))
     dispatch(actionChangeCurrentCastle(res.data))
 }
 

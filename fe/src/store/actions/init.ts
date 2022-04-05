@@ -11,12 +11,6 @@ export const asyncInit = () => async dispatch => {
     const { status } = await callAPI.get('/valid-jwt')
     if (status === 1) {
         dispatch(asyncGetUser())
-        dispatch(asyncGetResources())
-        dispatch(asyncGetBuildings())
-        dispatch(asyncGetUnits())
-        dispatch(asyncGetTranningQueue())
-        dispatch(asyncGetActivity())
-        dispatch(asyncGetMarketOffer())
         dispatch(asyncGetCurrentCastle())
     }
     if (status === 0) {
