@@ -428,6 +428,9 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
             })
         })
 
+        console.log({defenderUnitLeft , attackerUnitLeft});
+        
+
         if (defenderUnitLeft <= 0 || attackerUnitLeft <= 0) {
             if (defenderUnitLeft <= 0) {
                 marching.status = 1
