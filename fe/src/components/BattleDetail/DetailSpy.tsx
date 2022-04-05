@@ -28,6 +28,8 @@ const resources: {
 const DetailSpy: FC = () => {
     const battleDetail = useSelector((state: any) => state.battleDetail)
     const user = useSelector((state: any) => state.user)
+    console.log(battleDetail);
+    
     return (
         <>
             <div className="battle-detail">

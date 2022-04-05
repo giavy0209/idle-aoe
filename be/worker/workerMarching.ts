@@ -507,10 +507,10 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
 
 }
 
-async function spy(target: Types.ObjectId) {
-    const resources = await Resources.find({ user: target }).populate('type')
-    const units = await Units.find({ user: target, total: { $gt: 0 } })
-    const buildings = await Buildings.find({ user: target })
+async function spy(target: Types.ObjectId, castle : Types.ObjectId) {
+    const resources = await Resources.find({ user: target,castle }).populate('type')
+    const units = await Units.find({ user: target,castle, total: { $gt: 0 } })
+    const buildings = await Buildings.find({ user: target ,castle})
 
     const resource: { [key: string]: any } = {
         gold: 0,
@@ -554,7 +554,7 @@ async function handleMarchingSpy(marching: Document<unknown, any, IMarching> & I
     const quickWalker = await UnitDatas.findOne({ name: 'Quickwalker' })
     const quickWalkerTarget = await Units.findOne({ user: marching.target, castle: marching.targetCastle, unit: quickWalker?._id, total: { $gt: 0 } })
     if (!quickWalkerTarget || quickWalkerTarget.total < marching.units[0].total) {
-        const { resource, units, buildings } = await spy(marching.target)
+        const { resource, units, buildings } = await spy(marching.target,castle : marching.targetCastle)
         await Battles.create({
             attacker: marching.user,
             attackerCastle: marching.fromCastle,
