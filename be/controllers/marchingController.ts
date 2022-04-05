@@ -10,7 +10,7 @@ class marchingController {
         const {castle} = req.query
         let findCastle
         if(castle) findCastle = await Castles.findById(castle)
-        findCastle = await Castles.findOne({user : _id})
+        if(!findCastle) findCastle = await Castles.findOne({user : _id})
         const marchingFrom = await Marchings.find({
             user : _id , 
             status : {$in : [0 , 1]},

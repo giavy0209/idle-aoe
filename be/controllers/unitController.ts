@@ -8,7 +8,7 @@ class unitController {
         const {castle} = req.query
         let findCastle
         if(castle) findCastle = await Castles.findById(castle)
-        findCastle = await Castles.findOne({user : _id})
+        if(!findCastle) findCastle = await Castles.findOne({user : _id})
         const data = await Units.find({user : _id , castle : findCastle?._id})
         .populate('unit user')
         res.send({status : 1 , data})

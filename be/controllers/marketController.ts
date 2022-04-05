@@ -11,7 +11,7 @@ class marketController {
         const {castle} = req.query
         let findCastle
         if(castle) findCastle = await Castles.findById(castle)
-        findCastle = await Castles.findOne({user : _id})
+        if(!findCastle) findCastle = await Castles.findOne({user : _id})
         const data = await Markets.find({ user: _id, status: 0 , castle : findCastle?._id })
             .sort({ _id: -1 })
         res.send({ status: 1, data })

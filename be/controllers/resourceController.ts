@@ -5,9 +5,10 @@ class resourceController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
         const {castle} = req.query
-        let findCastle
+        let findCastle;
+
         if(castle) findCastle = await Castles.findById(castle)
-        findCastle = await Castles.findOne({user : _id})
+        if(!findCastle) findCastle = await Castles.findOne({user : _id})
         const data = await Resources.find({user : _id , castle : findCastle?._id})
         .populate('type')
         

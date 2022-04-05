@@ -35,7 +35,6 @@ export const asyncGetUser = () => async dispatch => {
 export const CHANGE_CURRENT_CASTLES = 'CHANGE_CURRENT_CASTLES'
 
 export const actionChangeCurrentCastle = function (currentCastle) {
-    console.log(currentCastle);
     
     return {
         type : CHANGE_CURRENT_CASTLES,

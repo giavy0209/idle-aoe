@@ -4,7 +4,8 @@ import Button from "components/Button";
 import Modal from "components/Modal";
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionChangeCastles, asyncGetGhostCastle } from "store/actions/user";
+import { asyncChangeCastle } from "store/actions/init";
+import { actionChangeCastles, actionChangeCurrentCastle, asyncGetGhostCastle } from "store/actions/user";
 
 const Castles : FC = () => {
     const dispatch = useDispatch()
@@ -15,6 +16,12 @@ const Castles : FC = () => {
 
     const getGhost = () => {
         dispatch(asyncGetGhostCastle())
+    }
+
+    const changeCastle = (castle) => {
+        dispatch(actionChangeCastles(null))
+        dispatch(actionChangeCurrentCastle(castle))
+        dispatch(asyncChangeCastle(castle._id))
     }
     return(
         <>
@@ -27,6 +34,9 @@ const Castles : FC = () => {
                             <div className="name">{o.name} {o._id === currentCastle._id ? '(Current)' : ''} </div>
                             <p>Loyal : {o.loyal}</p>
                             <p>Population : {o.population}</p>
+                            {
+                                o._id !== currentCastle._id && <Button onClick={()=>changeCastle(o)} text="Enter this castle"/>
+                            }
                         </div> )
                     }
                     <Button onClick={getGhost} text="Find Ghost Castle" />
