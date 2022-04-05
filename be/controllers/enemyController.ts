@@ -15,6 +15,7 @@ class enemyController {
         } = {
             user: { $ne: new Types.ObjectId(_id) },
             world: user.world,
+            isGhost : false
         }
         if (user.clan) {
             query.clan = { $ne: user.clan }

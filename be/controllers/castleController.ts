@@ -5,13 +5,13 @@ import { castleService } from "services";
 class castleController {
     static async get (req : IRequest , res : Response) {
         const {_id} = req
-        const data = await Castles.find({user : _id})
+        const data = await Castles.find({user : _id,isGhost : false})
         res.send({status : 1 , data})
     }
 
     static async getOne (req : IRequest , res : Response) {
         const {_id} = req
-        const data = await Castles.findOne({user : _id})
+        const data = await Castles.findOne({user : _id,isGhost : false})
         res.send({status : 1 , data})
     }
 
