@@ -1,3 +1,5 @@
+import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import callAPI from "callAPI";
 import Button from "components/Button";
 import Modal from "components/Modal";
@@ -18,6 +20,7 @@ const Tower: FC = () => {
     const showTower = useSelector((state: any) => state.showTower)
     const _units = useSelector((state: any) => state.units)
     const tower = useSelector((state: any) => state.buildings?.find(o => o.building.name === 'Tower'))
+    const [ShowModal, setShowModal] = useState(false)
     const [Data, setData] = useState<IData[]>([])
     const units = useMemo(() => {
         if (!_units) return []
@@ -97,13 +100,13 @@ const Tower: FC = () => {
 
     const resetInput = () => {
         document.querySelectorAll<HTMLInputElement>('.tower input[type="radio"]')
-        .forEach((input)  => {
-            input.checked = false
-        })
+            .forEach((input) => {
+                input.checked = false
+            })
         document.querySelectorAll<HTMLInputElement>('.tower input[type="number"]')
-        .forEach((input)  => {
-            input.value = '0'
-        })
+            .forEach((input) => {
+                input.value = '0'
+            })
     }
 
     const moveUnit = async () => {
@@ -123,46 +126,62 @@ const Tower: FC = () => {
         setData([])
     }
     return (
-        <Modal show={showTower} onClose={onClose} >
-            {tower && <div className="tower">
-                <div className="title">Tower</div>
-                <div className="tower-units">
-                    {
-                        units.map(o => <div key={o._id} className="tower-unit">
-                            <div className="left">
-                                <div className="name">{o.unit.name}</div>
-                                <p>Defense: {o.total}</p>
-                                <p>In Tower : {o.inTower}</p>
-                            </div>
-                            <div className={`right class${o._id}`}>
-                                <div className="row">
-                                    <div className="radio">
-                                        <input onChange={() => onChangeChecked(o._id)} id={`in${o._id}`} name={o._id} value="movein" type="radio" />
-                                        <label htmlFor={`in${o._id}`} className="label">Move To</label>
+        <>
+            <Modal show={showTower} onClose={onClose} >
+                {tower && <div className="tower">
+                    <div onClick={() => setShowModal(true)} className="show-info"><FontAwesomeIcon icon={faCircleQuestion} /></div>
+                    <div className="title">Tower</div>
+                    <div className="tower-units">
+                        {
+                            units.map(o => <div key={o._id} className="tower-unit">
+                                <div className="left">
+                                    <div className="name">{o.unit.name}</div>
+                                    <p>Defense: {o.total}</p>
+                                    <p>In Tower : {o.inTower}</p>
+                                </div>
+                                <div className={`right class${o._id}`}>
+                                    <div className="row">
+                                        <div className="radio">
+                                            <input onChange={() => onChangeChecked(o._id)} id={`in${o._id}`} name={o._id} value="movein" type="radio" />
+                                            <label htmlFor={`in${o._id}`} className="label">Move To</label>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="radio">
+                                            <input onChange={() => onChangeChecked(o._id)} id={`out${o._id}`} name={o._id} value="moveout" type="radio" />
+                                            <label htmlFor={`out${o._id}`} className="label">Move Out</label>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="input">
+                                            <input id={`input${o._id}`} type="number" onChange={(e) => validInput(e, e.target.value, o)} />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="radio">
-                                        <input onChange={() => onChangeChecked(o._id)} id={`out${o._id}`} name={o._id} value="moveout" type="radio" />
-                                        <label htmlFor={`out${o._id}`} className="label">Move Out</label>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="input">
-                                        <input id={`input${o._id}`} type="number" onChange={(e) => validInput(e, e.target.value, o)} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>)
-                    }
+                            </div>)
+                        }
+                    </div>
+                    <div className="capacity">
+                        <div className="used" style={{ width: `${usedCapacity / tower.value * 100}%` }}></div>
+                        <span>{usedCapacity}/{tower.value}</span>
+                    </div>
+                    <Button text="Move" onClick={moveUnit} />
+                </div>}
+            </Modal>
+            <Modal onClose={() => setShowModal(false)} show={ShowModal}>
+                <div className="question">
+                    <div className="title">Tower</div>
+                    <div className="content">
+                        <p>You can hide your army in the tower</p>
+                        <p>Every unit in tower do not participate in defense</p>
+                        <p>If your castle ambush while you are offline, any unit in tower will be safe</p>
+                        <p>Remember if you are not let any unit defense, your castle will lose the battle, other player can steal your resource</p>
+                        <p>If they have Nobleman, your loyal will be reduce and you can lost your castle</p>
+                    </div>
                 </div>
-                <div className="capacity">
-                    <div className="used" style={{ width: `${usedCapacity / tower.value * 100}%` }}></div>
-                    <span>{usedCapacity}/{tower.value}</span>
-                </div>
-                <Button text="Move" onClick={moveUnit} />
-            </div>}
-        </Modal>
+            </Modal>
+        </>
+
     )
 }
 
