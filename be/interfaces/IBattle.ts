@@ -46,4 +46,5 @@ export default interface IBattle {
     spy : ISpy,
     loyalReduce : number,
     loyalLeft : number
+    isConquered : boolean
 }

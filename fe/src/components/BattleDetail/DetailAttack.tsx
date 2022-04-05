@@ -27,7 +27,8 @@ const resources: {
     ]
 const DetailAttack: FC = () => {
     const battleDetail = useSelector((state: any) => state.battleDetail)
-
+    console.log(battleDetail);
+    
     return (
         <>
             <div className="battle-detail">
@@ -116,6 +117,14 @@ const DetailAttack: FC = () => {
                         <p><span className="username">{battleDetail.attacker.username}</span> earn <span className="exp">{battleDetail.attackerExp}EXP</span></p>
                         <p><span className="username">{battleDetail.defender.username}</span> earn <span className="exp">{battleDetail.defenderExp}EXP</span></p>
                     </div>
+                    {
+                        battleDetail.loyalReduce > 0 ? <>
+                        <p>Nobleman alive in the battle reduce {battleDetail.loyalReduce} Loyal</p>
+                        <p>{battleDetail.defender.username}'s {battleDetail.defenderCastle.name} have only {battleDetail.loyalLeft} </p>
+                        </>
+                        :
+                        null
+                    }
                 </div>
                 <div className="stolen">
                     <div className="title">Resource stolen</div>

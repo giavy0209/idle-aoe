@@ -340,21 +340,16 @@ async function reduceLoyal(marching: Document<unknown, any, IMarching> & IMarchi
     const noblemanUnit = await UnitDatas.findOne({name : 'Nobleman'})
     if(!noblemanUnit) return {loyalReduce : 0 , loyalLeft : 10000}
     const noblemanLeft = marching.units.find(o => o.unit._id.toString() === noblemanUnit._id.toString())
-    console.log(marching.units);
-    
-    console.log({noblemanLeft});
     
     if(!noblemanLeft) return {loyalReduce : 0 , loyalLeft : 10000}
     const totalNobleman = noblemanLeft.total
-    console.log({totalNobleman});
-    
     if(totalNobleman <=0 ) return {loyalReduce : 0 , loyalLeft : 10000}
     const loyalReducePerOne = Math.floor(Math.random() * (300 - 150 + 1) ) + 150;
     const totalLoyalReduce = loyalReducePerOne * totalNobleman
     const targetCastle = await Castles.findById(marching.targetCastle)
-    console.log({loyalReducePerOne,totalLoyalReduce});
     if(!targetCastle) return {loyalReduce : 0 , loyalLeft : 10000}
     targetCastle.loyal -= totalLoyalReduce
+    if(targetCastle.loyal < 0) targetCastle.loyal = 0
     targetCastle.lastUpdate = Date.now()
     if(targetCastle.loyal <= 0 && !targetCastle.isCapital) {
         const attackerCapital = await Castles.findOne({user : marching.user, isCapital : true})
@@ -364,6 +359,7 @@ async function reduceLoyal(marching: Document<unknown, any, IMarching> & IMarchi
         const totalAttackerCastle = await Castles.countDocuments({user : marching.user})
         if(!attackerOrder || attackerOrder.value <= totalAttackerCastle) return {loyalReduce : totalLoyalReduce , loyalLeft : targetCastle.loyal}
         targetCastle.user = marching.user
+        targetCastle.isGhost = false
     }
     await targetCastle.save()
     return {loyalReduce : totalLoyalReduce , loyalLeft : targetCastle.loyal}
@@ -435,9 +431,6 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
             })
         })
 
-        console.log({defenderUnitLeft , attackerUnitLeft});
-        
-
         if (defenderUnitLeft <= 0 || attackerUnitLeft <= 0) {
             if (defenderUnitLeft <= 0) {
                 marching.status = 1
@@ -449,10 +442,10 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
             if (defenderUnitLeft <= 0 && attackerUnitLeft > 0) {
                 battle.winner = marching.user
                 const {loyalLeft,loyalReduce} = await reduceLoyal(marching)
-                console.log({loyalLeft,loyalReduce});
                 
                 battle.loyalReduce = loyalReduce,
                 battle.loyalLeft = loyalLeft
+                battle.isConquered = loyalLeft > 0
             }
             if (attackerUnitLeft <= 0 && defenderUnitLeft > 0) {
                 battle.winner = marching.target
@@ -560,6 +553,7 @@ async function handleMarchingAttack(marching: Document<unknown, any, IMarching> 
             rounds: [],
             loyalLeft,
             loyalReduce,
+            isConquered : loyalLeft > 0
         })
     } else {
         await attack(marching)
