@@ -371,7 +371,7 @@ const mapUnitWithOrderToBaseUnit = (unitWithOrder: {
     order: number;
     units: any[];
 }[]) => {
-    const mapedUnits: { unit, total }[] = []
+    const mapedUnits: { unit : any, total : number }[] = []
     unitWithOrder.forEach(({ units }) => {
         units.forEach(el => {
             if (el.total > 0) {
@@ -385,10 +385,10 @@ const mapUnitWithOrderToBaseUnit = (unitWithOrder: {
 }
 
 const calcDeadUnits = (
-    startUnits: { unit, total }[],
-    endUnits: { unit, total }[],
+    startUnits: { unit: any, total : number }[],
+    endUnits: { unit:any, total : number }[],
 ) => {
-    const dead: { unit, total }[] = []
+    const dead: { unit : any, total : number }[] = []
     startUnits.forEach(_start => {
         const findEnd = endUnits.find(o => o.unit._id === _start.unit._id)
         if (findEnd) {
