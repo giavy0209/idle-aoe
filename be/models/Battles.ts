@@ -42,8 +42,8 @@ const BattleSchema = new Schema<IBattle>({
         unit : {type : Schema.Types.ObjectId , ref : 'unit_datas'},
         total : Number
     }],
-    attackerExp : {type : Number},
-    defenderExp : {type : Number},
+    attackerExp : {type : Number , default : 0},
+    defenderExp : {type : Number , default : 0},
     loyalReduce : {type : Number, default : 0},
     loyalLeft : {type : Number},
     isConquered : {type : Boolean}

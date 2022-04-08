@@ -180,7 +180,7 @@ const Hit = async function (
     unitDead: any[],
 ) {
     const randomHit = randomUnitToHit(canHit)
-    
+
     if (!randomHit) return
     let { strength } = unit
     strength = {
@@ -188,7 +188,7 @@ const Hit = async function (
         archer: strength.archer,
         stable: strength.stable,
         workshop: strength.workshop,
-        order : strength.barrack
+        order: strength.barrack
     }
     let attackStrength = 0
     const unitType = randomHit.unit.building.name.toLowerCase()
@@ -336,39 +336,80 @@ async function unitHitByUnit(
     }
 }
 
-async function reduceLoyal(marching: Document<unknown, any, IMarching> & IMarching & {_id: Types.ObjectId;}) : Promise<{loyalReduce : number, loyalLeft : number ,isConquered : boolean}> {
-    const noblemanUnit = await UnitDatas.findOne({name : 'Nobleman'})
-    if(!noblemanUnit) return {loyalReduce : 0 , loyalLeft : 10000, isConquered : false}
+async function reduceLoyal(marching: Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }): Promise<{ loyalReduce: number, loyalLeft: number, isConquered: boolean }> {
+    const noblemanUnit = await UnitDatas.findOne({ name: 'Nobleman' })
+    if (!noblemanUnit) return { loyalReduce: 0, loyalLeft: 10000, isConquered: false }
     const noblemanLeft = marching.units.find(o => o.unit._id.toString() === noblemanUnit._id.toString())
-    
-    if(!noblemanLeft) return {loyalReduce : 0 , loyalLeft : 10000, isConquered : false}
+
+    if (!noblemanLeft) return { loyalReduce: 0, loyalLeft: 10000, isConquered: false }
     const totalNobleman = noblemanLeft.total
-    if(totalNobleman <=0 ) return {loyalReduce : 0 , loyalLeft : 10000, isConquered : false}
-    const loyalReducePerOne = Math.floor(Math.random() * (300 - 150 + 1) ) + 150;
+    if (totalNobleman <= 0) return { loyalReduce: 0, loyalLeft: 10000, isConquered: false }
+    const loyalReducePerOne = Math.floor(Math.random() * (300 - 150 + 1)) + 150;
     const totalLoyalReduce = loyalReducePerOne * totalNobleman
     const targetCastle = await Castles.findById(marching.targetCastle)
-    if(!targetCastle) return {loyalReduce : 0 , loyalLeft : 10000, isConquered : false}
+    if (!targetCastle) return { loyalReduce: 0, loyalLeft: 10000, isConquered: false }
     targetCastle.loyal -= totalLoyalReduce
-    if(targetCastle.loyal < 0) targetCastle.loyal = 0
+    if (targetCastle.loyal < 0) targetCastle.loyal = 0
     targetCastle.lastUpdate = Date.now()
     let isConquered = false
-    if(targetCastle.loyal <= 0 && !targetCastle.isCapital) {
-        const attackerCapital = await Castles.findOne({user : marching.user, isCapital : true})
-        const buildingOrder = await BuildingDatas.findOne({name : 'Order'})
-        if(!attackerCapital || !buildingOrder) return {loyalReduce : totalLoyalReduce , loyalLeft : targetCastle.loyal,isConquered}
-        const attackerOrder = await Buildings.findOne({building : buildingOrder._id , castle : attackerCapital._id})
-        const totalAttackerCastle = await Castles.countDocuments({user : marching.user})
-        if(!attackerOrder || attackerOrder.value <= totalAttackerCastle) return {loyalReduce : totalLoyalReduce , loyalLeft : targetCastle.loyal,isConquered}
+    if (targetCastle.loyal <= 0 && !targetCastle.isCapital) {
+        const attackerCapital = await Castles.findOne({ user: marching.user, isCapital: true })
+        const buildingOrder = await BuildingDatas.findOne({ name: 'Order' })
+        if (!attackerCapital || !buildingOrder) return { loyalReduce: totalLoyalReduce, loyalLeft: targetCastle.loyal, isConquered }
+        const attackerOrder = await Buildings.findOne({ building: buildingOrder._id, castle: attackerCapital._id })
+        const totalAttackerCastle = await Castles.countDocuments({ user: marching.user })
+        if (!attackerOrder || attackerOrder.value <= totalAttackerCastle) return { loyalReduce: totalLoyalReduce, loyalLeft: targetCastle.loyal, isConquered }
         targetCastle.user = marching.user
         targetCastle.isGhost = false
         isConquered = true
     }
     await targetCastle.save()
-    return {loyalReduce : totalLoyalReduce , loyalLeft : targetCastle.loyal,isConquered}
+    return { loyalReduce: totalLoyalReduce, loyalLeft: targetCastle.loyal, isConquered }
 }
 
-async function attack(marching: Document<unknown, any, IMarching> & IMarching & {_id: Types.ObjectId;}) {
+const mapUnitWithOrderToBaseUnit = (unitWithOrder: {
+    order: number;
+    units: any[];
+}[]) => {
+    const mapedUnits: { unit, total }[] = []
+    unitWithOrder.forEach(({ units }) => {
+        units.forEach(el => {
+            if (el.total > 0) {
+                mapedUnits.push({
+                    ...el
+                })
+            }
+        })
+    })
+    return mapedUnits
+}
 
+const calcDeadUnits = (
+    startUnits: { unit, total }[],
+    endUnits: { unit, total }[],
+) => {
+    const dead: { unit, total }[] = []
+    startUnits.forEach(_start => {
+        const findEnd = endUnits.find(o => o.unit._id === _start.unit._id)
+        if (findEnd) {
+            if(_start.total - findEnd.total > 0) {
+                dead.push({
+                    unit : _start.unit,
+                    total : _start.total - findEnd.total
+                })
+            }  
+        }else {
+            dead.push({
+                unit : _start.unit,
+                total : _start.total
+            })
+        }
+    })
+    return dead
+}
+
+async function attack(marching: Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }) {
+    const defenderStartUnits = await Units.find({ user: marching.target, castle: marching.targetCastle, total: { $gt: 0 } })
     const defenderUnitsWithOrder = await findDefenderUnits(marching.target, marching.targetCastle)
     const cloneDefenderUnitWithOrder = JSON.parse(JSON.stringify(defenderUnitsWithOrder))
 
@@ -377,7 +418,9 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
     let totalRound = 1
 
     let round = new BattleRounds({
-        name: `Round ${totalRound}`
+        name: `Round ${totalRound}`,
+        attackerStartUnits: marching.units,
+        defenderStartUnits: defenderStartUnits,
     })
 
 
@@ -389,7 +432,7 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
         marching: marching._id,
         rounds: [],
         attackerUnits: marching.units,
-        defenderUnits: await Units.find({ user: marching.target, total: { $gt: 0 } })
+        defenderUnits: defenderStartUnits,
     })
     const attackerDead: any[] = []
     const defenderDead: any[] = []
@@ -443,15 +486,19 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
             }
             if (defenderUnitLeft <= 0 && attackerUnitLeft > 0) {
                 battle.winner = marching.user
-                const {loyalLeft,loyalReduce,isConquered} = await reduceLoyal(marching)
-                
+                const { loyalLeft, loyalReduce, isConquered } = await reduceLoyal(marching)
+
                 battle.loyalReduce = loyalReduce,
-                battle.loyalLeft = loyalLeft
+                    battle.loyalLeft = loyalLeft
                 battle.isConquered = isConquered
             }
             if (attackerUnitLeft <= 0 && defenderUnitLeft > 0) {
                 battle.winner = marching.target
             }
+            round.attackerEndUnits = mapUnitWithOrderToBaseUnit(attackerUnitsWithOrder)
+            round.defenderEndUnits = mapUnitWithOrderToBaseUnit(defenderUnitsWithOrder)
+            round.attackerDead = calcDeadUnits(round.attackerStartUnits , round.attackerEndUnits)
+            round.defenderDead = calcDeadUnits(round.defenderStartUnits , round.defenderEndUnits)
             await round.save()
             break
         }
@@ -460,10 +507,14 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
         if (index === 4) {
             totalRound++
             index = 0
+            round.attackerEndUnits = mapUnitWithOrderToBaseUnit(attackerUnitsWithOrder)
+            round.defenderEndUnits = mapUnitWithOrderToBaseUnit(defenderUnitsWithOrder)
+            round.attackerDead = calcDeadUnits(round.attackerStartUnits , round.attackerEndUnits)
+            round.defenderDead = calcDeadUnits(round.defenderStartUnits , round.defenderEndUnits)
             await round.save()
             round = new BattleRounds({
                 name: `Round ${totalRound}`,
-                battle : battle._id
+                battle: battle._id
             })
         }
     }
@@ -515,10 +566,10 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
 
 }
 
-async function spy(target: Types.ObjectId, castle : Types.ObjectId) {
-    const resources = await Resources.find({ user: target,castle }).populate('type')
-    const units = await Units.find({ user: target,castle, total: { $gt: 0 } })
-    const buildings = await Buildings.find({ user: target ,castle})
+async function spy(target: Types.ObjectId, castle: Types.ObjectId) {
+    const resources = await Resources.find({ user: target, castle }).populate('type')
+    const units = await Units.find({ user: target, castle, total: { $gt: 0 } })
+    const buildings = await Buildings.find({ user: target, castle })
 
     const resource: { [key: string]: any } = {
         gold: 0,
@@ -542,7 +593,7 @@ async function handleMarchingAttack(marching: Document<unknown, any, IMarching> 
     const targetUnit = await Units.find({ user: target._id, castle: targetCastle._id, total: { $gt: 0 } })
     if (targetUnit.length === 0) {
         await steal(marching)
-        const {loyalLeft,loyalReduce,isConquered} = await reduceLoyal(marching)
+        const { loyalLeft, loyalReduce, isConquered } = await reduceLoyal(marching)
         await Battles.create({
             attacker: marching.user,
             attackerCastle: marching.fromCastle,
@@ -616,7 +667,7 @@ async function handleMarchingSpy(marching: Document<unknown, any, IMarching> & I
     await marching.save()
 }
 async function handleMarchingTrade(marching: Document<unknown, any, IMarching> & IMarching & { _id: Types.ObjectId; }) {
-    const targetResource = await Resources.find({ user: marching.target , castle : marching.targetCastle})
+    const targetResource = await Resources.find({ user: marching.target, castle: marching.targetCastle })
         .populate('type')
     const marchingCargo: {
         gold: number,
@@ -686,7 +737,7 @@ async function handleMarchingNotHome() {
     for (let index = 0; index < marchingNotHome.length; index++) {
         const marching = marchingNotHome[index];
         const cargo = marching.cargo
-        const resources = await Resources.find({ user: marching.user , castle : marching.fromCastle })
+        const resources = await Resources.find({ user: marching.user, castle: marching.fromCastle })
             .populate('type')
 
         resources.forEach(resource => {
@@ -704,7 +755,7 @@ async function handleMarchingNotHome() {
         const units = marching.units
         for (let index = 0; index < units.length; index++) {
             const unit = units[index];
-            const userUnit = await Units.findOne({ user: marching.user, unit: unit.unit ,castle : marching.fromCastle })
+            const userUnit = await Units.findOne({ user: marching.user, unit: unit.unit, castle: marching.fromCastle })
             if (!userUnit) continue
             if (unit.total) {
                 CHANGE_UNIT.push({
