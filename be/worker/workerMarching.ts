@@ -390,7 +390,7 @@ const calcDeadUnits = (
 ) => {
     const dead: { unit : any, total : number }[] = []
     startUnits.forEach(_start => {
-        const findEnd = endUnits.find(o => o.unit._id === _start.unit._id)
+        const findEnd = endUnits.find(o => o.unit._id.toString() === _start.unit._id.toString())
         if (findEnd) {
             if(_start.total - findEnd.total > 0) {
                 dead.push({
