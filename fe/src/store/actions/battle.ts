@@ -10,6 +10,15 @@ export const actionChangeBattleDetail = function (battleDetail) {
     }
 }
 
+export const CHANGE_BATTLE_SIMULATION = 'CHANGE_BATTLE_SIMULATION'
+
+export const actionChangeBattleSimulation = function (battleSimulation) {
+    return {
+        type: CHANGE_BATTLE_SIMULATION,
+        payload: { battleSimulation }
+    }
+}
+
 export const CHANGE_SHOW_ATTACK = 'CHANGE_SHOW_ATTACK'
 
 export const actionChangeShowAttack = function (showAttack) {

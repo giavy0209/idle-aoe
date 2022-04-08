@@ -6,7 +6,7 @@ import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button, Pagination } from "components";
 import defeat from 'assets/images/defeat.webp'
 import victory from 'assets/images/victory.webp'
-import { actionChangeBattleDetail, actionChangeBattleReport, asyncGetBattlleReport } from "store/actions/battle";
+import { actionChangeBattleDetail, actionChangeBattleReport, actionChangeBattleSimulation, asyncGetBattlleReport } from "store/actions/battle";
 const BattleReports: FC = () => {
     const [ShowModal, setShowModal] = useState(false)
     const [CurrentPage, setCurrentPage] = useState(1)
@@ -56,6 +56,7 @@ const BattleReports: FC = () => {
                                     }
                                 </div>
                                 <Button onClick={() => dispatch(actionChangeBattleDetail(o))} text="Battle Detail" />
+                                {o.marching.type === 1 ? <Button onClick={() => dispatch(actionChangeBattleSimulation(o))} text="Battle Simulation" /> : null}
                             </div>)
                         }
 

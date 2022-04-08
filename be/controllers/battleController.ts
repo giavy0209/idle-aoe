@@ -22,6 +22,12 @@ class battleController {
                 }
             })
             .populate({
+                path : 'rounds',
+                populate : {
+                    path : 'attackerStartUnits.unit attackerEndUnits.unit defenderStartUnits.unit defenderEndUnits.unit attackerDead.unit defenderDead.unit'
+                }
+            })
+            .populate({
                 path: 'spy.buildings',
                 populate: {
                     path: "building"

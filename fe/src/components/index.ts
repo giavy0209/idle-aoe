@@ -37,6 +37,8 @@ export {default as Attack} from './Attack'
 
 export {default as BattleReports} from './BattleReports'
 export {default as BattleDetail} from './BattleDetail'
+export {default as BattleSimulation} from './BattleSimulation'
+
 
 export {default as Clan} from './Clan'
 export {default as CreateClan} from './CreateClan'
