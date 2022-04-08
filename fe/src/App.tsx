@@ -68,7 +68,7 @@ function App() {
     socket.on('units', changeUnits)
 
     const changeActivity = ({ data }) => {
-      dispatch(actionChangeActivity(filterCastle(data, currentCastle)))
+      dispatch(actionChangeActivity(filterCastle(data, currentCastle , 'fromCastle')))
     }
     socket.on('marching', changeActivity)
 
