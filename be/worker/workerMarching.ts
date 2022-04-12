@@ -178,6 +178,8 @@ const Hit = async function (
     attacker: any,
     defender: any,
     unitDead: any[],
+    attackerCastle : any,
+    defenderCastle : any,
 ) {
     const randomHit = randomUnitToHit(canHit)
 
@@ -231,11 +233,13 @@ const Hit = async function (
                 unit: unit._id,
                 total: Number(total),
                 damage: Number(totalStrength),
+                castle : attackerCastle,
             },
             unitDefend: {
                 user: defender,
                 unit: randomHit.unit._id,
-                totalHit: Number(totalDead)
+                totalHit: Number(totalDead),
+                castle : defenderCastle,
             }
         })
 
@@ -264,11 +268,13 @@ const Hit = async function (
                 unit: unit._id,
                 total: Number(total - attackUnitLeft),
                 damage: Number(totalStrength - strengthLeft),
+                castle : attackerCastle,
             },
             unitDefend: {
                 user: defender,
                 unit: randomHit.unit._id,
-                totalHit: Number(unitCanHitLeft)
+                totalHit: Number(unitCanHitLeft),
+                castle : defenderCastle,
             }
         })
 
@@ -284,7 +290,7 @@ const Hit = async function (
 
         round.actions.push(battleActions._id)
         if (attackUnitLeft > 0) {
-            await Hit(canHit, unit, attackUnitLeft, round, attacker, defender, unitDead)
+            await Hit(canHit, unit, attackUnitLeft, round, attacker, defender, unitDead, attackerCastle, defenderCastle)
         }
     }
 }
@@ -297,7 +303,9 @@ async function unitHitByUnit(
     },
     attacker: any,
     defender: any,
-    unitDead: any[]
+    unitDead: any[],
+    attackerCastle : any,
+    defenderCastle : any,
 ) {
 
     for (let i = 0; i < attackerUnits.length; i++) {
@@ -332,7 +340,7 @@ async function unitHitByUnit(
             })
         })
 
-        await Hit(canHit, unit, total, round, attacker, defender, unitDead)
+        await Hit(canHit, unit, total, round, attacker, defender, unitDead, attackerCastle, defenderCastle)
     }
 }
 
@@ -448,11 +456,11 @@ async function attack(marching: Document<unknown, any, IMarching> & IMarching & 
         const defenderUnits = defenderUnitsWithOrder.find(o => o.order === index + 1)?.units
 
         if (attackerUnits) {
-            await unitHitByUnit(attackerUnits, defenderUnitsWithOrder, round, marching.user, marching.target, defenderDead)
+            await unitHitByUnit(attackerUnits, defenderUnitsWithOrder, round, marching.user, marching.target, defenderDead, marching.fromCastle , marching.targetCastle)
         }
 
         if (defenderUnits) {
-            await unitHitByUnit(defenderUnits, attackerUnitsWithOrder, round, marching.target, marching.user, attackerDead)
+            await unitHitByUnit(defenderUnits, attackerUnitsWithOrder, round, marching.target, marching.user, attackerDead,marching.targetCastle,marching.fromCastle)
         }
 
         defenderUnitsWithOrder.forEach(el => {

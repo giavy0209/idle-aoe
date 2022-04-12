@@ -7,6 +7,7 @@ interface IbattleRound extends IBattleRound , Types.ObjectId{}
 
 interface IUnitAttack {
     user : Iuser,
+    castle : Types.ObjectId
     unit : Iunit,
     total : number,
     damage : number,
@@ -14,6 +15,7 @@ interface IUnitAttack {
 
 interface IUnitDefend {
     user : Iuser,
+    castle : Types.ObjectId
     unit : Iunit,
     totalHit : number,
 }
