@@ -9,7 +9,7 @@ const routes = fs.readdirSync(__dirname)
 
 const prefix = path.basename(__dirname)
 
-routes.filter(o => o !== 'index.ts')
+routes.filter(o => !o.includes('index'))
 .forEach(route => router.use(`/${prefix}` , require(path.join(__dirname , route)).default))
 
 export default router

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx link-module-alias && nodemon index.ts",
+    "start": "npx link-module-alias && nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,12 +21,6 @@
     "mongoose": "^6.1.8",
     "nodemon": "^2.0.15",
     "socket.io": "^4.4.1"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
-    "@types/express": "^4.17.13",
-    "@types/jsonwebtoken": "^8.5.8",
-    "@types/node": "^16.11.7"
   },
   "_moduleAliases": {
     "~": ".",
