@@ -1,29 +1,13 @@
 {
     "compilerOptions": {
-      "target": "es5",
-      "allowJs": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "noEmit": true,
-      "esModuleInterop": true,
-      "strict": false,
-      "alwaysStrict": false,
-      "strictNullChecks": false,
-      "noFallthroughCasesInSwitch": false,
-      "noImplicitAny": false,
-      "noImplicitThis": true,
-      "noImplicitReturns": true,
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "downlevelIteration": true,
-      "allowSyntheticDefaultImports": true
+        "noImplicitAny": false,
+        "noEmitOnError": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "target": "es5",
+        "outDir": "dist"
     },
     "include": [
-      "**/*.ts"
-    ],
-    "exclude": [
-      "node_modules",
+        "**/*"
     ]
-  }
-  
+}
