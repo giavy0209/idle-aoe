@@ -46,7 +46,7 @@ function worker() {
     return __awaiter(this, void 0, void 0, function () {
         var _workers, index, workerDir, worker_1;
         return __generator(this, function (_a) {
-            _workers = workers.filter(function (o) { return o !== 'index.ts'; });
+            _workers = workers.filter(function (o) { return !o.includes('index'); });
             for (index = 0; index < _workers.length; index++) {
                 workerDir = _workers[index];
                 worker_1 = require(path_1.default.join(__dirname, workerDir)).default;
