@@ -8,7 +8,7 @@ export default async function workerResource () {
         for (let index = 0; index < users.length; index++) {
             const user = users[index];
             let totalUserPopulation = 0
-            const castles = await Castles.find({user : user._id})
+            const castles = await Castles.find({user : user._id , isGhost : false})
             for (let cindex = 0; cindex < castles.length; cindex++) {
                 const castle = castles[cindex];
                 const units = await Units.find({user : user._id , castle : castle._id})
