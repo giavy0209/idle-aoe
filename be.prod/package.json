@@ -1,0 +1,39 @@
+{
+  "name": "be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx link-module-alias && node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/es6-promise": "^3.3.0",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^14.3.2",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
+    "mongoose": "^6.1.8",
+    "nodemon": "^2.0.15",
+    "socket.io": "^4.4.1"
+  },
+  "_moduleAliases": {
+    "~": ".",
+    "interfaces": "interfaces",
+    "helpers": "helpers",
+    "config": "config",
+    "controllers": "controllers",
+    "middleware": "middleware",
+    "models": "models",
+    "routers": "routers",
+    "utils": "utils",
+    "services": "services",
+    "wsServices": "wsServices",
+    "worker": "worker"
+  }
+}

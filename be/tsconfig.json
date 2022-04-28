@@ -6,7 +6,7 @@
         "removeComments": false,
         "sourceMap": false,
         "target": "es5",
-        "outDir": "dist",
+        "outDir": "../be.prod",
         "lib": [ "es2015" ],
         "downlevelIteration": true,
         "esModuleInterop": true,
