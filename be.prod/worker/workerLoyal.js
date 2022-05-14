@@ -73,6 +73,9 @@ function workerLoyal() {
                     percentDiffTime = diffTime / secInHour;
                     valueIncrease = increaseLoyalPerHour * percentDiffTime;
                     castle.loyal += valueIncrease;
+                    if (castle.loyal > 10000) {
+                        castle.loyal = 10000;
+                    }
                     castle.lastUpdate = now;
                     return [4 /*yield*/, castle.save()];
                 case 6:

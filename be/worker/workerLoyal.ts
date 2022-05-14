@@ -20,6 +20,9 @@ export default async function workerLoyal() {
             const percentDiffTime = diffTime / secInHour
             const valueIncrease = increaseLoyalPerHour * percentDiffTime
             castle.loyal += valueIncrease
+            if(castle.loyal > 10000) {
+                castle.loyal = 10000
+            }
             castle.lastUpdate = now
             await castle.save()
         }

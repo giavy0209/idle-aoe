@@ -118,6 +118,9 @@ var clanController = /** @class */ (function () {
                         return [4 /*yield*/, user.save()];
                     case 4:
                         _b.sent();
+                        return [4 /*yield*/, models_1.ClanRequests.deleteMany({ user: _id })];
+                    case 5:
+                        _b.sent();
                         res.send({ status: 1 });
                         (0, wsServices_1.changeUser)(_id);
                         return [2 /*return*/];

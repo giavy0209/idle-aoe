@@ -57,7 +57,7 @@ function workerResource() {
                     if (!(index < users.length)) return [3 /*break*/, 11];
                     user = users[index];
                     totalUserPopulation = 0;
-                    return [4 /*yield*/, models_1.Castles.find({ user: user._id })];
+                    return [4 /*yield*/, models_1.Castles.find({ user: user._id, isGhost: false })];
                 case 4:
                     castles = _a.sent();
                     _loop_1 = function (cindex) {

@@ -53,6 +53,7 @@ class clanController {
         })
         user.clan = clan._id
         await user.save()
+        await ClanRequests.deleteMany({user : _id})
         res.send({ status: 1 })
 
         changeUser(_id)
